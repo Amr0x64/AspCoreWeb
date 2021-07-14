@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var existsCookie = Context.Request.Cookies.ContainsKey("st_ad");
+    var context = Context;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,7 +28,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        
+                        @if (existsCookie)
+                        {
+                            @if (context.Request.Cookies["st_ad"] == "1")
+                            {
+                              <li class="nav-item">
+                                   <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Админимтрирование пользователей</a>
+                              </li>
+                            }
+
+
+                        }
+
                     </ul>
                 </div>
             </div>
