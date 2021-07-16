@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication3.Controllers
 {
-    public class BlogController : Controller
+    public class Controller : Microsoft.AspNetCore.Mvc.Controller
     {
         //private ApplicationContext db;
         //public BlogController(ApplicationContext context)

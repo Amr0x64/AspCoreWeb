@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebApplication3.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class UsersController : Controller
+    public class UserController : Microsoft.AspNetCore.Mvc.Controller
     {
         UserManager<User> _userManager;
 
-        public UsersController(UserManager<User> userManager)
+        public UserController(UserManager<User> userManager)
         {
             _userManager = userManager;
         }

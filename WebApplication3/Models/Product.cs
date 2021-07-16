@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace WebApplication3.Models
 {
-    public class Blog 
+    public class Product 
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string TextBlog { get; set; }
+        public string Description { get; set; }
+        public int Like { get; set; }
         public DateTime Time { get; set; } = DateTime.Now;
     }
 }
