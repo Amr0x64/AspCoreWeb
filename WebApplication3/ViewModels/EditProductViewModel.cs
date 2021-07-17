@@ -1,13 +1,11 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
-namespace WebApplication3.Models
+namespace WebApplication3.ViewModels
 {
-    public class Product 
+    public class EditProductViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
