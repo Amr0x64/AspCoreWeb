@@ -9,7 +9,7 @@ namespace WebApplication3.ViewModels
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "Имя пользователя")]
         public string Name { get; set; }
 
         [Required]

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<WebApplication3.Models.Product>
 @{
-    ViewBag.Title = "Продукты";  
+    ViewBag.Title = "Продукты";
 }
 
 @foreach (var item in Model)
@@ -8,7 +8,7 @@
 <div>
     
     <h5><a asp-action="Detail" asp-route-id="@item.Id"> @item.Title </a></h5> 
-    <p>Цена:<b>@Model.Price</b> </p>
+    <p>Цена:<b>@item.Price</b> </p>
     <p>Описание: @item.Description</p> 
 
 </div>

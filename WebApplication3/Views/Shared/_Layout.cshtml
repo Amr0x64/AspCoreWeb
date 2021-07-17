@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebApplication3</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" type="text/css"/>
 </head>
 <body>
     <header>
@@ -31,16 +31,17 @@
                             @if (context.Request.Cookies["st_ad"] == "1")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Админимтрирование пользователей</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Администрирование</a>
                                 </li>
                             }
-
-
                         }
-
+                            @if (User.Identity.IsAuthenticated)
+                             {
+                                <li class="logout" >
+                                    <a  asp-controller="Account" asp-action="Logout" style="color:red"> Выход </a>                             
+                                </li>
+                            
+                             }
                     </ul>
                 </div>
             </div>

@@ -55,6 +55,7 @@ namespace WebApplication3.Controllers
             }
             return NotFound();
         }
+        //Изминение товара админом
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProductViewModel model)
@@ -76,6 +77,7 @@ namespace WebApplication3.Controllers
             }
             return View(model);
         }
+        //Удаление товара админом
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
