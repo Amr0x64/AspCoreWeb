@@ -9,7 +9,7 @@
 <div>
 
     <h5><a style="color:black" asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id"> @item.Title </a></h5>
-    <p>Цена: @item.Price</p>
+    <p>Цена:<b>@item.Price</b> </p>
     <p>Описание: @item.Description</p>
     <h5><a style="color:blue" asp-action="Edit" asp-route-id="@item.Id">Редактировать Продукт</a></h5>
     <form asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">
