@@ -10,7 +10,12 @@
     <h5><a asp-action="Detail" asp-route-id="@item.Id"> @item.Title </a></h5> 
     <p>Цена:<b>@item.Price</b> </p>
     <p>Описание: @item.Description</p> 
-
+   
+    <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.Id">
+        <div class="form-group">
+            <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green"/>
+        </div>
+    </form>
 </div>
    
 }
