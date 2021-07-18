@@ -48,6 +48,7 @@ namespace WebApplication3.Controllers
             return NotFound();
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> BuyProduct(BuyProductViewModel model)
         {
             if (ModelState.IsValid)
