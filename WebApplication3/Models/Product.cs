@@ -15,5 +15,6 @@ namespace WebApplication3.Models
         public string Description { get; set; }
         public int Price { get; set; }
         public DateTime Time { get; set; }
+        public List<BuyProduct> BuyProducts { get; set; }
     }
 }

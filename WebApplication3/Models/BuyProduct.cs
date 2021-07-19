@@ -10,7 +10,7 @@ namespace WebApplication3.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Adress { get; set; }
@@ -19,5 +19,6 @@ namespace WebApplication3.Models
         public Product product { get; set; }
         [ForeignKey("UserId")]
         public User user { get; set; }
+        public int Count { get; set; }
     }
 }
