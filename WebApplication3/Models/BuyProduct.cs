@@ -19,6 +19,6 @@ namespace WebApplication3.Models
         public Product product { get; set; }
         [ForeignKey("UserId")]
         public User user { get; set; }
-        public int Count { get; set; }
+       
     }
 }

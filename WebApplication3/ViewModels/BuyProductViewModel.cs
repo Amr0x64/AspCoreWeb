@@ -17,5 +17,6 @@ namespace WebApplication3.ViewModels
         public string Adress { get; set; }
         public Product Product { get; set; }
         public User User { get; set; }
+        public int Count { get; set; }
     }
 }
