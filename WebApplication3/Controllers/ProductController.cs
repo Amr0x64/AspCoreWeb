@@ -55,7 +55,7 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
-                    BuyProduct buyProduct = new BuyProduct { IdProduct = model.IdProduct, IdUser = model.IdUser, Name = model.Name, Surname = model.Surname, Adress = model.Adress, Time = DateTime.Now };
+                    BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = model.Name, Surname = model.Surname, Adress = model.Adress, Time = DateTime.Now };
                     db.BuyProducts.Add(buyProduct);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
