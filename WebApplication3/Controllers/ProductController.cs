@@ -38,11 +38,10 @@ namespace WebApplication3.Controllers
         public IActionResult BuyProduct(int id)
         {
             Product product = db.Products.Single(x => x.Id == id);
-            
-            if (product != null)
+            if (product != null && product.Count != 0)
             {
                 User user = db.Users.Single(x => x.UserName == User.Identity.Name);
-                BuyProductViewModel model = new BuyProductViewModel { IdProduct = product.Id, IdUser = user.Id, Product = product, Count = product.Count};
+                BuyProductViewModel model = new BuyProductViewModel { IdProduct = product.Id, IdUser = user.Id, Product = product};
                 return View(model);
             }
             return NotFound();
@@ -58,8 +57,10 @@ namespace WebApplication3.Controllers
                     BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = model.Name, Surname = model.Surname, Adress = model.Adress, Time = DateTime.Now};
                     Product product = db.Products.Single(x => x.Id == model.IdProduct);
                     product.Count = product.Count - 1;
+
                     db.Products.Update(product);
                     db.BuyProducts.Add(buyProduct);
+
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }

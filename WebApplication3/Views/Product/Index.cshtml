@@ -2,20 +2,44 @@
 @{
     ViewBag.Title = "Продукты";
 }
-
+<p>@Model.Count() товаров</p>
 @foreach (var item in Model)
 {
 <div>
-    
-    <h5><a asp-action="Detail" asp-route-id="@item.Id"> @item.Title </a></h5> 
+    <h5><a asp-action="Detail" asp-route-id="@item.Id"> @item.Title </a></h5>
     <p>Цена:<b>@item.Price</b> </p>
-    <p>Описание: @item.Description</p> 
-   
-    <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.Id">
-        <div class="form-group">
-            <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green"/>
-        </div>
-    </form>
+    <p>Описание: @item.Description</p>
+
+
+    @if (item.Count > 0)
+    {
+        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.Id">
+                   <div class="form-group">
+                <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
+            </div>
+        </form>
+    }
+    @if (item.Count >= 5)
+    {
+        <p style="border:3px #00B344  solid; width:175px;">
+            В наличии
+        </p>
+    }
+    else if (item.Count >= 2)
+    {
+        <p style="border:3px #00B344  solid; width:175px;">
+            Осталось мало
+        </p>
+
+    }
+    else
+    {
+        <p style="border:3px #00B344  solid; width:175px;">
+            Нет в наличии
+        </p>
+    }
+
+
 </div>
    
 }

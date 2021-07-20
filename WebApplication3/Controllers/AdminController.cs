@@ -38,7 +38,7 @@ namespace WebApplication3.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product product = new Product { Id = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, Time = DateTime.Now };
+                Product product = new Product { Id = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, Time = DateTime.Now, Count = model.Count };
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("ViewProduct");
@@ -50,7 +50,7 @@ namespace WebApplication3.Controllers
             var product = db.Products.Single(x => x.Id == id);
             if (product != null)
             {
-               EditProductViewModel model = new EditProductViewModel { Id = product.Id, Title = product.Title, Description = product.Description, Price = product.Price };
+               EditProductViewModel model = new EditProductViewModel { Id = product.Id, Title = product.Title, Description = product.Description, Price = product.Price , Count = product.Count};
                return View(model);
             }
             return NotFound();
@@ -69,7 +69,7 @@ namespace WebApplication3.Controllers
                     product.Title = model.Title;
                     product.Description = model.Description;
                     product.Price = model.Price;
-
+                    product.Count = model.Count;
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
                     return RedirectToAction("ViewProduct");

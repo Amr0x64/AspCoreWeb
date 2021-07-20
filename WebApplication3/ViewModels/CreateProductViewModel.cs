@@ -14,6 +14,7 @@ namespace WebApplication3.ViewModels
         public string Description { get; set; }
         [Required]
         public int Price { get; set; }
+        public int Count { get; set; }
         public DateTime Time { get; set; }
     }
 }
