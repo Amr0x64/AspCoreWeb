@@ -13,6 +13,7 @@
     </div>
 </form>
 <p>@Model.Count() товаров</p>
+<hr class="granica">
 @foreach (var item in Model)
 {
 <div>
@@ -24,7 +25,7 @@
     @if (item.Count > 0)
     {
         <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.Id">
-                   <div class="form-group">
+            <div class="form-group">
                 <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
             </div>
         </form>
@@ -34,22 +35,22 @@
         <p style="border:3px #00B344  solid; width:175px;">
             В наличии
         </p>
+        <hr class="granica">
     }
     else if (item.Count > 0)
     {
         <p style="border:3px #00B344  solid; width:175px;">
             Осталось мало
         </p>
-
+        <hr class="granica">
     }
     else
     {
         <p style="border:3px #00B344  solid; width:175px;">
             Нет в наличии
         </p>
+        <hr class="granica">
     }
-
-
 </div>
    
 }

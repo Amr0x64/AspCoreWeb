@@ -177,8 +177,10 @@ body {
         margin-right: 5px;
         margin-left: 5px;
         font-weight: bold;
-    }		
+    }
 
-						
+.granica {
+    border-color: #595D72;
+}						
 						
 					
