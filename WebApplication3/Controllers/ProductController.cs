@@ -21,7 +21,16 @@ namespace WebApplication3.Controllers
         
         public async Task<IActionResult> Index()
         {
-            ViewData["ProductCount"] = db.Products.Count();
+            return View(await db.Products.ToListAsync());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(string nameProduct)
+        {
+            if (nameProduct != null)
+            {
+                var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%"));
+                return View(searchProductList);
+            }
             return View(await db.Products.ToListAsync());
         }
         public IActionResult Detail(int id)

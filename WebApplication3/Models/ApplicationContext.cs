@@ -16,7 +16,7 @@ namespace WebApplication3.Models
            : base(options)
         {
             Database.EnsureCreated();
-        }
+        }   
         public DbSet<Product> Products { get; set; }
         public DbSet<BuyProduct> BuyProducts { get; set; }
     }  

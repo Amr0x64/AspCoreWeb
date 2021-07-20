@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Продукты";
 }
+
 <p>@Model.Count() товаров</p>
 @foreach (var item in Model)
 {
@@ -25,7 +26,7 @@
             В наличии
         </p>
     }
-    else if (item.Count >= 2)
+    else if (item.Count > 0)
     {
         <p style="border:3px #00B344  solid; width:175px;">
             Осталось мало
