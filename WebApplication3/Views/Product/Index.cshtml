@@ -2,7 +2,16 @@
 @{
     ViewBag.Title = "Продукты";
 }
-
+<form method="post" asp-action="Index" asp-controller="Product">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label name="nameProduct" class="control-label">Название</label>
+        <input type="text" name="nameProduct" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Поиск товара" class="btn btn-outline-secondary" />
+    </div>
+</form>
 <p>@Model.Count() товаров</p>
 @foreach (var item in Model)
 {

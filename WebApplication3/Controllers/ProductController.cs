@@ -28,7 +28,7 @@ namespace WebApplication3.Controllers
         {
             if (nameProduct != null)
             {
-                var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%"));
+                var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderBy(x => x.Price);
                 return View(searchProductList);
             }
             return View(await db.Products.ToListAsync());
