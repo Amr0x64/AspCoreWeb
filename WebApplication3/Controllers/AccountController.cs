@@ -51,7 +51,7 @@ namespace WebApplication3.Controllers
                         var userRoles = await _userManager.GetRolesAsync(user);
                         try
                         {
-                            if (userRoles[0] == "admin")
+                            if (userRoles[0] =="admin")
                             {
                                 Response.Cookies.Append("st_ad", "1");
                             }

@@ -28,7 +28,7 @@ namespace WebApplication3
                 }
 
             }
-            Console.WriteLine(";kldsnfesfnseiofjnggio[esj");
+            
         }
     }
 }
