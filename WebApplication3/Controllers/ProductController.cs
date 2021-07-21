@@ -23,7 +23,7 @@ namespace WebApplication3.Controllers
         {
             return View(await db.Products.ToListAsync());
         }
-        [HttpPost]
+        [HttpPost]  
         public async Task<IActionResult> Index(string nameProduct)
         {
             if (nameProduct != null)

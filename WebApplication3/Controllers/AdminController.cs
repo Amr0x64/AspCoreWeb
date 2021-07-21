@@ -72,7 +72,7 @@ namespace WebApplication3.Controllers
                     product.Count = model.Count;
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
-                    return RedirectToAction("ViewProduct");
+                    return RedirectToAction("Detail", "Product", new { id = model.Id});
                 }
             }
             return View(model);
