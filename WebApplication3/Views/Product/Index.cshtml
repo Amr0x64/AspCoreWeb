@@ -17,14 +17,14 @@
 @foreach (var item in Model)
 {
 <div>
-    <h5><a asp-action="Detail" asp-route-id="@item.Id"> @item.Title </a></h5>
+    <h5><a asp-action="Detail" asp-route-id="@item.ProductId"> @item.Title </a></h5>
     <p>Цена:<b>@item.Price</b> </p>
     <p>Описание: @item.Description</p>
-
+    
 
     @if (item.Count > 0)
     {
-        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.Id">
+        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.ProductId">
             <div class="form-group">
                 <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
             </div>

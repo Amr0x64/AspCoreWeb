@@ -181,6 +181,10 @@ body {
 
 .granica {
     border-color: #595D72;
-}						
-						
-					
+}
+
+.yearUser {
+    height: 40px;
+    width: 200px;
+}
+

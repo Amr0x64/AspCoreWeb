@@ -8,7 +8,7 @@
     <p>Описание: @Model.Description</p>
     @if (Model.Count > 0)
     {
-        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@Model.Id">
+        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@Model.ProductId">
             <div class="form-group">
                 <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
             </div>
