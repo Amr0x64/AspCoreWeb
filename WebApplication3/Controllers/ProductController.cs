@@ -35,7 +35,7 @@ namespace WebApplication3.Controllers
         }
         public IActionResult Detail(int id)
         {
-            Product product = db.Products.Single(x => x.Id == id);
+            Product product = db.Products.Single(x => x.ProductId == id);
             if (product != null)
             {
                 return View(product);
@@ -46,11 +46,11 @@ namespace WebApplication3.Controllers
         [HttpGet]
         public IActionResult BuyProduct(int id)
         {
-            Product product = db.Products.Single(x => x.Id == id);
+            Product product = db.Products.Single(x => x.ProductId == id);
             if (product != null && product.Count != 0)
             {
                 User user = db.Users.Single(x => x.UserName == User.Identity.Name);
-                BuyProductViewModel model = new BuyProductViewModel { IdProduct = product.Id, IdUser = user.Id, Product = product};
+                BuyProductViewModel model = new BuyProductViewModel { IdProduct = product.ProductId, IdUser = user.Id, Product = product};
                 return View(model);
             }
             return NotFound();
@@ -64,7 +64,7 @@ namespace WebApplication3.Controllers
                 try
                 {
                     BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = model.Name, Surname = model.Surname, Adress = model.Adress, Time = DateTime.Now};
-                    Product product = db.Products.Single(x => x.Id == model.IdProduct);
+                    Product product = db.Products.Single(x => x.ProductId == model.IdProduct);
                     product.Count = product.Count - 1;
 
                     db.Products.Update(product);

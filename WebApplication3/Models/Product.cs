@@ -10,12 +10,20 @@ namespace WebApplication3.Models
    
     public class Product 
     {
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
+        
         public DateTime Time { get; set; }
         public List<BuyProduct> BuyProducts { get; set; }
         public int Count { get; set; }
+ 
+        public string AddUser { get; set; }
+        public DateTime AddDate { get; set; }
+        public string ChangeUser { get; set; }
+        public DateTime ChangeDate { get; set; }
+        public bool isRemoved { get; set; }
+        
     }
 }

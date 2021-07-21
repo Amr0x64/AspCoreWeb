@@ -38,7 +38,7 @@ namespace WebApplication3.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product product = new Product { Id = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, Time = DateTime.Now, Count = model.Count };
+                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, Time = DateTime.Now, Count = model.Count };
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("ViewProduct");
@@ -47,10 +47,10 @@ namespace WebApplication3.Controllers
         }
         public IActionResult Edit(int id)
         {
-            var product = db.Products.Single(x => x.Id == id);
+            var product = db.Products.Single(x => x.ProductId == id);
             if (product != null)
             {
-               EditProductViewModel model = new EditProductViewModel { Id = product.Id, Title = product.Title, Description = product.Description, Price = product.Price , Count = product.Count};
+               EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price , Count = product.Count};
                return View(model);
             }
             return NotFound();
@@ -63,7 +63,7 @@ namespace WebApplication3.Controllers
             
             if (ModelState.IsValid)
             {
-                var product = db.Products.Single(x => x.Id == model.Id);
+                var product = db.Products.Single(x => x.ProductId == model.Id);
                 if (product != null)
                 {
                     product.Title = model.Title;
@@ -72,7 +72,7 @@ namespace WebApplication3.Controllers
                     product.Count = model.Count;
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
-                    return RedirectToAction("Detail", "Product", new { id = model.Id});
+                    return RedirectToAction("ViewProduct");
                 }
             }
             return View(model);
@@ -82,7 +82,7 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Product product = db.Products.Single(x => x.Id == id);
+            Product product = db.Products.Single(x => x.ProductId == id);
             if (product != null)
             {
                 db.Products.Remove(product);
