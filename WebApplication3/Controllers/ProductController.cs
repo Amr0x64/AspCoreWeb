@@ -96,7 +96,6 @@ namespace WebApplication3.Controllers
                     var firstCharS = correctSurname.Substring(0, 1).ToUpper();
                     correctSurname = firstCharS + correctSurname.Substring(1).ToLowerInvariant();
 
-                    correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
                     BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = correctName, Surname = correctSurname, Adress = model.Adress, Time = DateTime.Now};
                     Product product = db.Products.Single(x => x.ProductId == model.IdProduct);
                     product.Count = product.Count - 1;
