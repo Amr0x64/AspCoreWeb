@@ -32,19 +32,15 @@ namespace WebApplication3.Controllers
             if (ModelState.IsValid)
             {
                 User user = new User { Email = model.Email, UserName = model.Name, Year = model.Year };
+                if ((model.RoleName != "user") && (model.RoleName != "admin"))
+                {
+                    return View(model);
+                }
                 var result = await _userManager.CreateAsync(user, model.Password);
                 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, model.RoleName);
-                    ViewBag.ValidateRole = "";
-                    if ((model.RoleName != "user") || (model.RoleName != "admin"))
-                    {
-                        ViewBag.ValidateRole = "Недопустимре значение роли";
-                        return View(model);
-                    }
-                        
-                    
                     return RedirectToAction("Index");
                 }
                 else

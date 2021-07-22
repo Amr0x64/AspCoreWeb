@@ -21,10 +21,13 @@
         <input type="number" asp-for="Year" class="yearUser" />
     </div>
     <div>
-        <input type="checkbox" asp-for="RoleName" value="user" checked="checked"/> User<br />
-        <input type="checkbox" asp-for="RoleName" value="admin" /> Admin<br />
-       
-    </div>
+        <label  class="control-label">Роль</label><br />
+        <select asp-for="RoleName">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>  
+    
     <div class="form-group">
         <input type="submit" value="Добавить" class="btn btn-outline-secondary" />
     </div>
