@@ -30,7 +30,7 @@ namespace WebApplication3.Controllers
             {
                 User user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var userRoles = await _userManager.GetRolesAsync(user);
-                if (userRoles.Contains("admin")) ViewBag.checkAdmin = true;
+                if (userRoles.Contains("admin") || userRoles.Contains("superuser")) ViewBag.checkAdmin = true;
                 else
                 {
                     ViewBag.checkAdmin = false;
@@ -45,7 +45,7 @@ namespace WebApplication3.Controllers
             {
                 User user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var userRoles = await _userManager.GetRolesAsync(user);
-                if (userRoles.Contains("admin")) ViewBag.checkAdmin = true;
+                if (userRoles.Contains("admin") || userRoles.Contains("superuser")) ViewBag.checkAdmin = true;
                 else
                 {
                     ViewBag.checkAdmin = false;
@@ -114,7 +114,7 @@ namespace WebApplication3.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin, superuser")]
         public IActionResult CreateProduct()
         {
             return View();
@@ -122,7 +122,7 @@ namespace WebApplication3.Controllers
         //Добавление товара админом
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> CreateProduct(CreateProductViewModel model)
         {
             if (ModelState.IsValid)
@@ -134,7 +134,7 @@ namespace WebApplication3.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superuser")]
         public IActionResult Edit(int id)
         {
             var product = db.Products.Single(x => x.ProductId == id);
@@ -148,7 +148,7 @@ namespace WebApplication3.Controllers
         //Изминение товара админом
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
 
@@ -171,7 +171,7 @@ namespace WebApplication3.Controllers
         //Удаление товара админом
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> Delete(int id)
         {
             Product product = db.Products.Single(x => x.ProductId == id);

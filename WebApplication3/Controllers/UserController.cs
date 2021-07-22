@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication3.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, superuser")]
     public class UserController : Microsoft.AspNetCore.Mvc.Controller
     {
         UserManager<User> _userManager;
@@ -33,8 +33,18 @@ namespace WebApplication3.Controllers
             {
                 User user = new User { Email = model.Email, UserName = model.Name, Year = model.Year };
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, model.RoleName);
+                    ViewBag.ValidateRole = "";
+                    if ((model.RoleName != "user") || (model.RoleName != "admin"))
+                    {
+                        ViewBag.ValidateRole = "Недопустимре значение роли";
+                        return View(model);
+                    }
+                        
+                    
                     return RedirectToAction("Index");
                 }
                 else

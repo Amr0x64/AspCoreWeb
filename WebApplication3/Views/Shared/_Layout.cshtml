@@ -5,7 +5,7 @@
     var context = Context;
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
-    
+    bool IsSuperUser = currentUser.IsInRole("superuser");    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +34,7 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            if (IsAdmin)
+                            if (IsAdmin || IsSuperUser)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="User" asp-action="Index"> Пользователи  </a>
@@ -45,6 +45,7 @@
                             }
 
                         }
+                        
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">

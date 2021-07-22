@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication3.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, superuser")]
     public class AdminController : Controller
     {
         private ApplicationContext db;
