@@ -14,18 +14,39 @@ namespace WebApplication3.Controllers
     public class ProductController : Microsoft.AspNetCore.Mvc.Controller
     {
         private ApplicationContext db;
-        public ProductController(ApplicationContext context)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
+            _userManager = userManager;
+            _signInManager = signInManager; 
             db = context;
         }
         
         public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                User user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("admin")) ViewBag.checkAdmin = true;
+                else
+                {
+                    ViewBag.checkAdmin = false;
+                }
+            }          
             return View(await db.Products.ToListAsync());
         }
         [HttpPost]  
         public async Task<IActionResult> Index(string nameProduct)
         {
+            User user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles.Contains("admin")) ViewBag.checkAdmin = true;
+            else
+            {
+                ViewBag.checkAdmin = false;
+            }
             if (nameProduct != null)
             {
                 var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderBy(x => x.Price);
