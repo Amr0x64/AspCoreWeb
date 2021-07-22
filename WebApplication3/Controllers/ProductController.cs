@@ -7,7 +7,8 @@ using WebApplication3.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WebApplication3.ViewModels; 
+using WebApplication3.ViewModels;
+using System.Text.RegularExpressions;
 
 namespace WebApplication3.Controllers
 {
@@ -87,7 +88,16 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
-                    BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = model.Name, Surname = model.Surname, Adress = model.Adress, Time = DateTime.Now};
+                    var correctName = model.Name.Replace(" ", "");
+                    var firstChar = correctName.Substring(0, 1).ToUpper();
+                    correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
+
+                    var correctSurname = model.Surname.Replace(" ", "");
+                    var firstCharS = correctSurname.Substring(0, 1).ToUpper();
+                    correctSurname = firstCharS + correctSurname.Substring(1).ToLowerInvariant();
+
+                    correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
+                    BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = correctName, Surname = correctSurname, Adress = model.Adress, Time = DateTime.Now};
                     Product product = db.Products.Single(x => x.ProductId == model.IdProduct);
                     product.Count = product.Count - 1;
 

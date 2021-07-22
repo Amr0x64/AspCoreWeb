@@ -12,10 +12,14 @@
         <input type="submit" value="Поиск товара" class="btn btn-outline-secondary" />
     </div>
 </form>
-@if (ViewBag.checkAdmin)
+@if (User.Identity.IsAuthenticated)
 {
-    <h5><a asp-action="CreateProduct">Добавить Продукт</a></h5>
+    @if (ViewBag.checkAdmin)
+    {
+        <h5><a asp-action="CreateProduct">Добавить Продукт</a></h5>
+    }
 }
+
 <p>@Model.Count() товаров</p>
 <hr class="granica">
 @foreach (var item in Model)
@@ -23,56 +27,56 @@
 
     @if (!item.isRemoved)
     {
-        <div>
-            <h5><a asp-action="Detail" asp-route-id="@item.ProductId"> @item.Title </a></h5>
-            <p>Цена:<b>@item.Price</b> </p>
-            <p>Описание: @item.Description</p>
+<div>
+    <h5><a asp-action="Detail" asp-route-id="@item.ProductId"> @item.Title </a></h5>
+    <p>Цена:<b>@item.Price</b> </p>
+    <p>Описание: @item.Description</p>
 
 
-            @if (item.Count > 0)
-            {
-                <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.ProductId">
-                    <div class="form-group">
-                        <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
-                    </div>
-                </form>
-            }
-            @if (item.Count >= 5)
-            {
-                <p style="border:3px #00B344  solid; width:175px;">
-                    В наличии
-                </p>
+    @if (item.Count > 0)
+    {
+        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.ProductId">
+            <div class="form-group">
+                <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
+            </div>
+        </form>
+    }
+    @if (item.Count >= 5)
+    {
+        <p style="border:3px #00B344  solid; width:175px;">
+            В наличии
+        </p>
 
-            }
-            else if (item.Count > 0)
-            {
-                <p style="border:3px #00B344  solid; width:175px;">
-                    Осталось мало
-                </p>
+    }
+    else if (item.Count > 0)
+    {
+        <p style="border:3px #00B344  solid; width:175px;">
+            Осталось мало
+        </p>
 
-            }
-            else
-            {
-                <p style="border:3px #00B344  solid; width:175px;">
-                    Нет в наличии
-                </p>
+    }
+    else
+    {
+        <p style="border:3px #00B344  solid; width:175px;">
+            Нет в наличии
+        </p>
 
-            }
-            @if (ViewBag.checkAdmin)
-            {
-                <h5><a style="color:blue" asp-action="Edit" asp-route-id="@item.ProductId">Редактировать Продукт</a></h5>
-            }
-            @if (ViewBag.checkAdmin)
-            {
-                <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <input type="submit" value="Пометить товар удаленным" class="btn btn-outline-secondary" style="color:red" />
-                    </div>
-                </form>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (ViewBag.checkAdmin)
+        {
+            <h5><a style="color:blue" asp-action="Edit" asp-route-id="@item.ProductId">Редактировать Продукт</a></h5>
 
-            }
-        </div>
+            <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="submit" value="Пометить товар удаленным" class="btn btn-outline-secondary" style="color:red" />
+                </div>
+            </form>
+        }
+    }
+</div>
         <hr class="granica">
     }
 
