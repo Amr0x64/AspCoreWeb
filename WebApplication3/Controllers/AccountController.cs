@@ -42,24 +42,7 @@ namespace WebApplication3.Controllers
                     }
                     else
                     {
-                        if(Request.Cookies.ContainsKey("st_ad"))
-                        {
-                            
-                            Response.Cookies.Delete("st_ad");
-                        }
-                        User user = await _userManager.FindByNameAsync(model.Name);
-                        var userRoles = await _userManager.GetRolesAsync(user);
-                        try
-                        {
-                            if (userRoles[0] =="admin")
-                            {
-                                Response.Cookies.Append("st_ad", "1");
-                            }
-                        }
-                        catch
-                        {
-                            Response.Cookies.Append("st_ad", "0");
-                        }
+                        
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -76,10 +59,6 @@ namespace WebApplication3.Controllers
         {
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
-            if(Request.Cookies.ContainsKey("st_ad"))
-            {
-                Response.Cookies.Delete("st_ad");
-            }
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]

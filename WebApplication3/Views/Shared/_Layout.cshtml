@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @{
-    var existsCookie = Context.Request.Cookies.ContainsKey("st_ad");
     var context = Context;
-}
+    ClaimsPrincipal currentUser = this.User;
+    bool IsAdmin = currentUser.IsInRole("admin");
+    }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,21 +30,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Продукты</a>
                         </li>
-                        @if (existsCookie)
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            @if (context.Request.Cookies["st_ad"] == "1")
+                            if (IsAdmin)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Администрирование</a>
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index"> Пользователи </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index"> Администрирование </a>
                                 </li>
                             }
+
                         }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="logout" asp-controller="Account" asp-action="Logout"> Выход </a>
                             </li>
-
                         }
                     </ul>
                 </div>

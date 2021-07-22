@@ -40,12 +40,15 @@ namespace WebApplication3.Controllers
         [HttpPost]  
         public async Task<IActionResult> Index(string nameProduct)
         {
-            User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var userRoles = await _userManager.GetRolesAsync(user);
-            if (userRoles.Contains("admin")) ViewBag.checkAdmin = true;
-            else
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.checkAdmin = false;
+                User user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("admin")) ViewBag.checkAdmin = true;
+                else
+                {
+                    ViewBag.checkAdmin = false;
+                }
             }
             if (nameProduct != null)
             {
