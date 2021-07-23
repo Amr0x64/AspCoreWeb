@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using WebApplication3.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Http;    
 namespace WebApplication3
 {
     public class Startup
@@ -32,7 +32,8 @@ namespace WebApplication3
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
-
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllersWithViews();
             services.AddMemoryCache();
             services.AddSession();
