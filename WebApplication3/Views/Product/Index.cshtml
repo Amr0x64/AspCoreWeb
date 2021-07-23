@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<WebApplication3.Models.Product>
+@using WebApplication3.ViewModels
 @using WebApplication3.Infrastructure
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -33,8 +34,7 @@
         <div v class="card card-outline-primary m-1 p-1">
             <h5><a asp-action="Detail" asp-route-id="@item.ProductId"> @item.Title </a></h5>
             <p>Цена:<b>@item.Price</b> </p>
-            <form id="@item.ProductId" method="post">
-                <input type="hidden" asp-for="ProductId" />
+            <form id="@item.ProductId" method="post" asp-action="AddToCart" asp-controller="Cart" >
                 <input type="hidden" name="returnUrl"
                        value="@ViewContext.HttpContext.Request.PathAndQuery()" />
                 <span class="card-text p-1">

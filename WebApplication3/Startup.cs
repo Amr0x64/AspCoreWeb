@@ -34,6 +34,9 @@ namespace WebApplication3
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             services.AddControllersWithViews();
+            services.AddMemoryCache();
+            services.AddSession();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +59,7 @@ namespace WebApplication3
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

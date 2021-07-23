@@ -42,7 +42,6 @@ namespace WebApplication3.Controllers
                     }
                     else
                     {
-                        
                         return RedirectToAction("Index", "Home");
                     }
                 }
