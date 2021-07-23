@@ -35,7 +35,8 @@ namespace WebApplication3.Controllers
                 {
                     ViewBag.checkAdmin = false;
                 }
-            }          
+            }
+           
             return View(await db.Products.ToListAsync());
         }
         [HttpPost]  
