@@ -13,18 +13,18 @@ namespace WebApplication3.Controllers
     public class CartController : Controller
     {
         private ApplicationContext db;
-        public CartController(ApplicationContext context)
+        private Cart cart;
+        public CartController(ApplicationContext context, Cart cartService)
         {
             db = context;
+            cart = cartService;
         }
         public RedirectToActionResult AddToCart(int productld, string returnUrl)
         {
             Product product = db.Products.Single(x => x.ProductId == productld);
             if (product != null)
             {
-                Cart cart = GetCart();
                 cart.AddItem(product, 1);
-                SaveCart(cart);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -33,27 +33,15 @@ namespace WebApplication3.Controllers
             Product product = db.Products.Single(x => x.ProductId == productld);
             if (product != null)
             {
-                Cart cart = GetCart();
                 cart.RemoveLine(product);
-                SaveCart(cart);
             }
             return RedirectToAction("Index", new { returnUrl });
-        }
-        private Cart GetCart()
-        {
-            Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
-            return cart;
-        }
-        private void SaveCart(Cart cart)
-        {
-            HttpContext.Session.SetJson("Cart", cart);
-        }
-        
+        }        
         public IActionResult Index (string returnUrl)
         {
             return View(new CartIndexViewModel
             {
-                Cart = GetCart(),
+                Cart = cart,
                 ReturnUrl = returnUrl
             });
         }
