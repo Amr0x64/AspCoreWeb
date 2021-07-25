@@ -43,6 +43,11 @@ namespace WebApplication3.Controllers
             }
             if (ModelState.IsValid)
             {
+                var correctName = order.Name.Replace(" ", "");
+                var firstChar = correctName.Substring(0, 1).ToUpper();
+                correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
+
+                order.Name = correctName;
                 order.Lines = cart.Lines.ToArray();
                 db.AttachRange(order.Lines.Select(l => l.Product));
                 if (order.OrderId == 0)

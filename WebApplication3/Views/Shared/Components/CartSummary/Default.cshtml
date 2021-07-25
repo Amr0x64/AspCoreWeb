@@ -6,11 +6,11 @@
     {
     <small class="navbar-text">
         <b>Ваша корзина</b>
-        @Model.Lines.Sum(x => x.Quantity) item(s)
+        @Model.Lines.Sum(x => x.Quantity) 
         @Model.ComputeTotalValue().ToString("c")
     </small>
     }
-    <a title="Корзина" class="btn btn-sm btn-secondary navbar-btn"
+    <a title="Корзина" class="btn btn-sm btn-secondary navbar-btn location"
        asp-controller="Cart" asp-action="Index"
        sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

@@ -200,3 +200,8 @@ body {
     bottom: 16px;
     color: blue;
 }
+
+.location {
+    position: absolute;
+    right:  -550px;
+}
