@@ -3,8 +3,6 @@
     ViewBag.Title = "Список пользователей";
 }
 
-<h4><a class="vbn" asp-action="Create" style="color:green">Добавить пользователя</a></h4>
-
 <table class="table">
     <tr><th>Login</th><th>Email</th><th></th></tr>
     @foreach (var user in Model)
@@ -24,3 +22,8 @@
         </tr>
     }
 </table>
+    <form asp-action="Create" method="post">
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Добавить пользователя" />
+    </div>
+    </form>

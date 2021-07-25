@@ -18,6 +18,6 @@ namespace WebApplication3.ViewModels
         public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public int Year { get; set; }
+        public int? Year { get; set; }
     }
 }

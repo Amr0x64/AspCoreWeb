@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Order>
+
+@{ 
+    ViewBag.Title = "Заказ";
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered table-striped">
+        <tr><th>Имя</th><th>Индекс</th><th colspan="2">Детали заказа</th><th></th></tr>
+        @foreach(Order o in Model)
+        {
+            <tr>
+                <td>@o.Name</td><td>@o.Zip</td><th>Товар</th><th>Количество</th>
+                <td>
+                    <form asp-action="MarkShipped" method="post">
+                        <input type="hidden" name="orderId" value="@o.OrderId"/>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Выгрузить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            @foreach(CartLine line in o.Lines)
+            {
+                <tr>
+                    <td colspan="2"></td>
+                    <td>@line.Product.Title</td><td>@line.Quantity</td>
+                </tr>
+            }
+        }
+    </table>
+
+}
+else
+{
+    <div class="text-center"> Нет заказов для выгрузки</div>
+}

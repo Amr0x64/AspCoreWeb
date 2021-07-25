@@ -127,7 +127,7 @@ namespace WebApplication3.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, Time = DateTime.Now, Count = model.Count };
+                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, AddDate = DateTime.Now, Count = model.Count, AddUser = User.Identity.Name};
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -161,8 +161,11 @@ namespace WebApplication3.Controllers
                     product.Description = model.Description;
                     product.Price = model.Price;
                     product.Count = model.Count;
+                    product.ChangeDate = DateTime.Now;
+                    product.ChangeUser = User.Identity.Name;
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
+                    TempData["message"] = $"{model.Title} отредоктирован";
                     return RedirectToAction("Index");
                 }
             }

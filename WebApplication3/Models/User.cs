@@ -10,7 +10,7 @@ namespace WebApplication3.Models
 {
     public class User : IdentityUser
     {
-        public int Year { get; set; }  
+        public int? Year { get; set; }  
     }
     
 }

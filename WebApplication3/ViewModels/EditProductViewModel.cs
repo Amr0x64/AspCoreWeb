@@ -13,5 +13,7 @@ namespace WebApplication3.ViewModels
         public int Price { get; set; }
         public int Count { get; set; }
         public DateTime Time { get; set; }
+        public string ChangeUser { get; set; }
+        public DateTime? ChangeDate { get; set; }
     }
 }
