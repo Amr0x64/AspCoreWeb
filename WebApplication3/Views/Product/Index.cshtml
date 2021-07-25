@@ -24,7 +24,7 @@
     }
 }
 
-<p>@Model.Count() товаров</p>
+<p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
 <hr class="granica">
 @foreach (var item in Model)
 {
@@ -48,14 +48,7 @@
             <p>Описание: @item.Description</p>
 
 
-            @if (item.Count > 0)
-            {
-                <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@item.ProductId">
-                    <div class="form-group">
-                        <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
-                    </div>
-                </form>
-            }
+            
             @if (item.Count >= 5)
             {
                 <p style="border:3px #00B344  solid; width:175px;">

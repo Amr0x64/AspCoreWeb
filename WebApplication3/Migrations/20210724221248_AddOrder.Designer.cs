@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication3.Models;
 
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210724221248_AddOrder")]
+    partial class AddOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,6 +150,40 @@ namespace WebApplication3.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.BuyProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BuyProduct");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.CartLine", b =>
@@ -373,6 +409,21 @@ namespace WebApplication3.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebApplication3.Models.BuyProduct", b =>
+                {
+                    b.HasOne("WebApplication3.Models.Product", "product")
+                        .WithMany("BuyProducts")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("WebApplication3.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("product");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("WebApplication3.Models.CartLine", b =>
                 {
                     b.HasOne("WebApplication3.Models.Order", null)
@@ -389,6 +440,11 @@ namespace WebApplication3.Migrations
             modelBuilder.Entity("WebApplication3.Models.Order", b =>
                 {
                     b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.Product", b =>
+                {
+                    b.Navigation("BuyProducts");
                 });
 #pragma warning restore 612, 618
         }

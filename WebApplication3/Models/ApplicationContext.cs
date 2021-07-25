@@ -18,6 +18,6 @@ namespace WebApplication3.Models
             Database.EnsureCreated();
         }   
         public DbSet<Product> Products { get; set; }
-        public DbSet<BuyProduct> BuyProducts { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }  
 }

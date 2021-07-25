@@ -68,7 +68,7 @@ namespace WebApplication3.Controllers
             }
             return NotFound();
         }
-        [Authorize]
+        //qpkfj[iwejf[iouernpuifgupuirhgiuweh
         [HttpGet]
         public IActionResult BuyProduct(int id)
         {
@@ -82,7 +82,6 @@ namespace WebApplication3.Controllers
             return NotFound();
         }
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> BuyProduct(BuyProductViewModel model)
         {
             if (ModelState.IsValid)
@@ -102,7 +101,7 @@ namespace WebApplication3.Controllers
                     product.Count = product.Count - 1;
 
                     db.Products.Update(product);
-                    db.BuyProducts.Add(buyProduct);
+                   
 
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
