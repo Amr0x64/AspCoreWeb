@@ -16,63 +16,77 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" type="text/css" />
-    
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Интернет-Магазин</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+    <!--Header-->
+    <div id="header">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Интернет-Магазин</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1 navigation">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Продукты</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            if (IsAdmin || IsSuperUser)
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Продукты</a>
+                            </li>
+                            @if (!(IsAdmin || IsSuperUser))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index"> Пользователи  </a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">О компании</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Order" asp-action="List"> Заказы </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index"> Администрирование </a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a>
                                 </li>
                             }
-                        }
-                        <li class="nav-item">
-                            <div class="row">
-                                <div class="col-4 text-right">
-                                    @await Component.InvokeAsync("CartSummary")
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (IsAdmin || IsSuperUser)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="User" asp-action="Index"> Пользователи  </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Order" asp-action="List"> Заказы </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index"> Администрирование </a>
+                                    </li>
+                                }
+                            }
+                            <li class="nav-item">
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        @await Component.InvokeAsync("CartSummary")
+                                    </div>
                                 </div>
-                            </div>
 
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="logout" asp-controller="Account" asp-action="Logout"> Выход </a>
                             </li>
-                        }
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="logup" asp-controller="Account" asp-action="Register"> Регистрация </a>
-                            </li>
-                        }
-                    </ul>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="logout" asp-controller="Account" asp-action="Logout"> Выход </a>
+                                </li>
+                            }
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="logup" asp-controller="Account" asp-action="Register"> Регистрация </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
+    </div>
+    <link href="~/components/products.css" rel="stylesheet" />
+  
+
     <div class="container">
         <main role="main" class="pb-3"> 
             @RenderBody()

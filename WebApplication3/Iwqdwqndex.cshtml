@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebApplication3.Models.Product>
+@using WebApplication3.ViewModels
+@using WebApplication3.Infrastructure
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Продукты";
+}
+
+<div id="products">
+    <form method="post" asp-action="Index" asp-controller="Product">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label name="nameProduct" class="control-label">Название</label>
+            <input type="text" name="nameProduct" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Поиск товара" class="btn btn-outline-secondary" />
+        </div>
+    </form>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (ViewBag.checkAdmin)
+        {
+            <h5><a asp-action="CreateProduct">Добавить Продукт</a></h5>
+        }
+    }
+
+    <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
+    <hr class="granica">
+    @foreach (var item in Model)
+    {
+
+        @if (!item.isRemoved)
+        {
+            <div v class="card card-outline-primary m-1 p-1">
+                <h5><a asp-action="Detail" asp-route-id="@item.ProductId"> @item.Title </a></h5>
+                <img src="~/img/iphone.png" alt="@item.Title" />
+
+                <p>Цена:<b>@item.Price</b></p>
+                <form id="@item.ProductId" method="post" asp-action="AddToCart" asp-controller="Cart">
+                    <input type="hidden" name="productld" value="@item.ProductId" />
+                    <input type="hidden" name="returnUrl"
+                           value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    <span class="card-text p-1">
+                        <button type="submit"
+                                class="btn btn-success btn-sm pull-right" style="float:right">
+                            Добавить в корзину
+                        </button>
+                    </span>
+                </form>
+                <p>Описание: @item.Description</p>
+
+
+
+                @if (item.Count >= 5)
+                {
+                    <p style="border:3px #00B344  solid; width:175px;">
+                        В наличии
+                    </p>
+
+                }
+                else if (item.Count > 0)
+                {
+                    <p style="border:3px #00B344  solid; width:175px;">
+                        Осталось мало
+                    </p>
+
+                }
+                else
+                {
+                    <p style="border:3px #00B344  solid; width:175px;">
+                        Нет в наличии
+                    </p>
+
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (ViewBag.checkAdmin)
+                    {
+                        <h5><a style="color:blue" asp-action="Edit" asp-route-id="@item.ProductId">Редактировать Продукт</a></h5>
+
+                        <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input type="submit" value="Пометить товар удаленным" class="btn btn-outline-secondary" style="color:red" />
+                            </div>
+                        </form>
+                    }
+                }
+            </div>
+        }
+    }
+</div>
