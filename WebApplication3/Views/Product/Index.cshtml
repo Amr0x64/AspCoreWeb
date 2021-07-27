@@ -1,10 +1,22 @@
 ﻿@model IEnumerable<WebApplication3.Models.Product>
 @using WebApplication3.ViewModels
 @using WebApplication3.Infrastructure
+@using System.Security.Claims
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewBag.Title = "Продукты";
+    ClaimsPrincipal currentUser = this.User;
+    bool IsAdmin = currentUser.IsInRole("admin");
+    bool IsSuperUser = currentUser.IsInRole("superuser");
+    @try
+    {
+        ViewBag.CheckDeleteProduct = ViewBag.DeleteCheck;
+    }
+    catch
+    {
+        ViewBag.CheckDeleteProduct = false;
+    }
 }
 
 <div id="products">
@@ -18,44 +30,56 @@
             <input type="submit" value="Поиск товара" class="btn btn-outline-secondary" />
         </div>
     </form>
-    @if (User.Identity.IsAuthenticated)
+
+    @if (IsAdmin || IsSuperUser)
     {
-        @if (ViewBag.checkAdmin)
-        { 
-            <form asp-action="CreateProduct" method="get">
-                <div class="text-center">
-                    <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
-                </div>
-            </form>
-        }
+        <form asp-action="CreateProduct" method="get">
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
+            </div>
+        </form>
+        <form asp-action="Index" method="post" asp-route-id="1">
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Удаленные товары" />
+            </div>
+        </form>
     }
+
 
     <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
     <hr class="granica">
     <ul class="products-container">
-        
         @foreach (var item in Model)
         {
-            @if (!item.isRemoved)
+            @if (!item.isRemoved && ViewBag.CheckDeleteProduct)
             {
-
                 <li class="products-element">
-                    <span class="products-element__name">@item.Title</span>
-                    <img class="products-element__img" src="~/img/iphone.png"/>
-                    <span class="products-element__price" >@item.Price RUB</span>
+                    <span style="color:black" class="products-element__name"><a asp-action="Detail" asp-route-id="@item.ProductId">@item.Title</a></span>
+                    <img class="products-element__img" src="@Url.Content(item.PathImg)" />
+                    <span class="products-element__price">@item.Price RUB</span>
                     <form id="@item.ProductId" method="post" asp-action="AddToCart" asp-controller="Cart">
                         <input type="hidden" name="productld" value="@item.ProductId" />
                         <input type="hidden" name="returnUrl"
                                value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                            <button type="submit"
-                                    class="products-element__btn products-element__btn_active" >
-                                Добавить в корзину
-                            </button>
+                        <button type="submit"
+                                class="products-element__btn products-element__btn_active">
+                            Добавить в корзину
+                        </button>
                     </form>
+                    @if (IsAdmin || IsSuperUser)
+                    {
+                        <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input type="submit" value="Пометить товар удаленным" class="btn btn-outline-secondary" style="color:red" />
+                            </div>
+                        </form>
+                        <a asp-action="Edit" asp-route-id="@item.ProductId">Редактировать Продукт</a>
+                    }
+
                 </li>
 
             }
         }
-     </ul>
-
+    </ul>
 </div>

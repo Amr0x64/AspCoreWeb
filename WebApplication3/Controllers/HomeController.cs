@@ -24,9 +24,10 @@ namespace WebApplication3.Controllers
 
         public IActionResult Index()
         {
-            
             return View();
         }
+        public IActionResult About() => View();
+        public IActionResult Contacts() => View();
 
         public IActionResult Privacy()
         {

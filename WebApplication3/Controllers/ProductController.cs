@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.ViewModels;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebApplication3.Controllers
 {
@@ -17,48 +20,29 @@ namespace WebApplication3.Controllers
         private ApplicationContext db;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        IWebHostEnvironment _appEnvironment;
+        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager; 
             db = context;
+            _appEnvironment = appEnvironment;
         }
         
         public async Task<IActionResult> Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                User user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var userRoles = await _userManager.GetRolesAsync(user);
-                if (userRoles.Contains("admin") || userRoles.Contains("superuser")) ViewBag.checkAdmin = true;
-                else
-                {
-                    ViewBag.checkAdmin = false;
-                }
-            }
-           
             return View(await db.Products.ToListAsync());
         }
         [HttpPost]  
         public async Task<IActionResult> Index(string nameProduct)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                User user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var userRoles = await _userManager.GetRolesAsync(user);
-                if (userRoles.Contains("admin") || userRoles.Contains("superuser")) ViewBag.checkAdmin = true;
-                else
-                {
-                    ViewBag.checkAdmin = false;
-                }
-            }
             if (nameProduct != null)
             {
                 var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderBy(x => x.Price);
                 return View(searchProductList);
             }
             return View(await db.Products.ToListAsync());
-        }
+        }        
         public IActionResult Detail(int id)
         {
             Product product = db.Products.Single(x => x.ProductId == id);
@@ -125,13 +109,22 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> CreateProduct(CreateProductViewModel model)
         {
+            string path = "";
             if (ModelState.IsValid)
             {
-                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, AddDate = DateTime.Now, Count = model.Count, AddUser = User.Identity.Name};
+                if (model.UploadedFile != null)
+                {
+                    path = "/img/" + model.UploadedFile.FileName;
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await model.UploadedFile.CopyToAsync(fileStream);
+                    }
+                }
+                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
+            }   
             return View(model);
         }
         [Authorize(Roles = "admin, superuser")]

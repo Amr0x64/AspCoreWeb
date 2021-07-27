@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplication3.ViewModels
 {
@@ -19,6 +22,8 @@ namespace WebApplication3.ViewModels
         public int Price { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Введите положительное значение для количества")]
         public int Count { get; set; }
+        public string PathImg { get; set; }
+        public IFormFile UploadedFile { get; set; }
         public string AddUser { get; set; }
         public DateTime? AddDate { get; set; }
         public string ChangeUser { get; set; }

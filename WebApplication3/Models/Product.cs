@@ -15,6 +15,7 @@ namespace WebApplication3.Models
         public string Description { get; set; }
         public int Price { get; set; }
         public int Count { get; set; }
+        public string PathImg { get; set; }
         public string AddUser { get; set; }
         public DateTime? AddDate { get; set; }
         public string ChangeUser { get; set; }

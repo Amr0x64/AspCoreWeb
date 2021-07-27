@@ -10,6 +10,7 @@
             <th>Название</th>
             <th class="text-right">Цена</th>
             <th class="text-right">Сумма</th>
+            <th>Действие</th>
         </tr>
     </thead>
     <tbody>
@@ -25,7 +26,7 @@
                 <td>
                     <form asp-action="RemoveFromCart" method="post">
                         <input type="hidden" name="productld" value="@line.Product.ProductId"/>
-                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>    
                         <button type="submit" class="btn btn-sm btn-danger">
                             Удалить с корзины
                         </button>
@@ -37,8 +38,11 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" class="text-right">Итого:</td>
+            <td colspan="3" class="text-right"></td>
             <td class="text-right">
+                Итого:
+            </td>
+            <td>
                 @Model.Cart.ComputeTotalValue().ToString("c")
             </td>
         </tr>
