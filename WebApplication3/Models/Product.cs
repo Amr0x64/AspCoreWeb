@@ -11,7 +11,7 @@ namespace WebApplication3.Models
     public class Product 
     {
         public int ProductId { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; }   
         public string Description { get; set; }
         public int Price { get; set; }
         public int Count { get; set; }
@@ -20,6 +20,7 @@ namespace WebApplication3.Models
         public DateTime? AddDate { get; set; }
         public string ChangeUser { get; set; }
         public DateTime? ChangeDate { get; set; }
+        public int View { get; set; }
         public bool isRemoved { get; set; }
         
     }

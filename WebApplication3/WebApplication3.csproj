@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Entities\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

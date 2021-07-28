@@ -2,17 +2,10 @@
 @{
 }
 <div>
-
+    @ViewData["ip"]
     <h5> @Model.Title </h5>
     <p>Цена:<b>@Model.Price</b> </p>
     <p>Описание: @Model.Description</p>
-    @if (Model.Count > 0)
-    {
-        <form method="get" asp-action="BuyProduct" asp-controller="Product" asp-route-id="@Model.ProductId">
-            <div class="form-group">
-                <input type="submit" value="Оформить заказ" class="btn btn-outline-secondary" style="color:green" />
-            </div>
-        </form>
-    }
+    <img class="products-element__img_detail" src="@Url.Content(Model.PathImg)" title="@Model.Title" />
 
 </div>

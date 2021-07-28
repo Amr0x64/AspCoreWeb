@@ -14,8 +14,7 @@ namespace WebApplication3.Models
         {
             //Добаваляет в список корзин продукт , при его отсутствии , иначе увеличивает счетчик на 1
             CartLine line = lineCollection
-            .Where(p => p.Product.ProductId == product.ProductId)
-            .FirstOrDefault();
+            .FirstOrDefault(p => p.Product.ProductId == product.ProductId);
             if (line == null)
             {
                 lineCollection.Add(new CartLine
@@ -32,6 +31,19 @@ namespace WebApplication3.Models
         //Удаление с корзины
         public virtual void RemoveLine(Product product) =>
         lineCollection.RemoveAll(l => l.Product.ProductId == product.ProductId);
+        //Обновление корзины
+        public virtual void DeleteProduct(Product product)
+        {
+            CartLine line = lineCollection.FirstOrDefault(p => p.Product.ProductId == product.ProductId);
+            if (line.Quantity == 1)
+            {
+                RemoveLine(product);
+            }
+            else
+            {
+                line.Quantity -= 1;
+            }
+        }
         //Вычисление общей суммы
         public virtual int ComputeTotalValue() =>  lineCollection.Sum(e => e.Product.Price * e.Quantity);
         //Полность очистить

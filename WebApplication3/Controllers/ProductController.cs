@@ -12,92 +12,55 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
+using System.Net;
 
 namespace WebApplication3.Controllers
 {
-    public class ProductController : Microsoft.AspNetCore.Mvc.Controller
+    public class ProductController : Controller
     {
         private ApplicationContext db;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         IWebHostEnvironment _appEnvironment;
-        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment)
+        private IHttpContextAccessor _accessor;
+        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment, IHttpContextAccessor accessor)
         {
             _userManager = userManager;
             _signInManager = signInManager; 
             db = context;
             _appEnvironment = appEnvironment;
+            _accessor = accessor;
         }
         
         public async Task<IActionResult> Index()
         {
+            ViewBag.IsDeleteProduct = false;
             return View(await db.Products.ToListAsync());
         }
         [HttpPost]  
         public async Task<IActionResult> Index(string nameProduct)
         {
+            ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
                 var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderBy(x => x.Price);
                 return View(searchProductList);
             }
             return View(await db.Products.ToListAsync());
-        }        
-        public IActionResult Detail(int id)
-        {
-            Product product = db.Products.Single(x => x.ProductId == id);
-            if (product != null)
-            {
-                return View(product);
-            }
-            return NotFound();
         }
-        //qpkfj[iwejf[iouernpuifgupuirhgiuweh
+
+        #region =||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=|| Показать удаленные продукты ||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||
+
         [HttpGet]
-        public IActionResult BuyProduct(int id)
+        public async Task<IActionResult> SelectDeleteProduct()
         {
-            Product product = db.Products.Single(x => x.ProductId == id);
-            if (product != null && product.Count != 0)
-            {
-                User user = db.Users.Single(x => x.UserName == User.Identity.Name);
-                BuyProductViewModel model = new BuyProductViewModel { IdProduct = product.ProductId, IdUser = user.Id, Product = product};
-                return View(model);
-            }
-            return NotFound();
+            ViewBag.IsDeleteProduct = true;
+            return View("Index", await db.Products.ToListAsync());
         }
-        [HttpPost]
-        public async Task<IActionResult> BuyProduct(BuyProductViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var correctName = model.Name.Replace(" ", "");
-                    var firstChar = correctName.Substring(0, 1).ToUpper();
-                    correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
 
-                    var correctSurname = model.Surname.Replace(" ", "");
-                    var firstCharS = correctSurname.Substring(0, 1).ToUpper();
-                    correctSurname = firstCharS + correctSurname.Substring(1).ToLowerInvariant();
+        #endregion
 
-                    BuyProduct buyProduct = new BuyProduct { ProductId = model.IdProduct, UserId = model.IdUser, Name = correctName, Surname = correctSurname, Adress = model.Adress, Time = DateTime.Now};
-                    Product product = db.Products.FirstOrDefault(x => x.ProductId == model.IdProduct);
-                    product.Count = product.Count - 1;
-
-                    db.Products.Update(product);
-                   
-
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View(model);
-                }
-
-            }
-            return View(model);
-        }
         [Authorize(Roles = "admin, superuser")]
         public IActionResult CreateProduct()
         {
@@ -127,10 +90,25 @@ namespace WebApplication3.Controllers
             }   
             return View(model);
         }
+        //Восстановить товар
+        [HttpGet]
+        public async Task<IActionResult> RestoreProduct (int id)
+        {
+            ViewBag.IsDeleteProduct = false;
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
+            if (product != null)
+            {
+                product.isRemoved = false;
+                db.Products.Update(product);
+                await db.SaveChangesAsync();
+                return View("Index", await db.Products.ToListAsync());
+            }
+            return NotFound();
+        }
         [Authorize(Roles = "admin, superuser")]
         public IActionResult Edit(int id)
         {
-            var product = db.Products.Single(x => x.ProductId == id);
+            var product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
                 EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count };
@@ -147,7 +125,7 @@ namespace WebApplication3.Controllers
 
             if (ModelState.IsValid)
             {
-                var product = db.Products.Single(x => x.ProductId == model.Id);
+                var product = db.Products.FirstOrDefault(x => x.ProductId == model.Id);
                 if (product != null)
                 {
                     product.Title = model.Title;
@@ -170,7 +148,7 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> Delete(int id)
         {
-            Product product = db.Products.Single(x => x.ProductId == id);
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
                 product.isRemoved = true;
@@ -180,6 +158,30 @@ namespace WebApplication3.Controllers
             }
             return NotFound();
         }
+        public async Task<IActionResult> Detail(int id)
+        {
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
+            if (product != null)
+            {
+                var ip = GetIp();
+                var userView = db.UserViewProducts.FirstOrDefault(x => x.ProductId == id && x.UserIP == ip);
+                if (userView == null)
+                {
+                        UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id };
+                        db.Add(userViewProduct);
+                        await db.SaveChangesAsync();
+
+                        product.View = product.View + 1;
+                        db.Update(product);
+                        await db.SaveChangesAsync();
+                    
+                }
+                return View(product);
+            }
+            return NotFound();
+        }
+        [NonAction]
+        public String GetIp() => _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
     } 
         
 }

@@ -11,6 +11,7 @@
             <th class="text-right">Цена</th>
             <th class="text-right">Сумма</th>
             <th>Действие</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +33,15 @@
                         </button>
                     </form>
                 </td>
+                <td>
+                    <form asp-action="DeleteOneProduct" method="post">
+                        <input type="hidden" name="productld" value="@line.Product.ProductId" />
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Удалить 1 товар
+                        </button>
+                    </form>
+                </td>
             </tr>
 
         }
@@ -40,6 +50,9 @@
         <tr>
             <td colspan="3" class="text-right"></td>
             <td class="text-right">
+                
+            </td>
+            <td>
                 Итого:
             </td>
             <td>

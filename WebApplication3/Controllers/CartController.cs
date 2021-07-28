@@ -21,22 +21,33 @@ namespace WebApplication3.Controllers
         }
         public RedirectToActionResult AddToCart(int productld, string returnUrl)
         {
-            Product product = db.Products.Single(x => x.ProductId == productld);
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == productld);
             if (product != null)
             {
                 cart.AddItem(product, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
+        [HttpPost]
         public RedirectToActionResult RemoveFromCart(int productld, string returnUrl)
         {
-            Product product = db.Products.Single(x => x.ProductId == productld);
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == productld);
             if (product != null)
-            {
-                cart.RemoveLine(product);
+            { 
+                cart.RemoveLine(product);    
             }
             return RedirectToAction("Index", new { returnUrl });
         }        
+        [HttpPost]
+        public RedirectToActionResult DeleteOneProduct(int productld, string returnUrl)
+        {
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == productld);
+            if (product != null)
+            {
+                cart.DeleteProduct(product);
+            }
+            return RedirectToAction("Index", new { returnUrl });
+        }
         public IActionResult Index (string returnUrl)
         {
             return View(new CartIndexViewModel

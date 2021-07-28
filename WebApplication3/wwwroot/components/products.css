@@ -29,6 +29,12 @@
     margin-top: var(--spacing-medium);
     object-fit: contain;
 }
+.products-element__img_detail {
+    width: 50%;
+    height: 260px;
+   
+    object-fit: contain;
+}
 .products-element__price {
     margin-top: var(--spacing-medium);
     font-weight: bold;

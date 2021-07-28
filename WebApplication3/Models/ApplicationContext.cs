@@ -19,5 +19,6 @@ namespace WebApplication3.Models
         }   
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<UserViewProduct> UserViewProducts { get; set; }
     }  
 }
