@@ -94,109 +94,13 @@ body {
 }
 
 .logout {
-    position: absolute;
-    right: 30px;
-    bottom: 16px;
+    
     color: red;
+
 }
 
 
 
-.list_1_view_part {
-    display: none;
-}
-
-.list_1_view .list_1_view_part {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-}
-
-
-.biglist .product-item .pinfo.list_2_view_part {
-    display: none;
-}
-
-.biglist.list_2_view .product-item .pinfo.list_2_view_part {
-    display: inline-block;
-}
-
-.biglist.catitemsgrid.list_1_view .item {
-    width: 33%;
-}
-
-.biglist.list_1_view .product-item .pimage {
-    width: 100%;
-}
-
-.biglist.list_1_view .product-item {
-    border-bottom: 0px;
-    padding: 10px 20px;
-}
-
-
-.biglist.list_1_view .item {
-    border-bottom: 1px solid #EEE;
-    border-right: 1px solid #EEE;
-}
-
-    .biglist.list_1_view .item:first-child, .biglist.list_1_view .item:nth-child(3n+1) {
-        border-left: 1px solid #EEE;
-    }
-
-    .biglist.list_1_view .item:first-child, .biglist.list_1_view .item:nth-child(2), .biglist.list_1_view .item:nth-child(3) {
-        border-top: 1px solid #EEE;
-    }
-
-
-.list_1_view .list_1_view_part > a.product_name {
-    color: #222;
-    display: block;
-    font-weight: bold;
-    letter-spacing: .75px;
-    font-size: 15px;
-    font-family: Tahoma;
-    line-height: 120%;
-    max-height: 36px;
-    min-height: 36px;
-    overflow: hidden;
-}
-
-.biglist.list_1_view .product-item:hover .list_1_view_part > a.product_name {
-    color: #1976d2;
-}
-
-.biglist.list_1_view .product-item .list_1_view_part .pinfo.priceblock {
-    text-align: center;
-    width: 100%;
-    padding-left: 0;
-    margin-top: 10px;
-}
-
-.list_1_view .list_1_view_part .priceblock .pprice {
-    display: block;
-    width: 100%;
-}
-
-.biglist.list_1_view .product-item .list_1_view_part .pprice > u {
-    display: inline-block;
-}
-
-.biglist.list_1_view .product-item .list_1_view_part a.buy.button {
-    float: none;
-    margin-top: 10px;
-}
-
-.biglist .product-item .instock {
-    margin-top: 10px;
-}
-
-    .biglist .product-item .instock b {
-        color: #302c76;
-        margin-right: 5px;
-        margin-left: 5px;
-        font-weight: bold;
-    }
 
 .granica {
     border-color: #595D72;
@@ -225,4 +129,19 @@ body {
 .location {
     position: absolute;
     right:  -550px;
+}
+
+.text {
+    text-align: left;
+    line-height: 28px;
+}
+
+.populary {
+    border: 1px solid #000000;
+    max-width: 700px;
+    box-shadow: 5px 5px 10px 5px #C5C2DE;
+}
+
+#header {
+    background-color: #5BBDDE;
 }

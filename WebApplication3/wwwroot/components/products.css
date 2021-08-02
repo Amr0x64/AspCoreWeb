@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 25px 20px;
+    padding: 25px 25px;
     background-color: #fff;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -55,5 +55,8 @@
 
 .products-element__btn_active {
     border: 1px solid transparent;
-    background-image: var(--linear-gradient);
+    background-color : #fff;
+}
+.spn {
+    color : green;
 }

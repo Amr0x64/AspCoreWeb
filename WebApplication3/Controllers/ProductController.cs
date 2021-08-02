@@ -20,7 +20,7 @@ namespace WebApplication3.Controllers
     public class ProductController : Controller
     {
         private ApplicationContext db;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;     
         private readonly SignInManager<User> _signInManager;
         IWebHostEnvironment _appEnvironment;
         private IHttpContextAccessor _accessor;
@@ -167,7 +167,7 @@ namespace WebApplication3.Controllers
                 var userView = db.UserViewProducts.FirstOrDefault(x => x.ProductId == id && x.UserIP == ip);
                 if (userView == null)
                 {
-                        UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id };
+                        UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id , ViewDate = DateTime.Now};
                         db.Add(userViewProduct);
                         await db.SaveChangesAsync();
 

@@ -1,5 +1,63 @@
-﻿
+﻿@model IEnumerable<WebApplication3.Models.Product>
+@using WebApplication3.ViewModels
+@using WebApplication3.Infrastructure
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     ViewBag.Title = "Администрирование";
 }
 
+<div id="products"> 
+        <form asp-action="CreateProduct" method="get">
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
+            </div>
+        </form>
+        <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Удаленные товары" />
+            </div>
+        </form>
+    
+    <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
+    <hr class="granica">
+    <ul class="products-container">
+        @foreach (var item in Model)
+        {
+            @if (!item.isRemoved)
+            {
+                   <li> 
+                        @if (item.ChangeUser == null)
+                        {
+                            <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate&#013; Отредактировал: @item.ChangeUser&#013; Время: @item.ChangeDate"></i>
+                        }
+                        <span style="color:black" class="products-element__name"><a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">@item.Title</a></span><br />
+                        <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">
+                            <img class="products-element__img" src="@Url.Content(item.PathImg)" title="@item.Title" />
+                        </a>
+                        <span class="products-element__price">@item.Price RUB</span><br />
+                            <i class="fa fa-eye" aria-hidden="true"> @item.View</i>
+                        <form id="@item.ProductId" method="post" asp-action="AddToCart"  asp-controller="Cart">
+                            <input type="hidden" name="productld" value="@item.ProductId" />
+                            <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                        <button type="submit"
+                                class="products-element__btn products-element__btn_active">
+                            <span class="spn"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></span>
+                        </button>
+                    </form>
+                        <form asp-action="Edit" asp-controller="Product" method="get" asp-route-id="@item.ProductId">
+                            <button type="submit" class="btn spn" title="Редактирование">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                   
+                </li>
+            }
+        }
+    </ul>
+</div>

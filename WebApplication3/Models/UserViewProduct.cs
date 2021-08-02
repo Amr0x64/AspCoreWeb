@@ -13,5 +13,6 @@ namespace WebApplication3.Models
         public string UserIP { get; set; }
         [ForeignKey("ProductId")]
         public Product Product { get; set; }
+        public DateTime ViewDate { get; set; }
     }
 }

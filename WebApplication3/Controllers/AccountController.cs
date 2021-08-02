@@ -24,7 +24,7 @@ namespace WebApplication3.Controllers
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
-
+        #region =||==||==||==||==||==||==||==||==||= Login пользователя =||==||==||==||==||==||==||==||==||==||==||==||==||==||=
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -52,8 +52,9 @@ namespace WebApplication3.Controllers
             }
             return View(model);
         }
+        #endregion
 
-        
+
         public async Task<IActionResult> Logout()
         {
             // удаляем аутентификационные куки
@@ -65,6 +66,7 @@ namespace WebApplication3.Controllers
         {
             return View();
         }
+        #region =||==||==||==||==||==||==||==||==||==||==||==||= Регистрация пользователя =||==||==||==||==||==||==||==||==||==||==||==||= 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -90,6 +92,11 @@ namespace WebApplication3.Controllers
                 }
             }
             return View(model);
+        }
+        #endregion
+        public IActionResult Profile(string name)
+        {
+            return View();
         }
     }
 }
