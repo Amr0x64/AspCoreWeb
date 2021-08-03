@@ -14,30 +14,29 @@
 <div id="products">
     <form method="post" asp-action="Index" asp-controller="Product">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
+        <div class="form-group form">
             <label name="nameProduct" class="control-label">Название</label>
             <input type="text" name="nameProduct" class="form-control" />
         </div>
-        <div class="form-group">
-            <input type="submit" value="Поиск товара" class="btn btn-outline-secondary" />
+        <div class="form-group form-but">
+            <input type="submit" value="Поиск товара" class="btn btn-outline-secondary " />
         </div>
     </form>
 
     
-   
-        <form asp-action="CreateProduct" method="get">
+        @if ( IsAdmin || IsSuperUser)
+         {
+            <form asp-action="CreateProduct" method="get">
             <div class="text-center">
                 <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
             </div>
-        </form>
-        <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get" >
+            </form>
+            <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get" >
             <div class="text-center">
                 <input class="btn btn-primary" type="submit" value="Удаленные товары" />
             </div>
-        </form>
-    
-
-
+            </form>
+         }
     <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
     <hr class="granica">
     <ul class="products-container">
@@ -80,9 +79,10 @@
                 @if (!item.isRemoved)
                 {
                     <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div asp-validation-summary="All" class="text-danger"></div>    
                         <div class="form-group">
-                            <input type="submit" value="Удалить" class="btn btn-outline-secondary" style="color:red" />
+                            <input type="submit" value="Удалить" class="btn btn-outline-secondary btn-2"/>
+                            <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i>  </a>
                         </div>
                     </form>
                 }
@@ -91,11 +91,11 @@
                     <form asp-action="RestoreProduct" asp-controller="Product" asp-route-id="@item.ProductId" method="get">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
-                            <input type="submit" value="Восстановить" class="btn btn-outline-secondary" style="color:red" />
+                            <input type="submit" value="Восстановить" class="btn btn-outline-secondary btn-my"  />
+                            <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
                         </div>
                     </form>
                 }
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Редактировать Продукт</a>
             }
         </li>
             }

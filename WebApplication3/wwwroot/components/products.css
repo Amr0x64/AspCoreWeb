@@ -8,7 +8,7 @@
     margin: var(--spacing-large) auto;
 }
 .products-element {
-    display: flex;
+    display: flex; 
     flex-direction: column;
     justify-content: flex-end;
     padding: 25px 25px;
@@ -60,3 +60,22 @@
 .spn {
     color : green;
 }
+
+.btn-2 {
+    margin-right: 70px;
+    background-color: #EA3039;
+    color: black
+}
+.btn-my {
+    margin-right: 35px;
+    background-color: #EA3039;
+    color: black
+}
+
+/*.form{
+    float: left;
+}
+
+.form-but {
+    float: left;
+}*/
