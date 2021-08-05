@@ -142,7 +142,6 @@ namespace WebApplication3.Controllers
             }
             return View(model);
         }
-        //Удаление товара админом
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin, superuser")]

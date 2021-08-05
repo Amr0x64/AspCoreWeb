@@ -1,4 +1,15 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿////let a = function () {
+////    let name = prompt("Введите ваше имя");
+////    alert(`Добро пожаловать ${name}`);
+////}
 
-// Write your JavaScript code.
+
+////let sum = (a, b) => a + b;
+////alert(sum(2, 3));
+
+let g = 1;
+let welcome = (g === g) ?
+    () => alert("wejfiwedwblfgfyigfhu") :
+    () => alert("wejfiwefhu");
+
+welcome();
