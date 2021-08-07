@@ -21,6 +21,7 @@ body {
     font-family: sans-serif;
     line-height: 1.7;
     background-color: var(--color-light);
+  
 }
 .navigation {
     
@@ -114,13 +115,8 @@ body {
 }
 
 .logout {
-    
     color: red;
-
 }
-
-
-
 
 .granica {
     border-color: #595D72;
@@ -195,7 +191,7 @@ body {
     width: 50%;
     float: left;
 }
-    77
+    
 .inner-catalog-2 {
     min-height: 400px;
     padding-left: 20px;
@@ -205,3 +201,33 @@ body {
     font-size: 20px;
 }
 
+.admin-block {
+    margin-right: 10px;
+    float: left;
+}
+
+.admin-block-2 {
+    float: left;
+}
+
+
+.admin-flex-containt {
+    display: flex;
+    justify-content: center;    
+}
+
+.admin-element {
+    text-align: center;
+}
+
+.admin-element-1 {
+    margin-right: 10px;
+}
+
+.administr-element-1 {
+    margin-right: 25px;
+}
+
+.sel-element {
+   
+}

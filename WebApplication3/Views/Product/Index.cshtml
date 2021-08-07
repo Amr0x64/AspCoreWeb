@@ -26,16 +26,18 @@
     
         @if ( IsAdmin || IsSuperUser)
          {
-            <form asp-action="CreateProduct" method="get">
-            <div class="text-center">
-                <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
+            <div class="admin-flex-containt">
+                <div class="admin-element-1">
+                    <form asp-action="CreateProduct" asp-controller="Product" method="get">
+                        <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
+                    </form>
+                </div>
+                <div class="admin-element-2">
+                    <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
+                        <input class="btn btn-primary" type="submit" value="Удаленные товары" />
+                    </form>
+                </div>            
             </div>
-            </form>
-            <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get" >
-            <div class="text-center">
-                <input class="btn btn-primary" type="submit" value="Удаленные товары" />
-            </div>
-            </form>
          }
     <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
     <hr class="granica">

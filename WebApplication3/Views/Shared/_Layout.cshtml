@@ -66,9 +66,9 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" title="Корзина" asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
-                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    </a>
+                                        <a class="nav-link" title="Корзина" asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Account" asp-action="Profile" asp-route-id="@User.Identity.Name">

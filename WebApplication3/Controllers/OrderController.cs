@@ -48,6 +48,7 @@ namespace WebApplication3.Controllers
                 correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
 
                 order.Name = correctName;
+                order.OrderDate = DateTime.Now;
                 order.Lines = cart.Lines.ToArray();
                 db.AttachRange(order.Lines.Select(l => l.Product));
                 if (order.OrderId == 0)

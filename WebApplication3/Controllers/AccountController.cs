@@ -96,6 +96,7 @@ namespace WebApplication3.Controllers
         #endregion
         public IActionResult Profile(string name)
         {
+
             return View();
         }
     }

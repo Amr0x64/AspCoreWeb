@@ -111,7 +111,7 @@ namespace WebApplication3.Controllers
             var product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count };
+                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count, UploadedFile = product. };
                 return View(model);
             }
             return NotFound();
@@ -128,12 +128,16 @@ namespace WebApplication3.Controllers
                 var product = db.Products.FirstOrDefault(x => x.ProductId == model.Id);
                 if (product != null)
                 {
+                    var path = "/img/" + model.UploadedFile.FileName;
+                    if (db.Products.FirstOrDefault(x => ))
+
                     product.Title = model.Title;
                     product.Description = model.Description;
                     product.Price = model.Price;
                     product.Count = model.Count;
                     product.ChangeDate = DateTime.Now;
                     product.ChangeUser = User.Identity.Name;
+                    product.
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
                     TempData["message"] = $"{model.Title} отредоктирован";

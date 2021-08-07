@@ -9,16 +9,28 @@
 }
 
 <div id="products"> 
-        <form asp-action="CreateProduct" method="get" asp-controller="Product">
-            <div class="text-center">
-                <input class="btn btn-primary" type="submit" value="Добавить Продукт" />
+        <div class="admin-flex-containt">
+            <div class="administr-element-1">
+                <form asp-action="CreateProduct" asp-controller="Product" method="get">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input class="btn btn-primary" type="submit" value="   Просмотры   " />
+                    <div>
+                        <select name="Time">
+                            <option class="sel-element" value="day">За день</option>
+                            <option class="sel-element" value="week">За неделю</option>
+                            <option class="sel-element" value="month">За месяц</option>
+                            <option class="sel-element" value="allTime">За все время</option>
+                        </select>
+                    </div>
+                </form>
             </div>
-        </form>
-        <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
-            <div class="text-center">
-                <input class="btn btn-primary" type="submit" value="Удаленные товары" />
+            <div class="admin-element-2">
+                <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input class="btn btn-primary" type="submit" value="       Заказы       " />    
+                </form>
             </div>
-        </form>
+        </div>
     
     <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
     <hr class="granica">
