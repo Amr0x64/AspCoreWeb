@@ -25,14 +25,13 @@ namespace WebApplication3.Controllers
         }
         //cVOO-1-View
         [HttpPost]
-        public async Task<IActionResult> SelectViweProduct(int choiseviewororder, int date)
+        public async Task<IActionResult> SelectViweProduct(int choiseVieworOrder, int date)
         {
             if (true)
             {
                 ViewBag.productList = CountViewProduct(date);
                 return View(await db.Products.ToListAsync());
             }
-
         }
         [NonAction]
         public  List<int> CountViewProduct(int date)

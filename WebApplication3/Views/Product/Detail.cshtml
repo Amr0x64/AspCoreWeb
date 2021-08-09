@@ -2,8 +2,7 @@
 @{
 }
 <div>
-    @ViewData["ip"]
-    <h5> @Model.Title </h5>
+    <h1> @Model.Title </h1>
     <p>Цена:<b>@Model.Price</b> </p>
     <p>Описание: @Model.Description</p>
     <img class="products-element__img_detail" src="@Url.Content(Model.PathImg)" title="@Model.Title" />

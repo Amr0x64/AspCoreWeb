@@ -7,11 +7,11 @@
 @if (Model.Count() > 0)
 {
     <table class="table table-bordered table-striped">
-        <tr><th>Имя</th><th>Индекс</th><th>Детали заказа</th><th></th><th>Действие</th></tr>
+        <tr><th>Имя</th><th>Индекс</th><th>Детали заказа</th><th>Количество</th><th>Действие</th></tr>
         @foreach(Order o in Model)
         {
             <tr>
-                <td>@o.Name</td><td>@o.Zip</td><th>Товар</th><th>Количество</th>
+                <td>@o.Name</td><td>@o.Zip</td><th>Товар</th><th></th>
                 <td>
                     <form asp-action="MarkShipped" method="post">
                         <input type="hidden" name="orderId" value="@o.OrderId"/>

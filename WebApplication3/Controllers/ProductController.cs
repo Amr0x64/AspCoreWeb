@@ -94,7 +94,7 @@ namespace WebApplication3.Controllers
         [HttpGet]
         public async Task<IActionResult> RestoreProduct (int id)
         {
-            ViewBag.IsDeleteProduct = false;
+            ViewBag.IsDeleteProduct = true;
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
@@ -111,7 +111,7 @@ namespace WebApplication3.Controllers
             var product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count, UploadedFile = product. };
+                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count};
                 return View(model);
             }
             return NotFound();
@@ -129,7 +129,10 @@ namespace WebApplication3.Controllers
                 if (product != null)
                 {
                     var path = "/img/" + model.UploadedFile.FileName;
-                    if (db.Products.FirstOrDefault(x => ))
+                    if (db.Products.FirstOrDefault(x => x.PathImg == path) == null)
+                    {
+                        product.PathImg = path;
+                    }
 
                     product.Title = model.Title;
                     product.Description = model.Description;
@@ -137,7 +140,6 @@ namespace WebApplication3.Controllers
                     product.Count = model.Count;
                     product.ChangeDate = DateTime.Now;
                     product.ChangeUser = User.Identity.Name;
-                    product.
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
                     TempData["message"] = $"{model.Title} отредоктирован";

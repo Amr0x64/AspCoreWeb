@@ -43,6 +43,11 @@ namespace WebApplication3.Models
             {
                 line.Quantity -= 1;
             }
+        }   
+        public virtual void AddProduct(Product product)
+        {
+            CartLine line = lineCollection.FirstOrDefault(p => p.Product.ProductId == product.ProductId);
+            line.Quantity += 1;
         }
         //Вычисление общей суммы
         public virtual int ComputeTotalValue() =>  lineCollection.Sum(e => e.Product.Price * e.Quantity);

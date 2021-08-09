@@ -2,7 +2,6 @@
 for details on configuring this project to bundle and minify static web assets. */
 :root {
     --color-unaccent: #808080
-
     --color-light: #f8f9fa;
     --spacing-small: 10px;
     --spacing-medium: 15px;
@@ -15,6 +14,10 @@ for details on configuring this project to bundle and minify static web assets. 
 * {
     box-sizing:border-box;
 }
+a {
+    color: #000000;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -41,7 +44,7 @@ body {
 }
 /* start commented backslash hack \*/
 * html .row {
-    height: 1%;
+    height: 1%; 
 }
 
 .row {
@@ -110,7 +113,7 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 .form-control { 
-    height: 30px;
+    height: 38px;
      width: 260px;
 }
 
@@ -231,3 +234,62 @@ body {
 .sel-element {
    
 }
+
+.form-block-inline {
+    display: inline;
+}
+
+.betwen {
+    margin-right: 15px; 
+}
+
+.betwen-2 {
+    margin-left: 15px;
+}
+
+.edit-qua-cart {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product-cart {
+    font-size:23px;
+}
+
+.bet-admin {
+    margin-right: 50%;
+}
+
+.nav-link-admin {
+    display: block;
+    padding: .5rem 1rem;
+    color: red;
+}
+
+.user-nav {
+    margin-right: 50%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #689CD2;
+    color: #fff;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+}
+
+.header-item {
+    padding: 10px 15px;
+    font-size:17px;
+    margin-left: 5px;
+}
+
+.header-item:hover {
+    color:green;
+}
+

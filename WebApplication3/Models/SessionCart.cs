@@ -40,5 +40,10 @@ namespace WebApplication3.Models
             base.DeleteProduct(product);
             Session.SetJson("Cart", this);
         }
+        public override void AddProduct(Product product)
+        {
+            base.AddProduct(product);
+            Session.SetJson("Cart", this);
+        }
     }
 }

@@ -1,94 +1,74 @@
-﻿@model IEnumerable<WebApplication3.Models.Product>
-@using WebApplication3.ViewModels
-@using WebApplication3.Infrastructure
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@*<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Интернет-Магазин</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1 navigation">
 
-@{
-    ViewBag.Title = "Продукты";
-}
-
-<div id="products">
-    <form method="post" asp-action="Index" asp-controller="Product">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-            <label name="nameProduct" class="control-label">Название</label>
-            <input type="text" name="nameProduct" class="form-control" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Поиск товара" class="btn btn-outline-secondary" />
-        </div>
-    </form>
-    @if (User.Identity.IsAuthenticated)
-    {
-        @if (ViewBag.checkAdmin)
-        {
-            <h5><a asp-action="CreateProduct">Добавить Продукт</a></h5>
-        }
-    }
-
-    <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
-    <hr class="granica">
-    @foreach (var item in Model)
-    {
-
-        @if (!item.isRemoved)
-        {
-            <div v class="card card-outline-primary m-1 p-1">
-                <h5><a asp-action="Detail" asp-route-id="@item.ProductId"> @item.Title </a></h5>
-                <img src="~/img/iphone.png" alt="@item.Title" />
-
-                <p>Цена:<b>@item.Price</b></p>
-                <form id="@item.ProductId" method="post" asp-action="AddToCart" asp-controller="Cart">
-                    <input type="hidden" name="productld" value="@item.ProductId" />
-                    <input type="hidden" name="returnUrl"
-                           value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                    <span class="card-text p-1">
-                        <button type="submit"
-                                class="btn btn-success btn-sm pull-right" style="float:right">
-                            Добавить в корзину
-                        </button>
-                    </span>
-                </form>
-                <p>Описание: @item.Description</p>
-
-
-
-                @if (item.Count >= 5)
-                {
-                    <p style="border:3px #00B344  solid; width:175px;">
-                        В наличии
-                    </p>
-
-                }
-                else if (item.Count > 0)
-                {
-                    <p style="border:3px #00B344  solid; width:175px;">
-                        Осталось мало
-                    </p>
-
-                }
-                else
-                {
-                    <p style="border:3px #00B344  solid; width:175px;">
-                        Нет в наличии
-                    </p>
-
-                }
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @if (ViewBag.checkAdmin)
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Продукты</a>
+                    </li>
+                    @if (!(IsAdmin || IsSuperUser))
                     {
-                        <h5><a style="color:blue" asp-action="Edit" asp-route-id="@item.ProductId">Редактировать Продукт</a></h5>
-
-                        <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <input type="submit" value="Пометить товар удаленным" class="btn btn-outline-secondary" style="color:red" />
-                            </div>
-                        </form>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">О нас</a>
+                        </li>
+                        <li class="nav-item user-nav">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a>
+                        </li>
                     }
-                }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (IsAdmin || IsSuperUser)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="Index"> Пользователи  </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Order" asp-action="List"> Заказы </a>
+                            </li>
+                            <li class="nav-item bet-admin">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index"> Администрирование </a>
+                            </li>
+                        }
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" title="Корзина" asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Profile" asp-route-id="@User.Identity.Name">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="logout"><a class="nav-link-admin logout" asp-controller="Account" asp-action="Logout"> Выход </a></span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" title="Корзина" asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                                <i class="fa fa-shopping-cart cart" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Вход</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Register"> Регистрация </a>
+                        </li>
+                    }
+                </ul>
             </div>
-        }
-    }
-</div>
+        </div>
+    </nav>
+</header>*@

@@ -72,10 +72,25 @@
     color: black
 }
 
-/*.form{
-    float: left;
+.btn-plus-product {
+    color: #fff;
+    background-color: green;
 }
 
-.form-but {
-    float: left;
-}*/
+.flex-container {
+     display: flex;
+}
+
+.search-contain {
+    display: flex;
+    margin-top: 10px;
+}
+
+.flex-element-11 {
+    margin-right: 5px;
+}
+
+.form-control-search {
+    height: 38px;
+    width: 700px;
+}

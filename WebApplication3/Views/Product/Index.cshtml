@@ -8,17 +8,17 @@
     ViewBag.Title = "Продукты";
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
-    bool IsSuperUser = currentUser.IsInRole("superuser");
+    bool IsSuperUser = currentUser.IsInRole("superuser");  
 }
 
 <div id="products">
-    <form method="post" asp-action="Index" asp-controller="Product">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group form">
-            <label name="nameProduct" class="control-label">Название</label>
-            <input type="text" name="nameProduct" class="form-control" />
+
+    <form method="post" asp-action="Index" asp-controller="Product" class="search-contain">
+        <div asp-validation-summary="All" class="text-danger" ></div>
+        <div class="form-group flex-element-11">
+            <input type="text" name="nameProduct" class="form-control-search" />
         </div>
-        <div class="form-group form-but">
+        <div class="form-group flex-element">
             <input type="submit" value="Поиск товара" class="btn btn-outline-secondary " />
         </div>
     </form>
@@ -33,9 +33,18 @@
                     </form>
                 </div>
                 <div class="admin-element-2">
-                    <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
-                        <input class="btn btn-primary" type="submit" value="Удаленные товары" />
-                    </form>
+                    @if (ViewBag.IsDeleteProduct)
+                    {
+                        <form asp-action="Index" asp-controller="Product" method="get">
+                            <input class="btn btn-primary" type="submit" value="       Продукты       "/>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
+                            <input class="btn btn-primary" type="submit" value="Удаленные товары" />
+                        </form>
+                    }
                 </div>            
             </div>
          }

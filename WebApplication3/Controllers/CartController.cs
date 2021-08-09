@@ -48,6 +48,17 @@ namespace WebApplication3.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
+        [HttpPost]
+        public RedirectToActionResult AddOneProduct(int productId, string returnUrl)
+        {
+            Product product = db.Products.FirstOrDefault(p => p.ProductId == productId);
+            if (product != null)
+            {
+                cart.AddProduct(product);   
+            }
+            return RedirectToAction("Index", new { returnUrl });
+        }
+
         public IActionResult Index (string returnUrl)
         {
             return View(new CartIndexViewModel

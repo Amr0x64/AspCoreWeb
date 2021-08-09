@@ -8,10 +8,17 @@
         <tr>
             <th>Количество</th>
             <th>Название</th>
-            <th class="text-right">Цена</th>
-            <th class="text-right">Сумма</th>
+            <th>Цена</th>
+            <th>Сумма</th>
             <th>Действие</th>
-            <th></th>
+            @if (Model.Cart.Lines.Count() != 0)
+            {
+                <th>Изменить количество</th>
+            }
+            else
+            {
+                <th></th>
+            } 
         </tr>
     </thead>
     <tbody>
@@ -20,9 +27,9 @@
             <tr>
                 <td class="text-center">@line.Quantity</td>
                 <td class="text-left">@line.Product.Title</td>
-                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">@line.Product.Price ₽</td>
                 <td class="text-right">
-                    @((line.Quantity * line.Product.Price).ToString("c"))
+                    @(line.Quantity * line.Product.Price) ₽
                 </td>
                 <td>
                     <div title="Удаление с коризны">
@@ -36,16 +43,25 @@
                     </div>
                 </td>
                 <td>
-                    <form asp-action="DeleteOneProduct" method="post">
-                        <input type="hidden" name="productld" value="@line.Product.ProductId" />
-                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Удалить 1 товар
-                        </button>
-                    </form>
+                    <div class="edit-qua-cart">
+                        <form class="form-block-inline betwen" asp-action="DeleteOneProduct" method="post">
+                            <input type="hidden" name="productld" value="@line.Product.ProductId" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fa fa-minus-square" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                        <span class="product-cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></span>
+                        <form class="form-block-inline betwen-2" asp-action="AddOneProduct" method="post">
+                            <input type="hidden" name="productId" value="@line.Product.ProductId" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <button type="submit" class="btn btn-sm btn-plus-product">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
-
         }
     </tbody>
     <tfoot>
@@ -58,13 +74,13 @@
                 Итого:
             </td>
             <td>
-                @Model.Cart.ComputeTotalValue().ToString("c")
+                @Model.Cart.ComputeTotalValue() ₽
             </td>
         </tr>
     </tfoot>
 </table>
 <div class="text-center">
-    <a class="btn btn-primary" href="@Model.ReturnUrl">Продолжить покупку</a>
+    <a class="btn btn-primary" asp-controller="Product" asp-action="Index">Продолжить покупку</a>
     <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">
         Перейти к оформлению заказа
     </a>
