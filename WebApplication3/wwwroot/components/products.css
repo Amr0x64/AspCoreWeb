@@ -84,6 +84,7 @@
 .search-contain {
     display: flex;
     margin-top: 10px;
+    justify-content:center;
 }
 
 .flex-element-11 {
@@ -92,5 +93,5 @@
 
 .form-control-search {
     height: 38px;
-    width: 700px;
+    width: 350px;
 }
