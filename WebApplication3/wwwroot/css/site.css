@@ -117,10 +117,6 @@ body {
      width: 260px;
 }
 
-.logout {
-    color: red;
-}
-
 .granica {
     border-color: #595D72;
 }
@@ -216,7 +212,8 @@ body {
 
 .admin-flex-containt {
     display: flex;
-    justify-content: center;    
+    justify-content: center;  
+    
 }
 
 .admin-element {
@@ -274,13 +271,22 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    background-color: #689CD2;
-    color: #fff;
+    background-color: #FFFFFF;
+    color: #000000;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #DEE2E6
 }
 
-.header-section {
+.header-section-1 {
     display: flex;
     align-items: center;
+    margin-left: 175px;
+}
+
+.header-section-2 {
+    display: flex;
+    align-items: center;
+    margin-right: 180px;
 }
 
 .header-item {
@@ -289,7 +295,15 @@ body {
     margin-left: 5px;
 }
 
-.header-item:hover {
-    color:green;
+.logout {
+    color: red;
 }
 
+.border-nav {
+    padding: 5px;
+    border: 1px solid #fff;
+}
+
+.cart-nav {
+    font-size: 19px;
+}

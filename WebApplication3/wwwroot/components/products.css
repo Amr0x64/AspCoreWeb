@@ -81,12 +81,16 @@
      display: flex;
 }
 
-.search-contain {
+.nav-admin {
     display: flex;
     margin-top: 10px;
-    justify-content:center;
+    justify-content: space-between;
 }
 
+.search-contain {
+    display: flex;
+}
+    
 .flex-element-11 {
     margin-right: 5px;
 }
@@ -95,3 +99,4 @@
     height: 38px;
     width: 350px;
 }
+

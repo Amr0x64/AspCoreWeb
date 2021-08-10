@@ -34,7 +34,7 @@ namespace WebApplication3.Controllers
                 User user = new User { Email = model.Email, UserName = model.Name, Year = model.Year };
                 if ((model.RoleName != "user") && (model.RoleName != "admin"))
                 {
-                    return View(model);
+                    return View(model); 
                 }
                 var result = await _userManager.CreateAsync(user, model.Password);
                 

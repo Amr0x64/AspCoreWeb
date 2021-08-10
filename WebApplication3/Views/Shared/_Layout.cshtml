@@ -24,19 +24,49 @@
 <body>
     <!--Header-->
     <div class="header">
-        <div class="header-section">
+        <div class="header-section-1">
             <div class="header-item headerButton"><a asp-action="Index" asp-controller="Home">Интернет-Магазин</a></div>
             <div class="header-item headerButton"><a asp-action="Index" asp-controller="Product">Продукты</a></div>
-            <div class="header-item headerButton"><a asp-action="About" asp-controller="Home">О нас</a></div>
-            <div class="header-item headerButton"><a asp-action="Contacts" asp-controller="Home">Контакты</a></div>
+            @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
+            {
+                <div class="header-item headerButton"><a asp-action="Index" asp-controller="User">Пользователи</a></div>
+                <div class="header-item headerButton"><a asp-action="List" asp-controller="Order">Заказы</a></div>
+                <div class="header-item headerButton"><a asp-action="Index" asp-controller="Admin">Администирование</a></div>
+            }
+            else
+            {
+                <div class="header-item headerButton"><a asp-action="About" asp-controller="Home">О нас</a></div>
+                <div class="header-item headerButton"><a asp-action="Contacts" asp-controller="Home">Контакты</a></div>
+            }
         </div>
-        <div class="header-section">
+        <div class="header-section-2">
             <div class="header-item headerButton">
-                <a asp-action="Account" asp-controller="Profile">
-                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                </a>
+                <span class="cart-nav" title="Корзина">
+                    <a asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </a>
+                </span>
             </div>
-            <div class="header-item headerButton"><a asp-controller="Account" asp-action="Logout">Выйти</a></div>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="header-item headerButton">
+                    <a asp-action="Login" asp-controller="Account">Войти</a>
+                </div>
+                <div class="header-item headerButton">
+                    <a asp-action="Register" asp-controller="Account">Регистрация</a>
+                </div>
+            }
+            else
+            {
+                <div class="header-item headerButton">
+                    <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                        @User.Identity.Name <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="header-item headerButton">
+                    <a class="logout" asp-controller="Account" asp-action="Logout">Выйти</a>
+                </div>  
+            }
         </div>
     </div>
     <link href="~/components/products.css" rel="stylesheet" />

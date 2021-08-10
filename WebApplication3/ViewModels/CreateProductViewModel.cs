@@ -23,6 +23,7 @@ namespace WebApplication3.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "Введите положительное значение для количества")]
         public int Count { get; set; }
         public string PathImg { get; set; }
+        public string Category { get; set; }
         public IFormFile UploadedFile { get; set; }
         public string AddUser { get; set; }
         public DateTime? AddDate { get; set; }

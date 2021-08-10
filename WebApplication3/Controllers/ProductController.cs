@@ -83,7 +83,7 @@ namespace WebApplication3.Controllers
                         await model.UploadedFile.CopyToAsync(fileStream);
                     }
                 }
-                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description, Price = model.Price, AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
+                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description,Category = model.Category, Price = model.Price, AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
