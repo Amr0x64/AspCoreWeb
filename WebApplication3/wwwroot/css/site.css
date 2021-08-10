@@ -270,7 +270,7 @@ body {
 .header {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    
     background-color: #FFFFFF;
     color: #000000;
     margin-bottom: 10px;
@@ -280,18 +280,30 @@ body {
 .header-section-1 {
     display: flex;
     align-items: center;
-    margin-left: 175px;
+    
 }
 
 .header-section-2 {
     display: flex;
     align-items: center;
-    margin-right: 180px;
+    
 }
 
 .header-item {
     padding: 10px 15px;
     font-size:17px;
+    margin-left: 5px;
+}
+
+.header-item-first {
+    padding: 10px 15px 10px 0px;
+    font-size: 17px;
+    margin-left: 5px;
+}
+
+.header-item-last {
+    padding: 10px 0px 10px 15px;
+    font-size: 17px;
     margin-left: 5px;
 }
 
