@@ -1,75 +1,83 @@
 ﻿@model IEnumerable<WebApplication3.Models.Product>
 @using WebApplication3.ViewModels
 @using WebApplication3.Infrastructure
+@using System.Security.Claims
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewBag.Title = "Администрирование";
+    ClaimsPrincipal currUser = this.User;
+    bool IsSuperUser = currUser.IsInRole("superuser");
 }
 
-<div id="products"> 
-        <div class="admin-flex-containt">
-            <div class="administr-element-1">
-                <form asp-action="CreateProduct" asp-controller="Product" method="get">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <input class="btn btn-primary" type="submit" value="   Просмотры   " />
-                    <div>
-                        <select name="Time">
-                            <option class="sel-element" value="day">За день</option>
-                            <option class="sel-element" value="week">За неделю</option>
-                            <option class="sel-element" value="month">За месяц</option>
-                            <option class="sel-element" value="allTime">За все время</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="admin-element-2">
-                <form asp-action="SelectDeleteProduct" asp-controller="Product" method="get">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <input class="btn btn-primary" type="submit" value="       Заказы       " />    
-                </form>
-            </div>
+<div id="products">
+    <div class="admin-flex-containt-2">
+        <div class="administr-element-1 color-1 first-element-admin">
+            <a class="nav-admin-panel" href="#">
+                <div class="text-admin-element">
+                    <p class="count-element"></p><br /> 
+                    <p class="text-element"></p>
+                </div>
+            </a>
         </div>
-    
-    <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
+        <div class="administr-element-1 color-2">
+            <a class="nav-admin-panel" asp-controller="Order" asp-action="List">
+                <div class="text-admin-element">
+                    <p class="count-element">@ViewData["OrderCount"]</p><br />
+                    <p class="text-element">Новых заказов</p>
+                </div>
+            </a>
+        </div>
+        <div class="administr-element-1 color-3">
+            <a class="nav-admin-panel" asp-controller="User" asp-action="Index">
+                <div class="text-admin-element">
+                    <div class="img-element">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i><br />
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    @*<p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>*@
     <hr class="granica">
     <ul class="products-container">
-        @foreach (var item in Model)
-        {
-            @if (!item.isRemoved)
-            {       
-             <li> 
-                @if (item.ChangeUser == null)
-                 {
-                      <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate"></i>
-                 }
-                 else
-                 {
-                       <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate&#013; Отредактировал: @item.ChangeUser&#013; Время: @item.ChangeDate"></i>
-                 }
-                            <span style="color:black" class="products-element__name"><a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">@item.Title</a></span><br />
-                            <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">
-                                <img class="products-element__img" src="@Url.Content(item.PathImg)" title="@item.Title" />
-                            </a>
-                            <span class="products-element__price">@item.Price RUB</span><br />  
-                                <i class="fa fa-eye" aria-hidden="true"> @item.View</i>
-                            <form id="@item.ProductId" method="post" asp-action="AddToCart"  asp-controller="Cart">
-                                <input type="hidden" name="productld" value="@item.ProductId" />
-                                <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                            <button type="submit"
-                                    class="products-element__btn products-element__btn_active">
-                                <span class="spn"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></span>
+        @*@foreach (var item in Model)
+            {
+                @if (!item.isRemoved)
+                {
+                 <li>
+                    @if (item.ChangeUser == null)
+                     {
+                          <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate"></i>
+                     }
+                     else
+                     {
+                           <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate&#013; Отредактировал: @item.ChangeUser&#013; Время: @item.ChangeDate"></i>
+                     }
+                                <span style="color:black" class="products-element__name"><a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">@item.Title</a></span><br />
+                                <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">
+                                    <img class="products-element__img" src="@Url.Content(item.PathImg)" title="@item.Title" />
+                                </a>
+                                <span class="products-element__price">@item.Price RUB</span><br />
+                                    <i class="fa fa-eye" aria-hidden="true"> @item.View</i>
+                                <form id="@item.ProductId" method="post" asp-action="AddToCart"  asp-controller="Cart">
+                                    <input type="hidden" name="productld" value="@item.ProductId" />
+                                    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                <button type="submit"
+                                        class="products-element__btn products-element__btn_active">
+                                    <span class="spn"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></span>
+                                </button>
+                            </form>
+                       <form asp-action="Edit" asp-controller="Product" method="get" asp-route-id="@item.ProductId">
+                            <button type="submit" class="btn spn" title="Редактирование">
+                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
-                        </form>
-                   <form asp-action="Edit" asp-controller="Product" method="get" asp-route-id="@item.ProductId">
-                        <button type="submit" class="btn spn" title="Редактирование">
-                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </button>
-                   </form>
-                   
-             </li>
-            }
-        }
+                       </form>
+
+                 </li>
+                }
+            }*@
     </ul>
 </div>

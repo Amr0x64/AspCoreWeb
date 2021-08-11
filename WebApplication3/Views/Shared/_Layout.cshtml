@@ -29,8 +29,6 @@
                 <div class="header-item headerButton"><a asp-action="Index" asp-controller="Product">Продукты</a></div>
                 @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
                 {
-                    <div class="header-item headerButton"><a asp-action="Index" asp-controller="User">Пользователи</a></div>
-                    <div class="header-item headerButton"><a asp-action="List" asp-controller="Order">Заказы</a></div>
                     <div class="header-item headerButton"><a asp-action="Index" asp-controller="Admin">Администирование</a></div>
                 }
                 else
@@ -70,7 +68,7 @@
             </div>
         </div>
     </div>
-    
+    <hr class="gr-header">
     <link href="~/components/products.css" rel="stylesheet" />
 
     <div class="container">
@@ -86,7 +84,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-@*k<script src="~/js/site.js" asp-append-version="true"></script>*@
+    @*k<script src="~/js/site.js" asp-append-version="true"></script>*@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

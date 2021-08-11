@@ -21,6 +21,14 @@ namespace WebApplication3.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            ViewData["PriceAll"] = 0;
+            var queryOrderProduct = await db.Orders.ToListAsync();
+            foreach (var i in queryOrderProduct)
+            {
+                
+            }
+
             return View(await db.Products.ToListAsync());
         }
         //cVOO-1-View
