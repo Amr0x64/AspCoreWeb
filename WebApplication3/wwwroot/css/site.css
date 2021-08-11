@@ -388,3 +388,12 @@ div .text-admin-element > p {
 .img-element {
     font-size: 55px;
 }
+
+div .headerButton > a {
+    text-decoration: none;
+}
+
+div .administr-element-1 > a {
+    text-decoration: none;
+}
+
