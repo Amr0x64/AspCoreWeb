@@ -26,9 +26,6 @@ body {
     background-color: var(--color-light);
   
 }
-.navigation {
-    
-}
 
 .row:after {
     visibility: hidden;
@@ -119,6 +116,7 @@ body {
 
 .granica {
     border-color: #595D72;
+    margin-top: 0.5px;
 }
 
 .yearUser {
@@ -220,7 +218,7 @@ body {
 .admin-flex-containt-2 {
     display: flex;
     justify-content: center;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
 }
 
 .admin-element {
@@ -231,11 +229,29 @@ body {
     margin-right: 10px;
 }
 
+.administr-element {
+    margin-left: 25px;
+    width: 400px;
+    height: 170px;  
+}
+
+.administr-element-2 {
+    width: 100%;
+    height: 94.1%;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+div .administr-element-2:hover {
+    border: 2px solid #000;
+    box-shadow: 0 0 5px;
+}
+
 .administr-element-1 {
-    margin-left: 30px;
-    width: 350px;
-    height: 170px;
-    border-radius: 1px;
+    margin-left: 25px;
+    width: 400px;
+    height: 160px;
+    border-radius: 4px;
 }
 
 div .first-element-admin {
@@ -253,6 +269,14 @@ div.administr-element-1 > a {
     height: 100%;
     padding: 10px 15px;
 }
+
+div.administr-element-2 > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
+}
+
 
 .color-1 {
     background-color: #F1416C;
@@ -284,7 +308,7 @@ div.administr-element-1 > a {
 
 .product-cart {
     font-size:23px;
-}
+}   
 
 .bet-admin {
     margin-right: 50%;
@@ -379,6 +403,7 @@ div .text-admin-element > p {
 
 .count-element {
     font-size: 35px;
+    padding-bottom: 8px;
 }
 
 .text-element {
@@ -397,3 +422,47 @@ div .administr-element-1 > a {
     text-decoration: none;
 }
 
+div .administr-element-2 > a {
+    text-decoration: none;
+}
+
+.color-4 {
+    background-color: #8D44AC;
+}
+
+.view-product-element {
+    font-size: 38px;
+}
+
+.order-product-element {
+    font-size: 38px;
+}
+
+.nav-date-element {
+    display: flex;
+    justify-content: space-between;
+}
+
+.date-element {
+   padding: 5px 10px 5px 10px;
+}
+
+.date-element:hover {
+    background-color: #F5F8FA;
+    border-radius: 6px;
+}
+
+div .date-element > a {
+    text-decoration: none;
+    color: #B4B7C5;
+}
+
+div .date-element > a:hover {
+    color: #009EF7;
+}
+
+
+.nav-inf-product {
+    display: flex;
+    justify-content: space-between;
+}

@@ -55,8 +55,8 @@ namespace WebApplication3
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+            
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -66,6 +66,7 @@ namespace WebApplication3
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            //constraints: new { }
                 endpoints.MapHub<ChatHub>("/chat");
             });
         }

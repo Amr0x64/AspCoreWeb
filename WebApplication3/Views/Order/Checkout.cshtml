@@ -1,5 +1,9 @@
 ﻿@model Order
 
+@{
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
 <h2>Оформление заказа</h2>
 <p>Введите данные, и мы сразу же отправим ваш товар</p>
 <div asp-validation-summary="All" class="text-danger"></div>
@@ -12,16 +16,16 @@
         <label>Улица:</label><input asp-for="Line1" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Дом: </label><input asp-for="Line2" class = "form-control" />
+        <label>Дом: </label><input asp-for="Line2" class="form-control" />
     </div>
     <div class="form-group">
         <label>Квартира: </label><input type="number" asp-for="Line3" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Город: </label><input asp-for="City" class="form-control" /> 
+        <label>Город: </label><input asp-for="City" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Индекс:</label><input asp-for="Zip" class = "form-control" type="number"/>
+        <label>Индекс:</label><input asp-for="Zip" class="form-control" type="number" />
     </div>
     <div class="form-group">
         <label>Страна:</label><input asp-for="Country" class="form-control" />
@@ -29,4 +33,4 @@
     <div class="text-center">
         <input class="btn btn-primary" type="submit" value="Заказать" />
     </div>
-</form> 
+</form>

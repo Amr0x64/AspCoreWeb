@@ -18,13 +18,24 @@ namespace WebApplication3.Controllers
             db = context;
             cart = cartService;
         }
-        public IActionResult Checkout() => View(new Order());
-        [Authorize(Roles ="admin, superuser")]
-        public IActionResult List() => View(db.Orders.AsNoTracking().Include(o => o.Lines).ThenInclude(p => p.Product).Where(l => !l.Shipped));
+        public IActionResult Checkout()
+        {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            return View(new Order());
+        }
+
+        [Authorize(Roles = "admin, superuser")]
+        public IActionResult List()
+        {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            return View(db.Orders.AsNoTracking().Include(o => o.Lines).ThenInclude(p => p.Product).Where(l => !l.Shipped));
+        }
+
         [Authorize(Roles = "admin, superuser")]
         [HttpPost]
         public async Task<IActionResult> MarkShipped(int orderId)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             Order order = db.Orders.FirstOrDefault(o => o.OrderId == orderId);
             if (order != null)
             {
@@ -37,6 +48,7 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public async  Task<IActionResult> Checkout(Order order)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             if (cart.Lines.Count() == 0)
             {
                 ModelState.AddModelError("", "Корзина пуста");
@@ -65,6 +77,7 @@ namespace WebApplication3.Controllers
         }
         public ViewResult Completed()
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             cart.Clear();
             return View();
         }

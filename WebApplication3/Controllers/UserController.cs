@@ -13,22 +13,42 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebApplication3.Controllers
 {
     [Authorize(Roles = "admin, superuser")]
-    public class UserController : Microsoft.AspNetCore.Mvc.Controller
+    public class UserController : Controller
     {
         UserManager<User> _userManager;
+        private ApplicationContext db;
+        private RoleManager<IdentityRole> _roleManager;
 
-        public UserController(UserManager<User> userManager)
+        public UserController(UserManager<User> userManager, ApplicationContext context, RoleManager<IdentityRole> roleManager)
         {
+            db = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public IActionResult Index() => View(_userManager.Users.ToList());
-
-        public IActionResult Create() => View();
+        public IActionResult Index()
+        {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            var employList = new List<User>();
+            foreach (var user in _userManager.Users.ToList())
+            {
+                if (_userManager.GetRolesAsync(user).Result[0] != "user")
+                {
+                    employList.Add(user);
+                }
+            }
+            return View(employList);
+        }
+        public IActionResult Create()
+        {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             if (ModelState.IsValid)
             {
                 User user = new User { Email = model.Email, UserName = model.Name, Year = model.Year };
@@ -56,6 +76,7 @@ namespace WebApplication3.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -68,6 +89,7 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
@@ -97,6 +119,7 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
@@ -106,6 +129,7 @@ namespace WebApplication3.Controllers
         }
         public async Task<IActionResult> ChangePassword(string id)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -114,43 +138,53 @@ namespace WebApplication3.Controllers
             ChangePasswordViewModel model = new ChangePasswordViewModel { Name = user.UserName, Id = user.Id };
             return View(model);
         }
+        #region ||--||--||--||--||--||--||--||--||--||--||--||--СМЕНА ПАРОЛЯ--||--||--||--||--||--||--||--||--||--||--||--||--||--||--||
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    var _passwordValidator =
+                    if (model.NewPassword == model.NewPasswordConfirm )
+                    {
+                        var _passwordValidator =
                         HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
 
-                    var _passwordHasher =
-                        HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+                        var _passwordHasher =
+                            HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
 
-                    IdentityResult result =
-                        await _passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
-                        await _userManager.UpdateAsync(user);
-                        return RedirectToAction("Index");
+                        IdentityResult result =
+                            await _passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
+
+                        if (result.Succeeded)
+                        {
+                            user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                            await _userManager.UpdateAsync(user);
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
                     }
                     else
                     {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
+                        ModelState.AddModelError(string.Empty, "Пароли не совпадают");
                     }
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Пользователь не найден");
                 }
-                
             }
             return View(model);
         }
+        #endregion
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication3.Controllers
 {
-    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
+    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         RoleManager<IdentityRole> _roleManager;
@@ -26,6 +26,7 @@ namespace WebApplication3.Controllers
         {
             return View();
         }
+        [Route("About")]
         public IActionResult About() => View();
         public IActionResult Contacts() => View();
 

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication3.Controllers
 {
-    public class AccountController : Microsoft.AspNetCore.Mvc.Controller
+    public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -53,7 +53,6 @@ namespace WebApplication3.Controllers
             return View(model);
         }
         #endregion
-
 
         public async Task<IActionResult> Logout()
         {

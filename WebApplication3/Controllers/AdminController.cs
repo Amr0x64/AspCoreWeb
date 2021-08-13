@@ -22,24 +22,23 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            ViewData["PriceAll"] = 0;
-            var queryOrderProduct = await db.Orders.ToListAsync();
-            foreach (var i in queryOrderProduct)
-            {
-                
-            }
-
             return View(await db.Products.ToListAsync());
         }
         //cVOO-1-View
-        [HttpPost]
-        public async Task<IActionResult> SelectViweProduct(int choiseVieworOrder, int date)
+       
+        public async Task<IActionResult> SelectViweProduct(string date)
         {
-            if (true)
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            
+            if (date == "day")
             {
-                ViewBag.productList = CountViewProduct(date);
-                return View(await db.Products.ToListAsync());
+                var queryProduct = db.UserViewProducts.GroupBy(p => p.ProductId).Select(g => new { g.Key, Count = g.Count() }).
+                    Join(db.Products, v => v.Key, p => p.ProductId, (v, p) => new { ProductId = p.ProductId, Title = p.Title, Description = p.Description, Price = p.Price,
+                     Category = p.Category, Count = p.Count, PathImg = p.PathImg, AddUser = p.AddUser, AddDate = p.AddDate, ChangeUser = p.ChangeUser, ChangeDate = p.ChangeDate,
+                      View = p.View, isRemoved = p.isRemoved, CountView = v.Count}).OrderBy(v => v.CountView);
+                return View("Index", queryProduct);
             }
+            return View("Index", await db.Products.ToListAsync());
         }
         [NonAction]
         public  List<int> CountViewProduct(int date)

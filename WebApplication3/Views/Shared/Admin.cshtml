@@ -1,10 +1,12 @@
 ﻿@using System.Security.Claims
 @using WebApplication3.Infrastructure
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     var context = Context;
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
     bool IsSuperUser = currentUser.IsInRole("superuser");
+    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -56,9 +58,9 @@
                 else
                 {
                     <div class="header-item headerButton">
-                            
-                            @User.Identity.Name <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        
+
+                        @User.Identity.Name <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+
                     </div>
                     <div class="header-item-last headerButton">
                         <a class="logout" asp-controller="Account" asp-action="Logout">Выйти</a>
@@ -70,11 +72,41 @@
     <hr class="gr-header">
 
     <div class="container">
+        <div class="admin-flex-containt-2">
+            <div class="administr-element-1 color-3 first-element-admin">
+                <a class="nav-admin-panel" asp-controller="User" asp-action="Index">
+                    <div class="text-admin-element">
+                        <span class="view-product-element"><i class="fa fa-user-circle-o" aria-hidden="true"></i><br />    </span>
+                        <p class="text-element">Сотрудники</p>
+                    </div>
+                </a>
+            </div>
+            <div class="administr-element-1 color-2">
+                <a class="nav-admin-panel" asp-controller="Order" asp-action="List">
+                    <div class="text-admin-element">
+                        <span class="order-product-element"><i class="fa fa-shopping-basket" aria-hidden="true"></i></span><br />
+                        <p class="text-element">@ViewData["OrderCount"] Новых заказов</p>
+                    </div>
+                </a>
+            </div>
+            <div class="administr-element">
+                <div class="administr-element-2 color-1">
+                    <a class="nav-admin-panel" asp-controller="Admin" asp-action="SelectViweProduct" asp-route-id="Day">
+                        <div class="text-admin-element">
+                            <span class="view-product-element"><i class="fa fa-eye" aria-hidden="true"></i></span><br />
+                            <p class="text-element">Просмотры товаров</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-        
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebApplication3 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

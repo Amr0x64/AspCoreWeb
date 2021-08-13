@@ -1,7 +1,10 @@
 ﻿@model WebApplication3.ViewModels.EditUserViewModel
 @{
     ViewBag.Title = "Редактирование пользователя";
+    Layout = "~/Views/Shared/Admin.cshtml";
 }
+
+<h3>Изменение пароля для пользователя @Model.Name</h3>
 <form asp-action="Edit" asp-controller="User">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">

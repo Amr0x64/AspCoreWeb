@@ -165,6 +165,7 @@ namespace WebApplication3.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
+            
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
