@@ -36,18 +36,20 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.IsDeleteProduct = false;
+            ViewBag.Categorys = db.Products.ToList();
             return View(await db.Products.ToListAsync());
         }
         [HttpPost]  
-        public async Task<IActionResult> Index(string nameProduct)
+        public async Task<IActionResult> Search(string nameProduct)
         {
+            ViewBag.Categorys = db.Products.ToList();
             ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
                 var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderBy(x => x.Price);
-                return View(searchProductList);
+                return View("Index", searchProductList);
             }
-            return View(await db.Products.ToListAsync());
+            return View("Index", await db.Products.ToListAsync());
         }
 
         #region =||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=|| Показать удаленные продукты ||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||
@@ -64,6 +66,7 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public IActionResult CreateProduct()
         {
+            ViewBag.Categorys = db.Products.ToList();
             return View();
         }
         //Добавление товара админом
@@ -98,6 +101,7 @@ namespace WebApplication3.Controllers
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
+                ViewBag.Categorys = db.Products.ToList();
                 product.isRemoved = false;
                 db.Products.Update(product);
                 await db.SaveChangesAsync();
@@ -111,6 +115,7 @@ namespace WebApplication3.Controllers
             var product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
+                ViewBag.Categorys = db.Products.ToList();
                 EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count};
                 return View(model);
             }
@@ -122,24 +127,19 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-
+            ViewBag.Categorys = db.Products.ToList();
             if (ModelState.IsValid)
             {
                 var product = db.Products.FirstOrDefault(x => x.ProductId == model.Id);
                 if (product != null)
                 {
-                    var path = "/img/" + model.UploadedFile.FileName;
-                    if (db.Products.FirstOrDefault(x => x.PathImg == path) == null)
-                    {
-                        product.PathImg = path;
-                    }
-
                     product.Title = model.Title;
                     product.Description = model.Description;
                     product.Price = model.Price;
                     product.Count = model.Count;
                     product.ChangeDate = DateTime.Now;
                     product.ChangeUser = User.Identity.Name;
+
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
                     TempData["message"] = $"{model.Title} отредоктирован";
@@ -165,10 +165,10 @@ namespace WebApplication3.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
+                ViewBag.Categorys = db.Products.ToList();
                 var ip = GetIp();
                 var userView = db.UserViewProducts.FirstOrDefault(x => x.ProductId == id && x.UserIP == ip);
                 if (userView == null)
@@ -186,8 +186,15 @@ namespace WebApplication3.Controllers
             }
             return NotFound();
         }
+
+        public IActionResult DetailCategory(string categoryName)
+        {
+            ViewBag.IsDeleteProduct = false;
+            ViewBag.Categorys = db.Products.ToList();
+            var selectProductCategory = db.Products.ToList().Where(p => p.Category == categoryName);
+            return View("Index", selectProductCategory);
+        }
         [NonAction]
         public String GetIp() => _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
     } 
-        
 }

@@ -1,12 +1,10 @@
 ﻿@using System.Security.Claims
 @using WebApplication3.Infrastructure
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     var context = Context;
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
     bool IsSuperUser = currentUser.IsInRole("superuser");
-    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -23,91 +21,92 @@
 </head>
 <body>
     <!--Header-->
-    <div class="container">
+    <div class="main-containt">
         <div class="header">
-            <div class="header-section-1">
-                <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Главная</a></div>
-
-                <div class="header-item headerButton"><a asp-action="Index" asp-controller="Product">Продукты</a></div>
-                @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
-                {
-                    <div class="header-item headerButton"><a asp-action="Index" asp-controller="Admin">Администирование</a></div>
-                }
-                else
-                {
-                    <div class="header-item headerButton"><a asp-action="About" asp-controller="Home">О нас</a></div>
-                    <div class="header-item headerButton"><a asp-action="Contacts" asp-controller="Home">Контакты</a></div>
-                }
-            </div>
-            <div class="header-section-2">
-                <div class="header-item headerButton">
-                    <span class="cart-nav" title="Корзина">
-                        <a asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        </a>
-                    </span>
+            <div class="header-containt">
+                <div class="header-section-1">
+                    <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Главная</a></div>
+                    <div class="header-item headerButton"><a asp-action="Index" asp-controller="Product">Продукты</a></div>
+                    @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
+                    {
+                        <div class="header-item headerButton"><a asp-action="Index" asp-controller="Admin">Администирование</a></div>
+                    }
+                    else
+                    {
+                        <div class="header-item headerButton"><a asp-action="About" asp-controller="Home">О нас</a></div>
+                        <div class="header-item headerButton"><a asp-action="Contacts" asp-controller="Home">Контакты</a></div>
+                    }
                 </div>
-                @if (!User.Identity.IsAuthenticated)
-                {
+                <div class="header-section-2">
                     <div class="header-item headerButton">
-                        <a asp-action="Login" asp-controller="Account">Войти</a>
+                        <span class="cart-nav" title="Корзина">
+                            <a asp-controller="Cart" asp-action="Index" sp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </a>
+                        </span>
                     </div>
-                    <div class="header-item-last headerButton">
-                        <a asp-action="Register" asp-controller="Account">Регистрация</a>
-                    </div>
-                }
-                else
-                {
-                    <div class="header-item headerButton">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <div class="header-item headerButton">
+                            <a asp-action="Login" asp-controller="Account">Войти</a>
+                        </div>
+                        <div class="header-item-last headerButton">
+                            <a asp-action="Register" asp-controller="Account">Регистрация</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="header-item headerButton">
 
-                        @User.Identity.Name <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            @User.Identity.Name <i class="fa fa-user-circle-o" aria-hidden="true"></i>
 
-                    </div>
-                    <div class="header-item-last headerButton">
-                        <a class="logout" asp-controller="Account" asp-action="Logout">Выйти</a>
-                    </div>
-                }
+                        </div>
+                        <div class="header-item-last headerButton">
+                            <a class="logout" asp-controller="Account" asp-action="Logout">Выйти</a>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
+
     <hr class="gr-header">
 
-    <div class="container">
-        <div class="admin-flex-containt-2">
-            <div class="administr-element-1 color-3 first-element-admin">
-                <a class="nav-admin-panel" asp-controller="User" asp-action="Index">
-                    <div class="text-admin-element">
-                        <span class="view-product-element"><i class="fa fa-user-circle-o" aria-hidden="true"></i><br />    </span>
-                        <p class="text-element">Сотрудники</p>
+    <div class="main-containt-2">
+        <div class="sidebar">
+            <div class="inner-sidebar">
+                @if (IsAdmin || IsSuperUser)
+                {
+                <div class="admin-elem-sidebar">
+                    <div class="sidebar-elememt">
+                        <p class="nav-sidebar-element"><a asp-controller="User" asp-action="Index"><span class="description-elem">Рабы</span><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></p>
                     </div>
-                </a>
-            </div>
-            <div class="administr-element-1 color-2">
-                <a class="nav-admin-panel" asp-controller="Order" asp-action="List">
-                    <div class="text-admin-element">
-                        <span class="order-product-element"><i class="fa fa-shopping-basket" aria-hidden="true"></i></span><br />
-                        <p class="text-element">@ViewData["OrderCount"] Новых заказов</p>
+                    <div class="sidebar-elememt">   
+                        <p class="nav-sidebar-element"><a asp-controller="Order" asp-action="List"><span class="description-elem">Покупочки</span><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></p>
                     </div>
-                </a>
-            </div>
-            <div class="administr-element">
-                <div class="administr-element-2 color-1">
-                    <a class="nav-admin-panel" asp-controller="Admin" asp-action="SelectViweProduct" asp-route-id="Day">
-                        <div class="text-admin-element">
-                            <span class="view-product-element"><i class="fa fa-eye" aria-hidden="true"></i></span><br />
-                            <p class="text-element">Просмотры товаров</p>
+                    <hr />
+                </div>
+                }
+                <div class="user-elem-sidebar"> 
+                    @if (ViewBag.Categorys != null)
+                    {
+                        @foreach (var e in ViewBag.Categorys)
+                        {
+                        <div class="sidebar-elememt">
+                            <p class="nav-sidebar-element"><a asp-controller="Product" asp-action="DetailCategory" asp-route-id="@e.Category">@e.Category</a></p>
                         </div>
-                    </a>
+                        }   
+                    }
                 </div>
             </div>
         </div>
+        <div class="main-container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebApplication3 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

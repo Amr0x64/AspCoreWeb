@@ -1,8 +1,9 @@
 ﻿@model WebApplication3.ViewModels.BuyProductViewModel
 
 @{
-   
+
     ViewBag.Title = "Оформление покупки";
+    Layout = "~/Views/Shared/Admin.cshtml";
 }
 <h5><a asp-action="Detail" asp-route-id="@Model.IdProduct"> @Model.Product.Title  </a></h5> 
 <form method="post" asp-action="BuyProduct" asp-controller="Product">

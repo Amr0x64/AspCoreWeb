@@ -1,6 +1,7 @@
 ﻿@model WebApplication3.ViewModels.CreateProductViewModel
 @{
     ViewBag.Title = "Добавление продуктов";
+    Layout = "~/Views/Shared/Admin.cshtml";
 }
 <form asp-action="CreateProduct" asp-controller="Product" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>

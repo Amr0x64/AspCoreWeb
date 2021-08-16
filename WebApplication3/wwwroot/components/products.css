@@ -1,7 +1,7 @@
 ﻿.products-container {                                           
     display: grid;                                     
     /*1 аргумент для автоматического перестраивания */ 
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 25px; 
     width: 80%;                                                 
     max-width: 1200px;                        
@@ -17,7 +17,7 @@
     border-radius: 3px;
     box-shadow: 0 16px 24px 2px rgba(33,37,41,.02), 0 6px 30px 5px rgba(33,37,41,.04), 0 8px 10px -5px rgba(33,37,41,.1);
 }
-/*ВОООООООООООООООООООООООООт что ТЕБЕ НАДОаывввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввв*/ СВЕРХУ
+    
 .products-element__name {
     margin-bottom: auto;
     margin: auto;

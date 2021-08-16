@@ -8,12 +8,13 @@
     ViewBag.Title = "Продукты";
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
-    bool IsSuperUser = currentUser.IsInRole("superuser");  
+    bool IsSuperUser = currentUser.IsInRole("superuser");
+    Layout = "~/Views/Shared/Admin.cshtml";
 }
 
 <div id="products">
     <div class="nav-admin">
-        <form method="post" asp-action="Index" asp-controller="Product" class="search-contain">
+        <form method="post" asp-action="Search" asp-controller="Product" class="search-contain">
             <div asp-validation-summary="All" class="text-danger" hidden></div>
             <div class="form-group flex-element-11">
                 <input type="text" name="nameProduct" class="form-control-search" placeholder="Название" />

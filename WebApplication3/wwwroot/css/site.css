@@ -125,7 +125,7 @@ body {
 }
 
 .vbn {
-    color:green;
+    color: green;
 }
 
 .center-div {
@@ -325,19 +325,13 @@ div.administr-element-2 > a {
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    
-    background-color: #FFFFFF;
-    color: #000000;
-    margin-bottom: 10px;
+   
     
 }
 
 .header-section-1 {
     display: flex;
     align-items: center;
-    
 }
 
 .header-section-2 {
@@ -461,8 +455,59 @@ div .date-element > a:hover {
     color: #009EF7;
 }
 
-
 .nav-inf-product {
     display: flex;
     justify-content: space-between;
+}
+
+.nav-main-container {
+    display: flex;
+}
+
+.main-containt {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-container {
+    width: 82%;
+    padding-left: 20px;
+}
+
+.sidebar-elememt > p > a {
+    text-decoration: none;
+}
+
+.sidebar {
+    width: 18%;
+    background-color: #FFF8EF;
+}
+
+.header-containt {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-containt-2 {
+    display: flex;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inner-sidebar {
+    padding: 20px;
+}
+
+.nav-sidebar-element {
+    font-size: 17px;
+}
+
+.description-elem {
+    margin-right: 8px;
 }
