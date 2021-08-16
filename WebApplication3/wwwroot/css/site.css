@@ -511,3 +511,8 @@ div .date-element > a:hover {
 .description-elem {
     margin-right: 8px;
 }
+
+.header-home-admin {
+    display: flex;
+    justify-content: space-between;
+}

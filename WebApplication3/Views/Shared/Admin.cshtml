@@ -25,7 +25,11 @@
         <div class="header">
             <div class="header-containt">
                 <div class="header-section-1">
-                    <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Главная</a></div>
+                    @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
+                    {
+                        <div class="header-item-first headerButton"><a asp-action="Home" asp-controller="Admin">Главная</a></div>
+                    }
+                    <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Интернет-Магазин</a></div>
                     <div class="header-item headerButton"><a asp-action="Index" asp-controller="Product">Продукты</a></div>
                     @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
                     {

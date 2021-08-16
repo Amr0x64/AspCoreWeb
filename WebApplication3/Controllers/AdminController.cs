@@ -24,7 +24,11 @@ namespace WebApplication3.Controllers
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             return View(await db.Products.ToListAsync());
         }
-        //cVOO-1-View
+        
+        public IActionResult Home()
+        {
+            return View();
+        }
        
         public async Task<IActionResult> SelectViweProduct(string date)
         {

@@ -46,7 +46,7 @@ namespace WebApplication3.Controllers
             ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
-                var searchProductList =  db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderBy(x => x.Price);
+                var searchProductList = db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderByDescending(x => x.Price);
                 return View("Index", searchProductList);
             }
             return View("Index", await db.Products.ToListAsync());
@@ -191,8 +191,7 @@ namespace WebApplication3.Controllers
         {
             ViewBag.IsDeleteProduct = false;
             ViewBag.Categorys = db.Products.ToList();
-            var selectProductCategory = db.Products.ToList().Where(p => p.Category == categoryName);
-            return View("Index", selectProductCategory);
+            return View("Index",  db.Products.ToList().Where(p => p.Category == categoryName));
         }
         [NonAction]
         public String GetIp() => _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
