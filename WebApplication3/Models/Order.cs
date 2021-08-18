@@ -28,6 +28,5 @@ namespace WebApplication3.Models
         public string Country { get; set; }
         public string Zip { get; set; }
         public DateTime OrderDate { get; set; }
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿@model WebApplication3.ViewModels.AdminViewModel
 
+
+
 @{
     ViewBag.Title = "Главная";
 }
@@ -8,7 +10,7 @@
         <div class="header-element">
             <div class="inner-header-element">
                 <div class="nav-inf">
-                    <div class="number">
+                    <div class="number color-2">
                         @Model.Order
                     </div>
                     <div class="nav-icon">
@@ -23,8 +25,8 @@
         <div class="header-element between">
             <div class="inner-header-element">
                 <div class="nav-inf">
-                    <div class="number">
-                        @Model.Order ₽
+                    <div class="number color-1 ">
+                        @Model.TotalProfit ₽
                     </div>
                     <div class="nav-icon">
                         <i class="fa fa-pie-chart" aria-hidden="true"></i>
@@ -38,27 +40,43 @@
         <div class="header-element between">
             <div class="inner-header-element">
                 <div class="nav-inf">
-                    <div class="number">
+                    <div class="number color-3">
                         @Model.Order
                     </div>
                     <div class="nav-icon">
                         <i class="icon-pie-chart"></i>
                     </div>
+                </div>
+                <div class="nav-text">
+                    Всего
                 </div>
             </div>
         </div>
         <div class="header-element between">
             <div class="inner-header-element">
                 <div class="nav-inf">
-                    <div class="number">
+                    <div class="number color-4">
                         @Model.Order
                     </div>
                     <div class="nav-icon">
                         <i class="icon-pie-chart"></i>
                     </div>
                 </div>
+                <div class="nav-text">
+                    Всего
+                </div>
             </div>
         </div>
     </div>
+    <div class="chart-container">
+        <div class="chart-elements">
+            <canvas id="chart-orders"></canvas>
+        </div>
+        <div class="chart-elements">
+            <canvas id="chart-finance"></canvas>
+        </div>
+    </div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
 </div>
- 
+

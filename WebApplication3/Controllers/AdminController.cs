@@ -28,6 +28,11 @@ namespace WebApplication3.Controllers
         {
             var model = new AdminViewModel();
             model.Order = db.Orders.Count();
+            model.TotalProfit = 0;
+            foreach (var cartLine in db.CartLines.ToList())
+            {
+                model.TotalProfit += cartLine.Quantity * db.Products.FirstOrDefault(p => p.ProductId == cartLine.ProductId).Price;
+            }
             return View(model);
         }
        
