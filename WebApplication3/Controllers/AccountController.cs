@@ -42,7 +42,15 @@ namespace WebApplication3.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        User user = _userManager.Users.FirstOrDefault(n => n.UserName == model.Name);
+                        if (_userManager.GetRolesAsync(user).Result.Contains("admin") || _userManager.GetRolesAsync(user).Result.Contains("superuser"))
+                        {
+                            return RedirectToAction("Home", "Admin");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 else
@@ -95,7 +103,6 @@ namespace WebApplication3.Controllers
         #endregion
         public IActionResult Profile(string name)
         {
-
             return View();
         }
     }

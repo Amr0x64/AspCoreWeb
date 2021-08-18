@@ -1,21 +1,63 @@
-﻿
+﻿@model WebApplication3.ViewModels.AdminViewModel
+
 @{
     ViewBag.Title = "Главная";
 }
-
 <div>
     <div class="header-home-admin">
         <div class="header-element">
-            asd
+            <div class="inner-header-element">
+                <div class="nav-inf">
+                    <div class="number">
+                        @Model.Order
+                    </div>
+                    <div class="nav-icon">
+                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="nav-text">
+                    Всего заказов
+                </div>
+            </div>
         </div>
-        <div class="header-element">
-            asd
+        <div class="header-element between">
+            <div class="inner-header-element">
+                <div class="nav-inf">
+                    <div class="number">
+                        @Model.Order ₽
+                    </div>
+                    <div class="nav-icon">
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="nav-text">
+                    Всего заработано
+                </div>
+            </div>
         </div>
-        <div class="header-element">
-            asd
+        <div class="header-element between">
+            <div class="inner-header-element">
+                <div class="nav-inf">
+                    <div class="number">
+                        @Model.Order
+                    </div>
+                    <div class="nav-icon">
+                        <i class="icon-pie-chart"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="header-element">
-            asd
+        <div class="header-element between">
+            <div class="inner-header-element">
+                <div class="nav-inf">
+                    <div class="number">
+                        @Model.Order
+                    </div>
+                    <div class="nav-icon">
+                        <i class="icon-pie-chart"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

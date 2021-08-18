@@ -11,7 +11,10 @@ using System.Threading.Tasks;
 using WebApplication3.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;    
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+
 namespace WebApplication3
 {
     public class Startup
@@ -41,7 +44,7 @@ namespace WebApplication3
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -61,6 +64,21 @@ namespace WebApplication3
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+
+            UserManager<User> _userManager = userManager;
+            User user = _userManager.Users.FirstOrDefault(n => n.Id == "edwf");
+            if (true)
+            {
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                            name: "defaultAdmin",
+                            pattern: "{controller=Admin}/{action=Home}/{id?}");
+                        //constraints: new { }
+                    endpoints.MapHub<ChatHub>("/chat");
+                });
+            }
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

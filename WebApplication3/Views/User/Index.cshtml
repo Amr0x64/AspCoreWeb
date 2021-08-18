@@ -4,6 +4,7 @@
     ViewBag.Title = "Список сотрудников";
     Layout = "~/Views/Shared/Admin.cshtml";
 }
+
 <div class="add-memory">
     <form asp-action="Create" method="post">
         <div class="text-center">
@@ -13,20 +14,20 @@
 </div>
 <table class="table">
     <tr><th>Login</th><th>Email</th><th class="action-nav">Действие</th></tr>
-    @foreach (var user in Model)    
+    @foreach (var user in Model)
     {
-            <tr>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>
-                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Редактировать пользователя</a>
-                        <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id"> Сменить пароль </a>
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Удалить пользователя
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Редактировать пользователя</a>
+                    <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id"> Сменить пароль </a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить пользователя
+                    </button>
+                </form>
+            </td>
+        </tr>
     }
 </table>

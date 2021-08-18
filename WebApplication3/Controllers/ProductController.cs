@@ -36,13 +36,13 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.IsDeleteProduct = false;
-            ViewBag.Categorys = db.Products.ToList();
+            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             return View(await db.Products.ToListAsync());
         }
         [HttpPost]  
         public async Task<IActionResult> Search(string nameProduct)
         {
-            ViewBag.Categorys = db.Products.ToList();
+            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
@@ -66,7 +66,7 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public IActionResult CreateProduct()
         {
-            ViewBag.Categorys = db.Products.ToList();
+            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             return View();
         }
         //Добавление товара админом
@@ -101,7 +101,7 @@ namespace WebApplication3.Controllers
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                ViewBag.Categorys = db.Products.ToList();
+                ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
                 product.isRemoved = false;
                 db.Products.Update(product);
                 await db.SaveChangesAsync();
@@ -115,7 +115,7 @@ namespace WebApplication3.Controllers
             var product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                ViewBag.Categorys = db.Products.ToList();
+                ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
                 EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count};
                 return View(model);
             }
@@ -127,7 +127,7 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-            ViewBag.Categorys = db.Products.ToList();
+            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             if (ModelState.IsValid)
             {
                 var product = db.Products.FirstOrDefault(x => x.ProductId == model.Id);
@@ -168,19 +168,17 @@ namespace WebApplication3.Controllers
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                ViewBag.Categorys = db.Products.ToList();
+                ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
                 var ip = GetIp();
                 var userView = db.UserViewProducts.FirstOrDefault(x => x.ProductId == id && x.UserIP == ip);
                 if (userView == null)
                 {
                         UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id , ViewDate = DateTime.Now};
                         db.Add(userViewProduct);
-                        await db.SaveChangesAsync();
-
+                        await db.SaveChangesAsync();    
                         product.View = product.View + 1;
                         db.Update(product);
                         await db.SaveChangesAsync();
-                    
                 }
                 return View(product);
             }
@@ -190,10 +188,28 @@ namespace WebApplication3.Controllers
         public IActionResult DetailCategory(string categoryName)
         {
             ViewBag.IsDeleteProduct = false;
-            ViewBag.Categorys = db.Products.ToList();
+            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             return View("Index",  db.Products.ToList().Where(p => p.Category == categoryName));
         }
         [NonAction]
         public String GetIp() => _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+
+        [NonAction]
+        private List<String> UniqueElem(List<String> attrList)
+        {
+            var unqueList = new List<String>();
+            foreach (var e in attrList)
+            {
+                if (unqueList.Contains(e))
+                {
+                    continue;
+                }
+                else
+                {
+                    unqueList.Add(e);
+                }
+            }
+            return unqueList;
+        }
     } 
 }

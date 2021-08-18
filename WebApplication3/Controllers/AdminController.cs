@@ -21,19 +21,18 @@ namespace WebApplication3.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             return View(await db.Products.ToListAsync());
         }
         
         public IActionResult Home()
         {
-            return View();
+            var model = new AdminViewModel();
+            model.Order = db.Orders.Count();
+            return View(model);
         }
        
         public async Task<IActionResult> SelectViweProduct(string date)
         {
-            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            
             if (date == "day")
             {
                 var queryProduct = db.UserViewProducts.GroupBy(p => p.ProductId).Select(g => new { g.Key, Count = g.Count() }).

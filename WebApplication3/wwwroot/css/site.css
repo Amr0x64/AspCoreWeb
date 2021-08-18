@@ -516,3 +516,38 @@ div .date-element > a:hover {
     display: flex;
     justify-content: space-between;
 }
+
+.header-element {
+    width: 340px;
+    height: 145px;
+    border: 1px solid #000;
+    box-shadow: 0 0 2px;
+    flex-wrap: wrap;
+    background-color: #EEF1F5;
+}
+
+.inner-header-element {
+    padding: 20px;
+}
+
+.between {
+    margin-left: 10px;
+}
+
+.number {
+    color: #2AB4C0;
+    font-size: 30px;
+}
+
+.nav-inf {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-icon {
+    font-size: 30px;
+}
+
+.nav-text {
+    margin-bottom: 50px;
+}

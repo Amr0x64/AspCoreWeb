@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using WebApplication3.Models;
 using WebApplication3.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication3.Controllers
@@ -25,7 +24,7 @@ namespace WebApplication3.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
+        
         public IActionResult Index()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
