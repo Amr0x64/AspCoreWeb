@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication3.Models
 {
-    public class MemoryRepository : IRepository
+    public class MemoryRepository :
     {
 
     }
