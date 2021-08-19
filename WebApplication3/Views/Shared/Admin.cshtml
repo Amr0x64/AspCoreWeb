@@ -1,10 +1,14 @@
 ﻿@using System.Security.Claims
 @using WebApplication3.Infrastructure
+@using Microsoft.AspNetCore.Mvc;
+@using System.Web;
+
 @{
     var context = Context;
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
     bool IsSuperUser = currentUser.IsInRole("superuser");
+    ViewBag.controllerName = context.Request.HttpContext.Request.RouteValues.Values;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +18,10 @@
     <title>@ViewData["Title"] </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/site.css" type="text/css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" type="text/css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
     <link href="~/components/products.css" rel="stylesheet" />
-    @*<link href="~/js/site.js"/>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <!--Header-->
@@ -81,26 +85,31 @@
             <div class="inner-sidebar">
                 @if (IsAdmin || IsSuperUser)
                 {
-                <div class="admin-elem-sidebar">
-                    <div class="sidebar-elememt">
-                        <p class="nav-sidebar-element"><a asp-controller="User" asp-action="Index"><span class="description-elem">Рабы</span><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></p>
-                    </div>
-                    <div class="sidebar-elememt">   
-                        <p class="nav-sidebar-element"><a asp-controller="Order" asp-action="List"><span class="description-elem">Покупочки</span><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></p>
-                    </div>
-                    <hr />
-                </div>
-                }
-                <div class="user-elem-sidebar"> 
-                    @if (ViewBag.Categorys != null)
+                    if (ViewBag.controllerName[0] != "Product")
                     {
-                        @foreach (var e in ViewBag.Categorys)
-                        {
-                        <div class="sidebar-elememt">
-                            <p class="nav-sidebar-element"><a asp-controller="Product" asp-action="DetailCategory" asp-route-categoryName="@e">@e</a></p>
+                        <div class="admin-elem-sidebar">
+                            <div class="sidebar-elememt">
+                                <p class="nav-sidebar-element"><a asp-controller="User" asp-action="Index"><span class="description-elem">Рабы</span><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></p>
+                            </div>
+                            <div class="sidebar-elememt">
+                                <p class="nav-sidebar-element"><a asp-controller="Order" asp-action="List"><span class="description-elem">Покупочки</span><i class="fa fa-shopping-basket category-element" aria-hidden="true"></i></a></p>
+                            </div>
+                            <hr />
                         </div>
-                        }   
                     }
+                 }
+                <div class="user-elem-sidebar">
+                    <div class="category-product">
+                        @if (ViewBag.Categorys != null)
+                        {
+                            @foreach (var e in ViewBag.Categorys)
+                            {
+                                <div class="sidebar-elememt">
+                                    <p class="nav-sidebar-element"><a asp-controller="Product" asp-action="DetailCategory" asp-route-categoryName="@e">@e</a></p>
+                                </div>
+                            }
+                        }
+                    </div>
                 </div>
             </div>
         </div>

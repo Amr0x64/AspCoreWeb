@@ -19,11 +19,18 @@ namespace WebApplication3.Controllers
         {
             db = context;
         }
-        public async Task<IActionResult> Index()
+
+        public IActionResult Index()
         {
-            return View(await db.Products.ToListAsync());
+            ViewData["OrderCount"] = db.Orders.Where(x => x.Shipped == false).Count();
+            return View(db.Products.ToList());
         }
-        
+        public JsonResult JsonResponse()
+        {
+            var a = db.Products.FirstOrDefault(i => i.ProductId == 15);
+            return Json(a);
+        }
+
         public IActionResult Home()
         {
             var model = new AdminViewModel();
@@ -35,19 +42,16 @@ namespace WebApplication3.Controllers
             }
             return View(model);
         }
-       
-        public async Task<IActionResult> SelectViweProduct(string date)
+        #region}{}{}{}{}{}{}{}{}{}{}{}{}{}{Выборка продукта}{}{}{}{}{}{}{}{}{}{}{}{}{}{
+        public async Task<IActionResult> SelectViweProduct(string date)     
         {
             if (date == "day")
             {
-                var queryProduct = db.UserViewProducts.GroupBy(p => p.ProductId).Select(g => new { g.Key, Count = g.Count() }).
-                    Join(db.Products, v => v.Key, p => p.ProductId, (v, p) => new { ProductId = p.ProductId, Title = p.Title, Description = p.Description, Price = p.Price,
-                     Category = p.Category, Count = p.Count, PathImg = p.PathImg, AddUser = p.AddUser, AddDate = p.AddDate, ChangeUser = p.ChangeUser, ChangeDate = p.ChangeDate,
-                      View = p.View, isRemoved = p.isRemoved, CountView = v.Count}).OrderBy(v => v.CountView);
-                return View("Index", queryProduct);
+                return View("Index", db.Products.OrderByDescending(v => v.View).ToList());
             }
             return View("Index", await db.Products.ToListAsync());
         }
+        #endregion
         [NonAction]
         public  List<int> CountViewProduct(int date)
         {

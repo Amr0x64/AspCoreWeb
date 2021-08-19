@@ -50,6 +50,7 @@
         }
     </div>
     <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
+    <p>@TempData["message"]</p>
     <hr class="granica">
     <ul class="products-container">
         @foreach (var item in Model)

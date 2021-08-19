@@ -109,10 +109,6 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
-.form-control { 
-    height: 38px;
-     width: 260px;
-}
 
 .granica {
     border-color: #595D72;
@@ -520,7 +516,7 @@ div .date-element > a:hover {
 
 .header-element {
     width: 340px;
-    height: 150px;
+    height: 140px;
     border: 1px solid #000;
     box-shadow: 0 0 2px;
     background-color: #EEF1F5;
@@ -575,4 +571,9 @@ div .date-element > a:hover {
     width: 685px;
     height: 560px;
     background-color: var(--color-light);
+}
+
+.form-control {
+    width: 300px;
+    height: 37px;
 }

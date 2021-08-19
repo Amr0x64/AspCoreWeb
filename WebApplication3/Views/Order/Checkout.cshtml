@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/Admin.cshtml";
 }
+
 <h2>Оформление заказа</h2>
 <p>Введите данные, и мы сразу же отправим ваш товар</p>
 <div asp-validation-summary="All" class="text-danger"></div>
@@ -15,8 +16,13 @@
         <label>Улица:</label><input asp-for="Line1" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Адрес: </label>
-        
+        <label>Кайф</label><br />
+        <input list="dota-heroes" class="form-control"/>
+        <datalist id="dota-heroes">
+            <option >slarck</option>
+            <option >Pudge</option>
+        </datalist>
+
     </div>
     <div class="form-group">
         <label>Дом: </label><input asp-for="Line2" class="form-control" />
@@ -37,4 +43,5 @@
         <input class="btn btn-primary" type="submit" value="Заказать" />
     </div>
 </form>
+
 

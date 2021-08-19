@@ -1,5 +1,5 @@
 ﻿@model WebApplication3.ViewModels.AdminViewModel
-
+@using System.Globalization;
 
 
 @{
@@ -26,7 +26,8 @@
             <div class="inner-header-element">
                 <div class="nav-inf">
                     <div class="number color-1 ">
-                        @Model.TotalProfit ₽
+                        @{ var culture = new CultureInfo("ru-RU");}
+                        @Model.TotalProfit.ToString("#,#", culture) ₽
                     </div>
                     <div class="nav-icon">
                         <i class="fa fa-pie-chart" aria-hidden="true"></i>
@@ -75,7 +76,7 @@
         <div class="chart-elements">
             <canvas id="chart-finance"></canvas>
         </div>
-    </div>
+    </div>  
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 </div>

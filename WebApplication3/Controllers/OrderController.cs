@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication3.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace WebApplication3.Controllers
 {
@@ -55,6 +57,7 @@ namespace WebApplication3.Controllers
             }
             if (ModelState.IsValid)
             {
+                
                 var correctName = order.Name.Replace(" ", "");
                 var firstChar = correctName.Substring(0, 1).ToUpper();
                 correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
