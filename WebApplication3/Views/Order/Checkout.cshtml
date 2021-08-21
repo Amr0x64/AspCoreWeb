@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@model WebApplication3.ViewModels.OrderViewModel
 
 @{
     Layout = "~/Views/Shared/Admin.cshtml";
@@ -16,13 +16,14 @@
         <label>Улица:</label><input asp-for="Line1" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Кайф</label><br />
-        <input list="dota-heroes" class="form-control"/>
+        <label>Продукт</label><br />
+        <input list="dota-heroes" class="form-control" type="text" autocomplete="off" asp-for="productTitle"/>
         <datalist id="dota-heroes">
-            <option >slarck</option>
-            <option >Pudge</option>
+            @foreach (var product in Model.productList)
+            {
+                <option value="@product.Title">@product.Title</option>
+            }
         </datalist>
-
     </div>
     <div class="form-group">
         <label>Дом: </label><input asp-for="Line2" class="form-control" />

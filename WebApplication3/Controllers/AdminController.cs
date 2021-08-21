@@ -43,17 +43,65 @@ namespace WebApplication3.Controllers
             return View(model);
         }
         #region}{}{}{}{}{}{}{}{}{}{}{}{}{}{Выборка продукта}{}{}{}{}{}{}{}{}{}{}{}{}{}{
-        public async Task<IActionResult> SelectViweProduct(string date)     
+        public async Task<IActionResult> SelectProduct(string date)     
         {
-            if (date == "day")
-            {
-                return View("Index", db.Products.OrderByDescending(v => v.View).ToList());
-            }
-            return View("Index", await db.Products.ToListAsync());
+                List<CartLine> cartLineList = new List<CartLine>();
+                List<Product> productListToOrder = new List<Product>();
+                if (date == "day")
+                {
+                ViewData["TopOrders"] = "Топ заказов на сегодня";
+                foreach (var order in db.Orders.Where(d => (DateTime.Now.Day == d.OrderDate.Day) && (DateTime.Now.Month == d.OrderDate.Month) && (DateTime.Now.Year == d.OrderDate.Year)).ToList())
+                    {
+                        cartLineList.Add(db.CartLines.FirstOrDefault(o => o.OrderId == order.OrderId));
+                    }    
+                }
+                else if (date == "month")
+                {
+                    ViewData["TopOrders"] = "Топ заказов за месяц";
+                    foreach (var order in db.Orders.Where(d => (DateTime.Now.Month == d.OrderDate.Month) && (DateTime.Now.Year == d.OrderDate.Year)).ToList())
+                    {
+                        cartLineList.Add(db.CartLines.FirstOrDefault(o => o.OrderId == order.OrderId));
+                    }
+
+                }
+                else if (date == "allTime")
+                {
+                    ViewData["TopOrders"] = "Топ заказов за все время";
+                    foreach (var order in db.Orders.ToList())
+                    {
+                        cartLineList.Add(db.CartLines.FirstOrDefault(o => o.OrderId == order.OrderId));
+                    }
+                }
+                else 
+                {
+                    return View("ProductStatistics", await db.Products.ToListAsync());
+                }
+                var cartLineListUnique = new List<CartLine>();
+                foreach(var line in cartLineList)
+                {
+                    bool checkId = true;
+                    foreach (var lineUnique in cartLineListUnique)
+                    {
+                        if (lineUnique.ProductId == line.ProductId)
+                        {
+                            var ct = cartLineListUnique.FirstOrDefault(p => p.ProductId == line.ProductId);
+                            ct.Quantity += line.Quantity;
+                            checkId = false;
+                            break;
+                        }
+                    }
+                    if (checkId)
+                    {
+                        cartLineListUnique.Add(line);
+                    }
+                }
+                cartLineListUnique = cartLineListUnique.OrderByDescending(q => q.Quantity).ToList();
+                foreach (var productId in cartLineListUnique) productListToOrder.Add(db.Products.FirstOrDefault(p => p.ProductId == productId.ProductId));
+                return View("ProductStatistics", productListToOrder);
         }
         #endregion
         [NonAction]
-        public  List<int> CountViewProduct(int date)
+        public  List<int> CountOrderProduct(string date)
         {
             List<int> productList = new List<int>();
             if (true)

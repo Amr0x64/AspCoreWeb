@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WebApplication3.Models.Product>
+@using WebApplication3.ViewModels
+@using WebApplication3.Infrastructure
+@using System.Security.Claims
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Администрирование";
+    ClaimsPrincipal currUser = this.User;
+    bool IsSuperUser = currUser.IsInRole("superuser");
+    bool IsAdmin = currUser.IsInRole("admin");
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+
+
+<div class="nav-inf-product">
+    <div>
+        <h5>@ViewData["TopOrders"]</h5>
+    </div>
+    <div class="nav-date-element">
+        <div class="date-element">
+            <a asp-action="SelectProduct" asp-route-date="day"> Day </a>
+        </div>
+        <div class="date-element">
+            <a asp-action="SelectProduct" asp-route-date="week">Week</a>
+        </div>
+        <div class="date-element">
+            <a asp-action="SelectProduct" asp-route-date="month">Month</a>
+        </div>
+        <div class="date-element">
+            <a asp-action="SelectProduct" asp-route-date="allTime">All time</a>
+        </div>
+    </div>
+</div>
+
+<hr class="granica">
+
+<ul class="products-container">
+    @foreach (var item in Model)
+    {
+        @if (!item.isRemoved)
+        {
+            <li class="products-element">
+                @if (IsAdmin || IsSuperUser)
+                {
+                    @if (item.ChangeUser == null)
+                    {
+                        <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-info" aria-hidden="true" title="Добавил: @item.AddUser&#013; Время: @item.AddDate&#013; Отредактировал: @item.ChangeUser&#013; Время: @item.ChangeDate"></i>
+                    }
+                }
+                <span style="color:black" class="products-element__name"><a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId">@item.Title</a></span>
+                <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId">
+                    <img class="products-element__img" src="@Url.Content(item.PathImg)" title="@item.Title" />
+                </a>
+                <span class="products-element__price">@item.Price RUB</span>
+                @if (IsAdmin || IsSuperUser)
+                {
+                    <i class="fa fa-eye" aria-hidden="true"> @item.View</i>
+                }
+                <form id="@item.ProductId" method="post" asp-action="AddToCart" asp-controller="Cart">
+                    <input type="hidden" name="productld" value="@item.ProductId" />
+                    <input type="hidden" name="returnUrl"
+                           value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    <button type="submit"
+                            class="products-element__btn products-element__btn_active">
+                        <span class="spn"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></span>
+                    </button>
+                </form>
+                @if (IsAdmin || IsSuperUser)
+                {
+                    @if (!item.isRemoved)
+                    {
+                        <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input type="submit" value="Удалить" class="btn btn-outline-secondary btn-2" />
+                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i>  </a>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="RestoreProduct" asp-controller="Product" asp-route-id="@item.ProductId" method="get">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input type="submit" value="Восстановить" class="btn btn-outline-secondary btn-my" />
+                                <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
+                            </div>
+                        </form>
+                    }
+                }
+            </li>
+        }
+    }
+</ul>

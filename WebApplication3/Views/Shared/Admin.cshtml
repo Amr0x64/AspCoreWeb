@@ -32,8 +32,12 @@
                     @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
                     {
                         <div class="header-item-first headerButton"><a asp-action="Home" asp-controller="Admin">Главная</a></div>
+                        <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Интернет-Магазин</a></div>
                     }
-                    <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Интернет-Магазин</a></div>
+                    else
+                    {
+                        <div class="header-item-first headerButton"><a asp-action="Index" asp-controller="Home">Главная</a></div>
+                    }
                     <div class="header-item headerButton"><a asp-action="Index" asp-controller="Product">Продукты</a></div>
                     @if (User.Identity.IsAuthenticated && (IsAdmin || IsSuperUser))
                     {
@@ -94,6 +98,9 @@
                             <div class="sidebar-elememt">
                                 <p class="nav-sidebar-element"><a asp-controller="Order" asp-action="List"><span class="description-elem">Покупочки</span><i class="fa fa-shopping-basket category-element" aria-hidden="true"></i></a></p>
                             </div>
+                            <div class="sidebar-elememt">
+                                <p class="nav-sidebar-element"><a asp-controller="Admin" asp-action="SelectProduct" asp-route-date="day"> <span class="description-elem">Продукты</span> </a></p>
+                            </div>
                             <hr />
                         </div>
                     }
@@ -102,6 +109,9 @@
                     <div class="category-product">
                         @if (ViewBag.Categorys != null)
                         {
+                            <div>
+                                <input type="range" />
+                            </div>
                             @foreach (var e in ViewBag.Categorys)
                             {
                                 <div class="sidebar-elememt">

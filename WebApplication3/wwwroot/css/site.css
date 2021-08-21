@@ -23,7 +23,7 @@ body {
     padding: 0;
     font-family: sans-serif;
     line-height: 1.7;
-    background-color: var(--color-light);
+    background-color: #fff;
   
 }
 
@@ -564,13 +564,13 @@ div .date-element > a:hover {
 #chart-orders {
     width: 685px;
     height: 560px;
-    background-color: var(--color-light);
+    background-color: #fff;
 }
 
 #chart-finance {
     width: 685px;
     height: 560px;
-    background-color: var(--color-light);
+    background-color: #fff;
 }
 
 .form-control {
