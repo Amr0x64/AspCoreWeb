@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Text;
 
 namespace WebApplication3.Infrastructure
 {
@@ -26,6 +30,32 @@ namespace WebApplication3.Infrastructure
         {
             var sessionData = session.GetString(key);
             return sessionData == null ? default(T) : JsonConvert.DeserializeObject<T>(sessionData);
+        }
+    }
+    public class HttpsOnlyAttribute : Attribute, IAuthorizationFilter
+    {
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+            if (!context.HttpContext.Request.IsHttps)
+            {
+                context.Result = new StatusCodeResult(StatusCodes.Status403Forbidden);
+            }
+        }
+    }
+    public class ProfileAttribute : ActionFilterAttribute
+    {
+        private Stopwatch timer;
+        public int milliseconds;
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            timer = Stopwatch.StartNew();
+        }
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            timer.Stop();
+            string milliseconds =   timer.Elapsed.Milliseconds.ToString() + " Amir";
+            byte[] bytes = Encoding.ASCII.GetBytes(milliseconds);
+            context.HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
         }
     }
 }

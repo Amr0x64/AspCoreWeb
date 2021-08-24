@@ -8,6 +8,7 @@ namespace WebApplication3.Models
     public class MemoryRepository : IRepository
     {
         private Dictionary<string, Product> products;
+        private string guid = System.Guid.NewGuid().ToString();
         public MemoryRepository()
         {
             products = new Dictionary<string, Product>();
@@ -17,7 +18,7 @@ namespace WebApplication3.Models
             }.ForEach(p => AddProduct(p));
         }
         public IEnumerable<Product> Products => products.Values;
-        public Product this[string name] => products[name]; 
+        public Product this[string name] => products[name];     
         public void AddProduct(Product product)
         {
             products[product.Title] = product;
@@ -25,6 +26,10 @@ namespace WebApplication3.Models
         public void DeleteProduct(Product product)
         {
             products.Remove(product.Title);
+        }
+        public override string ToString()
+        {
+            return guid;
         }
     }
 }

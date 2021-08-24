@@ -37,6 +37,8 @@ namespace WebApplication3
                 .AddEntityFrameworkStores<ApplicationContext>();
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRepository, MemoryRepository>();
+            services.AddTransient<Totalizeir>();
             services.AddControllersWithViews();
             services.AddMemoryCache();
             services.AddSession();
@@ -64,9 +66,7 @@ namespace WebApplication3
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
-
-            UserManager<User> _userManager = userManager;
-            User user = _userManager.Users.FirstOrDefault(n => n.Id == "edwf");
+            
             if (true)
             {
                 app.UseEndpoints(endpoints =>

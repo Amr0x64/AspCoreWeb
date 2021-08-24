@@ -19,17 +19,9 @@ namespace WebApplication3.ViewModels
         [Required(ErrorMessage = "Введите имя")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Введите первкю строку адреса")]
-        public string Line1 { get; set; }
-        public string Line2 { get; set; }
-        public string Line3 { get; set; }
-        [Required(ErrorMessage = "Введите первкю строку города")]
-        public string City { get; set; }
-        [Required(ErrorMessage = "Введите первкю строку страны")]
-
-        public string Country { get; set; }
-        public string Zip { get; set; }
+        public string Adress { get; set; }
         public DateTime OrderDate { get; set; }
-        public List<Product> productList { get; set; }
+        public List<FiasStatment> adressList { get; set; }
         public string productTitle { get; set; }
     }
 }

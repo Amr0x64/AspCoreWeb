@@ -28,28 +28,45 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Checkout()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
-            connection.Open();
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Products", connection);
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
-            List<Product> _productList = new List<Product>();
-            foreach (DataTable dt in ds.Tables)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    var cells = row.ItemArray;
-                    Product product = new Product { ProductId = (int)cells[0], Title = (string)cells[1] };
-                    _productList.Add(product);
-                }
-            }
-            //ds.WriteXml("products.xml");
-            connection.Close();
+            
 
-            OrderViewModel model = new OrderViewModel { productList = await db.Products.ToListAsync() };
+            OrderViewModel model = new OrderViewModel { adressList = SelectData() };
+            //Guid guid = new Guid("853B58CD-3219-4091-9FC5-3F1E82BACE43");
+            //ViewBag.wdwqdwq = db.FiasStatments.FirstOrDefault(a => a.FiasGuid == guid).Level;
             return View(model);
         }
+        #region |==|==|==|==|==|==|==|==|==|==|==|==| Заказ товаров ==|==|==|==|==|==|==|==|==|==|==|==|==|==|==|==
+        [HttpPost]
+        public async Task<IActionResult> Checkout(OrderViewModel order)
+        {
+            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            if (cart.Lines.Count() == 0)
+            {
+                ModelState.AddModelError("", "Корзина пуста");
+            }
+            if (ModelState.IsValid)
+            {
+                var dqr = order.productTitle;
+                var correctName = order.Name.Replace(" ", "");
+                var firstChar = correctName.Substring(0, 1).ToUpper();
+                correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
 
+                Order orderDb = new Order { City = "fmewklfkel", Country = "fpwfpif", Line1 = "asd", Line2 = "cfwe", Line3 = "fef", OrderId = order.OrderId, Shipped = false, Zip = "dw" };
+                orderDb.Name = correctName;
+                orderDb.OrderDate = DateTime.Now;
+                orderDb.Lines = cart.Lines.ToArray();
+                db.AttachRange(orderDb.Lines.Select(l => l.Product));
+                db.Add(orderDb);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Completed));
+            }
+            else
+            {
+                return View(new OrderViewModel() { adressList = SelectData() });
+            }
+        }
+        #endregion
         [Authorize(Roles = "admin, superuser")]
         public IActionResult List()
         {
@@ -71,41 +88,34 @@ namespace WebApplication3.Controllers
             }
             return RedirectToAction("List");
         }
-        [HttpPost]
-        public async  Task<IActionResult> Checkout(OrderViewModel order)
-        {
-            ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            if (cart.Lines.Count() == 0)
-            {
-                ModelState.AddModelError("", "Корзина пуста");  
-            }
-            if (ModelState.IsValid)
-            {
-                var dqr = order.productTitle;
-                var correctName = order.Name.Replace(" ", "");
-                var firstChar = correctName.Substring(0, 1).ToUpper();
-                correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
-
-                Order orderDb = new Order { City = order.City, Country = order.Country, Line1 = order.Line1, Line2 = order.Line2, Line3 = order.Line3, OrderId = order.OrderId, Shipped = false, Zip = order.Zip };
-                orderDb.Name = correctName;
-                orderDb.OrderDate = DateTime.Now;
-                orderDb.Lines = cart.Lines.ToArray();
-                db.AttachRange(orderDb.Lines.Select(l => l.Product));
-                db.Add(orderDb);
-                await db.SaveChangesAsync();
-                    
-                return RedirectToAction(nameof(Completed));
-            }
-            else
-            {
-                return View(new OrderViewModel() { productList = await db.Products.ToListAsync() });
-            }
-        }
-        public ViewResult Completed()
+        
+        public IActionResult Completed()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             cart.Clear();
             return View();
+        }
+        [NonAction]
+        public List<FiasStatment> SelectData()
+        {
+            SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
+            connection.Open();
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM FiasStatments", connection);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
+            List<FiasStatment> _adressList = new List<FiasStatment>();
+            foreach (DataTable dt in ds.Tables)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    var cells = row.ItemArray;
+                    FiasStatment adress = new FiasStatment { FiasStatementsId = (Guid)cells[2], AddressName = (string)cells[6] };
+                    _adressList.Add(adress);
+                }
+            }
+            //ds.WriteXml("products.xml");
+            connection.Close();
+            return _adressList;
         }
     }
 }

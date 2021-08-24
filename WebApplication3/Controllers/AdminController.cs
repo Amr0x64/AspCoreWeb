@@ -8,22 +8,31 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using WebApplication3.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using WebApplication3.Infrastructure;
 
 namespace WebApplication3.Controllers
 {
     [Authorize(Roles = "admin, superuser")]
+    [HttpsOnly]
     public class AdminController : Controller
     {
         private ApplicationContext db;
-        public AdminController(ApplicationContext context)
+        private IRepository repository;
+        
+        public AdminController(ApplicationContext context, IRepository repo)
         {
             db = context;
+            repository = repo;
         }
-
-        public IActionResult Index()
+        [RequireHttps]
+        //[Profile]
+        public IActionResult Index([FromServices]Totalizeir totalizeir)
         {
             ViewData["OrderCount"] = db.Orders.Where(x => x.Shipped == false).Count();
-            return View(db.Products.ToList());
+            ViewBag.HomeController = repository.ToString();
+            ViewBag.Totalizier = totalizeir.Repository.ToString();
+            return View(repository.Products);
         }
         public JsonResult JsonResponse()
         {
