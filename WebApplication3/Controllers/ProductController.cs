@@ -86,7 +86,9 @@ namespace WebApplication3.Controllers
                         await model.UploadedFile.CopyToAsync(fileStream);
                     }
                 }
-                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description,Category = model.Category, Price = model.Price, AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
+                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description,Category = model.Category, Price = model.Price,
+                    AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
+
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -116,7 +118,9 @@ namespace WebApplication3.Controllers
             if (product != null)
             {
                 ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
-                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price, Count = product.Count};
+                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price,
+                    Count = product.Count};
+
                 return View(model);
             }
             return NotFound();

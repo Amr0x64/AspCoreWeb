@@ -59,7 +59,8 @@ namespace WebApplication3.Controllers
                 if (date == "day")
                 {
                 ViewData["TopOrders"] = "Топ заказов на сегодня";
-                foreach (var order in db.Orders.Where(d => (DateTime.Now.Day == d.OrderDate.Day) && (DateTime.Now.Month == d.OrderDate.Month) && (DateTime.Now.Year == d.OrderDate.Year)).ToList())
+                foreach (var order in db.Orders.Where(d => (DateTime.Now.Day == d.OrderDate.Day) && (DateTime.Now.Month == d.OrderDate.Month) && (DateTime.Now.Year == d.OrderDate.Year))
+                    .ToList())
                     {
                         cartLineList.Add(db.CartLines.FirstOrDefault(o => o.OrderId == order.OrderId));
                     }    
@@ -132,18 +133,6 @@ namespace WebApplication3.Controllers
                 }
                 return productList;
             }
-            //else if (date == 2)
-            //{
-
-            //}
-            //else if (date == 3)
-            //{
-            //    //await db.Products.Where(d => d.AddDate).OrderByDescending(p => p.View).ToListAsync();
-            //}
-            //else if (date == 4)
-            //{
-            //   // await db.Products.Where(d => d.AddDate).OrderByDescending(p => p.View).ToListAsync();
-            //}
         }
         [NonAction]
         private Boolean SravDate(int val) => val == -1;

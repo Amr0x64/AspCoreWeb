@@ -28,11 +28,8 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Checkout()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
+            OrderViewModel model = new OrderViewModel {  };
             
-
-            OrderViewModel model = new OrderViewModel { adressList = SelectData() };
-            //Guid guid = new Guid("853B58CD-3219-4091-9FC5-3F1E82BACE43");
-            //ViewBag.wdwqdwq = db.FiasStatments.FirstOrDefault(a => a.FiasGuid == guid).Level;
             return View(model);
         }
         #region |==|==|==|==|==|==|==|==|==|==|==|==| Заказ товаров ==|==|==|==|==|==|==|==|==|==|==|==|==|==|==|==
@@ -45,13 +42,15 @@ namespace WebApplication3.Controllers
                 ModelState.AddModelError("", "Корзина пуста");
             }
             if (ModelState.IsValid)
-            {
+            {   
                 var dqr = order.productTitle;
                 var correctName = order.Name.Replace(" ", "");
                 var firstChar = correctName.Substring(0, 1).ToUpper();
                 correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
+                
+                Order orderDb = new Order {Name = order.Name, City = "fmewklfkel", Country = "fpwfpif", Line1 = "asd", Line2 = "cfwe", Line3 = "fef", OrderId = order.OrderId,
+                    Shipped = false, Zip = "dw" };
 
-                Order orderDb = new Order { City = "fmewklfkel", Country = "fpwfpif", Line1 = "asd", Line2 = "cfwe", Line3 = "fef", OrderId = order.OrderId, Shipped = false, Zip = "dw" };
                 orderDb.Name = correctName;
                 orderDb.OrderDate = DateTime.Now;
                 orderDb.Lines = cart.Lines.ToArray();
@@ -63,17 +62,21 @@ namespace WebApplication3.Controllers
             }
             else
             {
-                return View(new OrderViewModel() { adressList = SelectData() });
+                return View(new OrderViewModel() {  });
             }
         }
         #endregion
+
+        #region ||==||==||==||==||==||==||==||==||==| Список не подтвержденных закзаов |==||==||==||==||===
         [Authorize(Roles = "admin, superuser")]
         public IActionResult List()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             return View(db.Orders.AsNoTracking().Include(o => o.Lines).ThenInclude(p => p.Product).Where(l => !l.Shipped));
         }
+        #endregion
 
+        #region ||==||==||==||==||==||==||==||==||==||==| Подтверждение товара |==||==||==||==||==||==||==||=
         [Authorize(Roles = "admin, superuser")]
         [HttpPost]
         public async Task<IActionResult> MarkShipped(int orderId)
@@ -88,34 +91,19 @@ namespace WebApplication3.Controllers
             }
             return RedirectToAction("List");
         }
-        
+        #endregion
+
+        #region ||==||==||==||==||==||==||==||==||==||==| Принятие заказа |==||==||==||==||==||==||==||==||==||==||==|
         public IActionResult Completed()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             cart.Clear();
             return View();
         }
-        [NonAction]
-        public List<FiasStatment> SelectData()
-        {
-            SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
-            connection.Open();
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM FiasStatments", connection);
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
-            List<FiasStatment> _adressList = new List<FiasStatment>();
-            foreach (DataTable dt in ds.Tables)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    var cells = row.ItemArray;
-                    FiasStatment adress = new FiasStatment { FiasStatementsId = (Guid)cells[2], AddressName = (string)cells[6] };
-                    _adressList.Add(adress);
-                }
-            }
-            //ds.WriteXml("products.xml");
-            connection.Close();
-            return _adressList;
-        }
+        #endregion
+
+        
+       
     }
+
 }
