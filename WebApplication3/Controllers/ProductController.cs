@@ -24,41 +24,47 @@ namespace WebApplication3.Controllers
         private readonly SignInManager<User> _signInManager;
         IWebHostEnvironment _appEnvironment;
         private IHttpContextAccessor _accessor;
-        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment, IHttpContextAccessor accessor)
+        private Cart _cart;
+        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment,
+            IHttpContextAccessor accessor, Cart cart)
         {
             _userManager = userManager;
             _signInManager = signInManager; 
             db = context;
             _appEnvironment = appEnvironment;
             _accessor = accessor;
+            _cart = cart;
         }
         
         public async Task<IActionResult> Index()
         {
             ViewBag.IsDeleteProduct = false;
             ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
-            return View(await db.Products.ToListAsync());
+            ProductViewModel model = new ProductViewModel { ProductList = await db.Products.ToListAsync(), Cart = _cart };
+            return View(model);
         }
-        [HttpPost]  
+        [HttpGet]  
         public async Task<IActionResult> Search(string nameProduct)
         {
             ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
-                var searchProductList = db.Products.AsNoTracking().Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderByDescending(x => x.Price);
-                return View("Index", searchProductList);
+                var searchProductList = await db.Products.Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderByDescending(x => x.Price).ToListAsync();
+                ProductViewModel model = new ProductViewModel { ProductList = searchProductList, Cart = _cart };
+                return View("Index", model);
             }
-            return View("Index", await db.Products.ToListAsync());
+            return View("Index", new ProductViewModel { ProductList = await db.Products.ToListAsync(), Cart = _cart });
         }
 
         #region =||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=|| Показать удаленные продукты ||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||=||
-
+        [Authorize(Roles = "admin, superuser")]
         [HttpGet]
         public async Task<IActionResult> SelectDeleteProduct()
         {
             ViewBag.IsDeleteProduct = true;
-            return View("Index", await db.Products.ToListAsync());
+            ProductViewModel model = new ProductViewModel { ProductList = await db.Products.ToListAsync() };
+            return View("Index", model);
         }
 
         #endregion
@@ -107,7 +113,7 @@ namespace WebApplication3.Controllers
                 product.isRemoved = false;
                 db.Products.Update(product);
                 await db.SaveChangesAsync();
-                return View("Index", await db.Products.ToListAsync());
+                return View("Index", new ProductViewModel { ProductList = await db.Products.ToListAsync(), Cart = _cart });
             }
             return NotFound();
         }
@@ -188,12 +194,34 @@ namespace WebApplication3.Controllers
             }
             return NotFound();
         }
-
-        public IActionResult DetailCategory(string categoryName)
+        [HttpGet]
+        public async Task<IActionResult> DetailCategory(string categoryName)
         {
             ViewBag.IsDeleteProduct = false;
             ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
-            return View("Index",  db.Products.ToList().Where(p => p.Category == categoryName));
+            return View("Index", new ProductViewModel { ProductList = await db.Products.Where(p => p.Category == categoryName).ToListAsync(), Cart = _cart } );
+        }
+        //В корзине
+        [HttpGet]
+        public IActionResult DeleteOneProduct(int productId)
+        {
+            Product product = db.Products.FirstOrDefault(x => x.ProductId == productId);
+            if (product != null)
+            {
+                _cart.DeleteProduct(product);
+            }
+            return Ok(_cart.Lines.FirstOrDefault(p => p.ProductId == productId).Quantity.ToString());
+        }
+
+        [HttpGet]
+        public IActionResult AddOneProduct(int productId)
+        {
+            Product product = db.Products.FirstOrDefault(p => p.ProductId == productId);
+            if (product != null)
+            {
+                _cart.AddProduct(product);
+            }
+            return Ok(_cart.Lines.FirstOrDefault(p => p.ProductId == productId).Quantity.ToString());
         }
         [NonAction]
         public String GetIp() => _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();

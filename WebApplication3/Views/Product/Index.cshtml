@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication3.Models.Product>
+﻿@model ProductViewModel
 @using WebApplication3.ViewModels
 @using WebApplication3.Infrastructure
 @using System.Security.Claims
@@ -14,7 +14,7 @@
 
 <div id="products">
     <div class="nav-admin">
-        <form method="post" asp-action="Search" asp-controller="Product" class="search-contain">
+        <form method="get" asp-action="Search" asp-controller="Product" class="search-contain">
             <div asp-validation-summary="All" class="text-danger" hidden></div>
             <div class="form-group flex-element-11">
                 <input type="text" name="nameProduct" class="form-control-search" placeholder="Название" />
@@ -49,11 +49,11 @@
             </div>
         }
     </div>
-    <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>
+    <p>@Model.ProductList.Where(x => x.isRemoved == false).Count() товаров</p>
     <p>@TempData["message"]</p>
     <hr class="granica">
     <ul class="products-container">
-        @foreach (var item in Model)
+        @foreach (var item in Model.ProductList)
         {
             @if (!item.isRemoved || ViewBag.IsDeleteProduct)
             {   
@@ -73,45 +73,68 @@
             <a asp-action="Detail" asp-route-id="@item.ProductId">
                 <img class="products-element__img" src="@Url.Content(item.PathImg)" title="@item.Title" />
             </a>
-                <span class="products-element__price">@item.Price RUB</span>
+            <span class="products-element__price">@item.Price RUB</span>
             @if (IsAdmin || IsSuperUser)
             {
                 <i class="fa fa-eye" aria-hidden="true"> @item.View</i>
+            } 
+            @if (Model.Cart?.Lines.FirstOrDefault(p => p.Product.ProductId == item.ProductId) != null)
+            {
+             var cartProduct = Model.Cart.Lines.FirstOrDefault(p => p.Product.ProductId == item.ProductId);
+             <div class="edit-qua-cart">
+                    <form class="form-block-inline betwen" asp-action="DeleteOneProduct" method="get">
+                        <input type="hidden" name="productId" value="@cartProduct.Product.ProductId" />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fa fa-minus-square" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    <span class="product-cart"> @cartProduct.Quantity </span>
+                    <form class="form-block-inline betwen-2" asp-action="AddOneProduct" method="get">
+                        <input type="hidden" name="productId" value="@cartProduct.Product.ProductId"/>
+                    <button type="submit" class="btn btn-sm btn-plus-product">
+                        <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    </button>
+                    </form>
+             </div>
             }
-            <form id="@item.ProductId" method="post" asp-action="AddToCart" asp-controller="Cart">
-                <input type="hidden" name="productld" value="@item.ProductId" />
-                <input type="hidden" name="returnUrl"
-                       value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                <button type="submit"
-                        class="products-element__btn products-element__btn_active">
-                    <span class="spn"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></span>
-                </button>
-            </form>
-           
-                @if (IsAdmin || IsSuperUser)
+            else
+            {
+                <div class="cart">
+                    <form id="@item.ProductId" method="get" asp-action="AddToCart" asp-controller="Cart">   
+                        <input type="hidden" name="productld" value="@item.ProductId" />
+                        <button type="submit"
+                                class="products-element__btn products-element__btn_active">
+                            <span class="spn"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></span>
+                        </button>
+                    </form>
+                </div>
+            }
+            <script src="~/components/products.js"></script>
+
+            @if (IsAdmin || IsSuperUser)
+            {
+                @if (!item.isRemoved)
                 {
-                    @if (!item.isRemoved)
-                    {
-                        <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <input type="submit" value="Удалить" class="btn btn-outline-secondary btn-2" />
-                                <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
-                            </div>
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="RestoreProduct" asp-controller="Product" asp-route-id="@item.ProductId" method="get">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <input type="submit" value="Восстановить" class="btn btn-outline-secondary btn-my" />
-                                <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
-                            </div>
-                        </form>
-                    }
+                    <form asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="submit" value="Удалить" class="btn btn-outline-secondary btn-2" />
+                            <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
+                        </div>
+                    </form>
                 }
-            
+                else
+                {
+                    <form asp-action="RestoreProduct" asp-controller="Product" asp-route-id="@item.ProductId" method="get">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="submit" value="Восстановить" class="btn btn-outline-secondary btn-my" />
+                            <a asp-action="Edit" asp-route-id="@item.ProductId"> <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
+                        </div>
+                    </form>
+                }
+            }
+
         </li>
             }
         }

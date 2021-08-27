@@ -7,9 +7,10 @@ namespace WebApplication3.Models
 {
     public interface IRepository
     {
-        IEnumerable<Product> Products { get;  }
-        Product this[string name] { get; }
-        void AddProduct(Product product);
-        void DeleteProduct(Product product);
+        IEnumerable<Reservation> Reservations{ get;  }
+        Reservation this[int id] { get; }
+        Reservation AddReservation(Reservation reservation);
+        Reservation UpdateReservation(Reservation reservation);
+        void DeleteReservation(int id);
     }
 }

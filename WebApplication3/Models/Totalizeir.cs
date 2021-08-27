@@ -12,6 +12,6 @@ namespace WebApplication3.Models
             Repository = repo;
         }
         public IRepository Repository { get; set; }
-        public decimal Total => Repository.Products.Sum(p => p.Price);
+        
     }
 }

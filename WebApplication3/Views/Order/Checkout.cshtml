@@ -3,15 +3,8 @@
 @{
     Layout = "~/Views/Shared/Admin.cshtml";
 }
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#adress-list").autocomplete({
-            source: "/Order/Search/"
-        });
-    });
-</script>
+
+<span id="adressStatment" hidden>@Model.adressList</span>
 
 <h2>Оформление заказа</h2>
 <p>Введите данные, и мы сразу же отправим ваш товар</p>
@@ -22,13 +15,10 @@
     </div>
     <div class="form-group">
         <label>Адрес</label><br />
-        <input list="adress-list" class="form-control" type="text" asp-for="Adress" />
-        <datalist id="adress-list">
-            @*@foreach (var product in Model.adressList)
-            {
-                <option value="@product.AddressName">@product.AddressName + @product.Level.ToString()</option>
-            }*@
+        <input list="adressList" id="input" class="form-control" type="text" asp-for="Adress" autocomplete="off" />
+        <datalist id="adressList">
         </datalist>
+        <script src="~/js/Searh.js"></script>
     </div>
     <div>
         <input class="btn btn-primary" type="submit" value="Заказать" />

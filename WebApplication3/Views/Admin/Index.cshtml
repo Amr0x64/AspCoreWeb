@@ -12,12 +12,7 @@
     bool IsAdmin = currUser.IsInRole("admin");
     Layout = "~/Views/Shared/Admin.cshtml";
 }
-
-
-
-@ViewBag.HomeController;
-            @ViewBag.Totalizier;
-
+    
 <div class="nav-inf-product">
     <div>
         <p>@Model.Where(x => x.isRemoved == false).Count() товаров</p>

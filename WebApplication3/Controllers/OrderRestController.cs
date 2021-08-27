@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication3.Controllers
 {
+    [Route("api/order")]
     public class OrderRestController : Controller
     {
         private ApplicationContext db;
@@ -26,7 +27,7 @@ namespace WebApplication3.Controllers
         }
         [Produces("application/json")]
         [HttpGet("search")]
-        public async Task<IActionResult> Search()
+        public IActionResult Search(string fullAdress)
         {
             SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
@@ -46,7 +47,8 @@ namespace WebApplication3.Controllers
                         FiasGuid = (Guid)cells[1],
                         FiasStatmentId = (Guid)cells[2],
                         Level = (int)cells[3],
-                        AddressName = (string)cells[6]
+                        AddressName = (string)cells[6] + " ",
+                        ShortTypeName = (string)cells[10] + "."
                     };
 
                     if (!(cells[8] != null)) adress.ParentId = (Guid)cells[8];
@@ -55,11 +57,23 @@ namespace WebApplication3.Controllers
                     _adressList.Add(adress);    
                 }
             }
-            //ds.WriteXml("products.xml");
+            //ПРобелы regex
+            //ds.WriteXml("products.xml");  
             connection.Close();
-            string address = HttpContext.Request.Query["Adress"].ToString();
-            var modelAdress = _adressList.Where(l => l.Level != 9 && l.Level == 8).OrderByDescending(l => l.Level).Select(a => a.AddressName).ToList();
+            string address = fullAdress;
+            List<FiasStatment> modelAdress = null;  
+            if (address != null)
+            {
+                var adressModel = _adressList.FirstOrDefault(a => a.AddressName == address);
+                if (adressModel != null)
+                {
+                    modelAdress = _adressList.Where(p => p.ParentId == adressModel.FiasGuid).OrderByDescending(l => l.Level).ToList();
+                    return Ok(modelAdress);
+                }   
+            } 
+            modelAdress = _adressList.Where(l => l.Level != 9 && l.Level == 8).OrderByDescending(l => l.Level).ToList();
+
             return Ok(modelAdress);
         }
     }
-}
+} 

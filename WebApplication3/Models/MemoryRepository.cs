@@ -7,29 +7,35 @@ namespace WebApplication3.Models
 {
     public class MemoryRepository : IRepository
     {
-        private Dictionary<string, Product> products;
-        private string guid = System.Guid.NewGuid().ToString();
+        private Dictionary<int, Reservation> items;
         public MemoryRepository()
         {
-            products = new Dictionary<string, Product>();
-            new List<Product>
+            items = new Dictionary<int, Reservation>();
+            new List<Reservation>
             {
-                new Product {ProductId = 1, Title = "Philips", Description = "mvioerjvoerjvoj",Category = "cwefec", Price = 3413213, AddDate = DateTime.Now, Count = 12}
-            }.ForEach(p => AddProduct(p));
+                new Reservation { ClientName = "Фаршмаки" , Location = "Петушиная зона"}
+            }.ForEach(p => AddReservation(p));
         }
-        public IEnumerable<Product> Products => products.Values;
-        public Product this[string name] => products[name];     
-        public void AddProduct(Product product)
+        public IEnumerable<Reservation> Reservations => items.Values;
+        public Reservation this[int id] => items.ContainsKey(id) ? items[id] : null;     
+        public Reservation AddReservation(Reservation reservation)
         {
-            products[product.Title] = product;
+            if (reservation.ReservationId == 0)
+            {
+                int key = items.Count;
+                while (items.ContainsKey(key)) key++;
+                reservation.ReservationId = key;
+            }
+            items[reservation.ReservationId] = reservation;
+            return reservation;
         }
-        public void DeleteProduct(Product product)
+        public void DeleteReservation(int id)
         {
-            products.Remove(product.Title);
+            items.Remove(id);
         }
-        public override string ToString()
+        public Reservation UpdateReservation(Reservation reservation)
         {
-            return guid;
+            return AddReservation(reservation);
         }
     }
 }

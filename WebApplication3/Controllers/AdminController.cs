@@ -32,7 +32,7 @@ namespace WebApplication3.Controllers
             ViewData["OrderCount"] = db.Orders.Where(x => x.Shipped == false).Count();
             ViewBag.HomeController = repository.ToString();
             ViewBag.Totalizier = totalizeir.Repository.ToString();
-            return View(repository.Products);
+            return View();
         }
         public JsonResult JsonResponse()
         {

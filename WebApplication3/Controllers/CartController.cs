@@ -19,14 +19,16 @@ namespace WebApplication3.Controllers
             db = context;
             cart = cartService;
         }
-        public RedirectToActionResult AddToCart(int productld, string returnUrl)
+        [Produces("application/json")]
+        [HttpGet]
+        public IActionResult AddToCart(int productld)
         {
             Product product = db.Products.FirstOrDefault(x => x.ProductId == productld);
             if (product != null)
             {
                 cart.AddItem(product, 1);
             }
-            return RedirectToAction("Index", new { returnUrl });
+            return Ok("Добавлено в корзину");
         }
         [HttpPost]
         public RedirectToActionResult RemoveFromCart(int productld, string returnUrl)
@@ -58,7 +60,7 @@ namespace WebApplication3.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-
+        [HttpGet]
         public IActionResult Index (string returnUrl)
         {
             return View(new CartIndexViewModel
