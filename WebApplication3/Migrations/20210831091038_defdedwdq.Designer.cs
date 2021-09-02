@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication3.Models;
 
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210831091038_defdedwdq")]
+    partial class defdedwdq
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,53 +179,53 @@ namespace WebApplication3.Migrations
 
             modelBuilder.Entity("WebApplication3.Models.FiasStatment", b =>
                 {
-                    b.Property<Guid>("fias_statements_id")
+                    b.Property<Guid>("FiasStatmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("act_status")
+                    b.Property<int>("ActStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("add_user")
+                    b.Property<string>("AddUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("address_name")
+                    b.Property<string>("AddressName")
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
-                    b.Property<int>("curr_status")
+                    b.Property<int>("CurrStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("end_date")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("fias_guid")
+                    b.Property<Guid>("FiasGuid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("level")
+                    b.Property<int>("Level")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("next_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("parent_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("prev_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("short_type_name")
+                    b.Property<string>("NextId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("start_date")
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PrevId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("type_name")
+                    b.Property<string>("TypeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("fias_statements_id");
+                    b.HasKey("FiasStatmentId");
 
-                    b.ToTable("FiasStatments");
+                    b.ToTable("FiasStatmentS");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.Order", b =>

@@ -19,16 +19,13 @@ namespace WebApplication3.Controllers
             db = context;
             cart = cartService;
         }
-        [Produces("application/json")]
         [HttpGet]
         public IActionResult AddToCart(int productld)
         {
             Product product = db.Products.FirstOrDefault(x => x.ProductId == productld);
-            if (product != null)
-            {
-                cart.AddItem(product, 1);
-            }
-            return Ok("Добавлено в корзину");
+            var cartProduct = cart.Lines.FirstOrDefault(p => p.Product.ProductId == productld);
+            cart.AddItem(product, 1);
+            return Ok();
         }
         [HttpPost]
         public RedirectToActionResult RemoveFromCart(int productld, string returnUrl)

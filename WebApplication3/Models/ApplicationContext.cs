@@ -22,7 +22,6 @@ namespace WebApplication3.Models
         public DbSet<UserViewProduct> UserViewProducts { get; set; }
         public DbSet<CartLine> CartLines { get; set; }
         public DbSet<FiasStatment> FiasStatments { get; set; }
-
         
     }  
 }

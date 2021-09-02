@@ -9,20 +9,20 @@ namespace WebApplication3.Models
     public class FiasStatment
     {
         [Key]
-        public Guid FiasStatmentId { get; set; }
-        public int ActStatus { get; set; }
-        public Guid FiasGuid { get; set; }
-        public int Level { get; set; }
-        public int CurrStatus { get; set; }
+        public Guid fias_statements_id { get; set; }
+        public int act_status { get; set; }
+        public Guid fias_guid { get; set; }
+        public int level { get; set; }
+        public int curr_status { get; set; }
         [MaxLength(120)]
-        public string AddressName { get; set; }
-        public string NextId { get; set; }
-        public Guid ParentId { get; set; }
-        public string PrevId { get; set; }
-        public string ShortTypeName { get; set; }
-        public string TypeName { get; set; }
-        public DateTime? EndDate { get; set; }
-        public DateTime? StartDate { get; set; }
-        public string AddUser { get; set; }
+        public string address_name { get; set; }
+        public Guid? next_id { get; set; }
+        public Guid? parent_id { get; set; }
+        public Guid? prev_id { get; set; }
+        public string short_type_name { get; set; }
+        public string type_name { get; set; }
+        public DateTime? end_date { get; set; }
+        public DateTime? start_date { get; set; }
+        public string add_user { get; set; }
     }
 }

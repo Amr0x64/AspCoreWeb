@@ -32,14 +32,8 @@ namespace WebApplication3.Controllers
             ViewData["OrderCount"] = db.Orders.Where(x => x.Shipped == false).Count();
             ViewBag.HomeController = repository.ToString();
             ViewBag.Totalizier = totalizeir.Repository.ToString();
-            return View();
+            return View(db.Products.ToList());
         }
-        public JsonResult JsonResponse()
-        {
-            var a = db.Products.FirstOrDefault(i => i.ProductId == 15);
-            return Json(a);
-        }
-
         public IActionResult Home()
         {
             var model = new AdminViewModel();

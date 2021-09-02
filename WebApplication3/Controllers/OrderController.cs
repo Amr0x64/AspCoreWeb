@@ -29,7 +29,7 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Checkout()
         {
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            OrderViewModel model = new OrderViewModel { adressList = SelectData() };
+            OrderViewModel model = new OrderViewModel { adressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()) };  
             
             return View(model);
         }
@@ -102,42 +102,5 @@ namespace WebApplication3.Controllers
             return View();
         }
         #endregion
-
-        private string SelectData()
-        {
-            SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
-            connection.Open();
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM FiasStatments", connection);
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
-            List<FiasStatment> _adressList = new List<FiasStatment>();
-            foreach (DataTable dt in ds.Tables)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    var cells = row.ItemArray;
-                    Guid guid = new Guid("11111111-1111-1111-1111-111111111111");
-                    FiasStatment adress = new FiasStatment
-                    {
-                        ActStatus = (int)cells[0],
-                        FiasGuid = (Guid)cells[1],
-                        FiasStatmentId = (Guid)cells[2],
-                        Level = (int)cells[3],
-                        AddressName = (string)cells[6] + " ",
-                        ShortTypeName = (string)cells[10] + "."
-                    };
-            
-                    if (!(cells[8] != null)) adress.ParentId = (Guid)cells[8];
-                    else adress.ParentId = guid;
-
-                    _adressList.Add(adress);
-                }
-            }
-            //ПРобелы regex
-            //ds.WriteXml("products.xml");  
-            connection.Close();
-            var jsonObj = JsonConvert.SerializeObject(_adressList);
-            return jsonObj;
-        }
     }
 }

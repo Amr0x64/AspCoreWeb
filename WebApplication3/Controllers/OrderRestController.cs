@@ -25,55 +25,15 @@ namespace WebApplication3.Controllers
             db = context;
             Configuration = configuration;
         }
+        [HttpGet("Obj")]
         [Produces("application/json")]
-        [HttpGet("search")]
-        public IActionResult Search(string fullAdress)
+        public Product GetObject()
         {
-            SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
-            connection.Open();
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM FiasStatments", connection);
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
-            List<FiasStatment> _adressList = new List<FiasStatment>();
-            foreach (DataTable dt in ds.Tables)
+            return new Product
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    var cells = row.ItemArray;
-                    Guid guid = new Guid("11111111-1111-1111-1111-111111111111");
-                    FiasStatment adress = new FiasStatment
-                    {
-                        ActStatus = (int)cells[0],
-                        FiasGuid = (Guid)cells[1],
-                        FiasStatmentId = (Guid)cells[2],
-                        Level = (int)cells[3],
-                        AddressName = (string)cells[6] + " ",
-                        ShortTypeName = (string)cells[10] + "."
-                    };
-
-                    if (!(cells[8] != null)) adress.ParentId = (Guid)cells[8];
-                    else adress.ParentId = guid;
-
-                    _adressList.Add(adress);    
-                }
-            }
-            //ПРобелы regex
-            //ds.WriteXml("products.xml");  
-            connection.Close();
-            string address = fullAdress;
-            List<FiasStatment> modelAdress = null;  
-            if (address != null)
-            {
-                var adressModel = _adressList.FirstOrDefault(a => a.AddressName == address);
-                if (adressModel != null)
-                {
-                    modelAdress = _adressList.Where(p => p.ParentId == adressModel.FiasGuid).OrderByDescending(l => l.Level).ToList();
-                    return Ok(modelAdress);
-                }   
-            } 
-            modelAdress = _adressList.Where(l => l.Level != 9 && l.Level == 8).OrderByDescending(l => l.Level).ToList();
-
-            return Ok(modelAdress);
+                Title = "Чебурашка",
+                Price = 1
+            };
         }
     }
-} 
+}
