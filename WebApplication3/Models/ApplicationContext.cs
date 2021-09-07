@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.EntityFrameworkCore.Metadata;
+using WebApplication3.Models.Entities;
 
 namespace WebApplication3.Models
 {
@@ -22,6 +23,16 @@ namespace WebApplication3.Models
         public DbSet<UserViewProduct> UserViewProducts { get; set; }
         public DbSet<CartLine> CartLines { get; set; }
         public DbSet<FiasStatment> FiasStatments { get; set; }
-        
+        public DbSet<StreetNumber> StreetNumbers { get; set; }
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    builder.Entity<StreetNumber>().
+        //        HasOne(f => f.FiasStatment).
+        //        WithMany(s => s.StreetNumbers).
+        //        HasForeignKey(f => f.FiasGuid).
+        //        HasPrincipalKey(s => s.fias_guid);
+
+        //    base.OnModelCreating(builder);
+        //}
     }  
 }

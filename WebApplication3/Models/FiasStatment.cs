@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication3.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication3.Models
@@ -24,5 +25,7 @@ namespace WebApplication3.Models
         public DateTime? end_date { get; set; }
         public DateTime? start_date { get; set; }
         public string add_user { get; set; }
+
+        public List<StreetNumber> StreetNumbers { get; set; }
     }
 }

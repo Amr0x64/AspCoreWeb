@@ -175,6 +175,58 @@ namespace WebApplication3.Migrations
                     b.ToTable("CartLines");
                 });
 
+            modelBuilder.Entity("WebApplication3.Models.Entities.StreetNumber", b =>
+                {
+                    b.Property<Guid>("StreetNumberID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AddUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Counter")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FiasGuid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FlatNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FlatType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HouseNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LiveStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("NextId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PrevId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("Startdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StrucNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("StreetNumberID");
+
+                    b.HasIndex("FiasGuid");
+
+                    b.ToTable("StreetNumbers");
+                });
+
             modelBuilder.Entity("WebApplication3.Models.FiasStatment", b =>
                 {
                     b.Property<Guid>("fias_statements_id")
@@ -479,6 +531,7 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
+            
             modelBuilder.Entity("WebApplication3.Models.UserViewProduct", b =>
                 {
                     b.HasOne("WebApplication3.Models.Product", "Product")
@@ -489,6 +542,7 @@ namespace WebApplication3.Migrations
 
                     b.Navigation("Product");
                 });
+
 
             modelBuilder.Entity("WebApplication3.Models.Order", b =>
                 {
