@@ -21,7 +21,8 @@ namespace WebApplication3.ViewModels
         [Required(ErrorMessage = "Введите первкю строку адреса")]
         public string Adress { get; set; }
         public DateTime OrderDate { get; set; }
-        public string adressList { get; set; }
+        public string AdressList { get; set; }
+        public string StreetNumbers { get; set; }
         public string productTitle { get; set; }
     }
 }

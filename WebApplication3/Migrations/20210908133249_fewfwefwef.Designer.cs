@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication3.Models;
 
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210908133249_fewfwefwef")]
+    partial class fewfwefwef
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,6 +195,9 @@ namespace WebApplication3.Migrations
                     b.Property<Guid>("FiasGuid")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("FiasStatmentfias_statements_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FlatNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -213,7 +218,7 @@ namespace WebApplication3.Migrations
 
                     b.Property<Guid?>("PrevId")
                         .HasColumnType("uniqueidentifier");
-                    
+
                     b.Property<DateTime?>("Startdate")
                         .HasColumnType("datetime2");
 
@@ -221,7 +226,9 @@ namespace WebApplication3.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StreetNumberID");
-                    
+
+                    b.HasIndex("FiasStatmentfias_statements_id");
+
                     b.ToTable("StreetNumbers");
                 });
 
@@ -531,9 +538,11 @@ namespace WebApplication3.Migrations
 
             modelBuilder.Entity("WebApplication3.Models.Entities.StreetNumber", b =>
                 {
-                    b.HasOne("WebApplication3.Models.FiasStatment", null)
+                    b.HasOne("WebApplication3.Models.FiasStatment", "FiasStatment")
                         .WithMany("StreetNumbers")
                         .HasForeignKey("FiasStatmentfias_statements_id");
+
+                    b.Navigation("FiasStatment");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.UserViewProduct", b =>

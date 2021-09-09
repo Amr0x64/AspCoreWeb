@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication3.Models;
 
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210908152347_fbrnewbrfwef")]
+    partial class fbrnewbrfwef
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,7 +215,7 @@ namespace WebApplication3.Migrations
 
                     b.Property<Guid?>("PrevId")
                         .HasColumnType("uniqueidentifier");
-                    
+
                     b.Property<DateTime?>("Startdate")
                         .HasColumnType("datetime2");
 
@@ -221,7 +223,7 @@ namespace WebApplication3.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StreetNumberID");
-                    
+
                     b.ToTable("StreetNumbers");
                 });
 

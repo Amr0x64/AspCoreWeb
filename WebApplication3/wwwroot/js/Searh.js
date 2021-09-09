@@ -1,4 +1,6 @@
 ﻿let serAddress = document.querySelector("#adressStatment").innerHTML;
+let streeatNumbers = document.querySelector("#streetNumber").innerHTML;
+
 let json = JSON.parse(serAddress);
 let strAdress = '';
 const dataList = document.getElementById('adressList');
@@ -31,18 +33,18 @@ input.oninput = function () {
                 statmentList = [];
                 for (let child in json) {
                     if (json[child].parent_id == tempStatmentList[key].fias_guid) {
-                        statmentList.push(json[child]);
+                        statmentList.push(json[child]); 
                         strAdress += `
                             <option value="${tempStatmentList[key].short_type_name} - ${tempStatmentList[key].address_name}, ${json[child].short_type_name} - ${json[child].address_name},">${json[child].address_name}</option ><br/>
                         `;
                     }
-                }
+                }   
                 if (statmentList[0] != undefined) {
                     dataList.innerHTML = "";
                     dataList.innerHTML = strAdress;
                     strAdress = "";
                 }
-                break;
+                break;  
             }         
         }
     }
