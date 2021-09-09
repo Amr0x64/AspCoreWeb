@@ -195,8 +195,7 @@ namespace WebApplication3.Migrations
                     b.Property<Guid>("FiasGuid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("FiasStatmentfias_statements_id")
-                        .HasColumnType("uniqueidentifier");
+                   
 
                     b.Property<string>("FlatNumber")
                         .HasColumnType("nvarchar(max)");
@@ -226,8 +225,6 @@ namespace WebApplication3.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StreetNumberID");
-
-                    b.HasIndex("FiasStatmentfias_statements_id");
 
                     b.ToTable("StreetNumbers");
                 });
@@ -536,12 +533,7 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebApplication3.Models.Entities.StreetNumber", b =>
-                {
-                    b.HasOne("WebApplication3.Models.FiasStatment", null)
-                        .WithMany("StreetNumbers")
-                        .HasForeignKey("FiasStatmentfias_statements_id");
-                });
+           
 
             modelBuilder.Entity("WebApplication3.Models.UserViewProduct", b =>
                 {
@@ -554,10 +546,7 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebApplication3.Models.FiasStatment", b =>
-                {
-                    b.Navigation("StreetNumbers");
-                });
+        
 
             modelBuilder.Entity("WebApplication3.Models.Order", b =>
                 {

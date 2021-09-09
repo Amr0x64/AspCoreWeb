@@ -9,7 +9,7 @@ using WebApplication3.Models;
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    partial class fApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -213,7 +213,7 @@ namespace WebApplication3.Migrations
 
                     b.Property<Guid?>("PrevId")
                         .HasColumnType("uniqueidentifier");
-                    
+                        
                     b.Property<DateTime?>("Startdate")
                         .HasColumnType("datetime2");
 
@@ -529,12 +529,7 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebApplication3.Models.Entities.StreetNumber", b =>
-                {
-                    b.HasOne("WebApplication3.Models.FiasStatment", null)
-                        .WithMany("StreetNumbers")
-                        .HasForeignKey("FiasStatmentfias_statements_id");
-                });
+            
 
             modelBuilder.Entity("WebApplication3.Models.UserViewProduct", b =>
                 {
@@ -547,10 +542,7 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebApplication3.Models.FiasStatment", b =>
-                {
-                    b.Navigation("StreetNumbers");
-                });
+          
 
             modelBuilder.Entity("WebApplication3.Models.Order", b =>
                 {
