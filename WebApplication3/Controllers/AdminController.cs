@@ -104,31 +104,6 @@ namespace WebApplication3.Controllers
                 return View("ProductStatistics", productListToOrder);
         }
         #endregion
-        [NonAction]
-        public  List<int> CountOrderProduct(string date)
-        {
-            List<int> productList = new List<int>();
-            if (true)
-            {
-               TimeSpan ts = new TimeSpan(24, 0, 0);
-               var queryList = db.Products.Join(db.UserViewProducts, p => p.ProductId, u => u.ProductId, (p, u) => new
-                {
-                    ProductId = p.Title,
-                    View = p.View,
-                    ProductIdView = u.ProductId,
-                    UserIp = u.UserIP,
-                    ViewDate = u.ViewDate
-                }).Where(p => SravDate(TimeSpan.Compare(p.ViewDate.Subtract(DateTime.Now), ts)))
-                      .GroupBy(p => p.ProductId).Select(g => new { Count = g.Count()}).OrderByDescending(m => m.Count );
-
-              foreach (var product in  queryList)
-                {
-                    productList.Add(product.Count);
-                }
-                return productList;
-            }
-        }
-        [NonAction]
-        private Boolean SravDate(int val) => val == -1;
+       
     }
 }
