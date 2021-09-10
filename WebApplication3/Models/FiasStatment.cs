@@ -26,6 +26,6 @@ namespace WebApplication3.Models
         public DateTime? start_date { get; set; }
         public string add_user { get; set; }
 
-        public List<StreetNumber> StreetNumbers { get; set; }
+        
     }
 }

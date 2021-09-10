@@ -10,8 +10,8 @@ using WebApplication3.Models;
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210909082059_ldkhwebfhebf")]
-    partial class ldkhwebfhebf
+    [Migration("20210909092504_wfoweounf")]
+    partial class wfoweounf
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,8 +194,6 @@ namespace WebApplication3.Migrations
 
                     b.Property<Guid>("FiasGuid")
                         .HasColumnType("uniqueidentifier");
-
-                   
 
                     b.Property<string>("FlatNumber")
                         .HasColumnType("nvarchar(max)");
@@ -533,8 +531,6 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
-           
-
             modelBuilder.Entity("WebApplication3.Models.UserViewProduct", b =>
                 {
                     b.HasOne("WebApplication3.Models.Product", "Product")
@@ -545,8 +541,6 @@ namespace WebApplication3.Migrations
 
                     b.Navigation("Product");
                 });
-
-        
 
             modelBuilder.Entity("WebApplication3.Models.Order", b =>
                 {

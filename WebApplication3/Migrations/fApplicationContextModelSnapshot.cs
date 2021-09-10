@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication3.Models;
 
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210908152347_fbrnewbrfwef")]
-    partial class fbrnewbrfwef
+    partial class fApplicationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -531,13 +529,6 @@ namespace WebApplication3.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebApplication3.Models.Entities.StreetNumber", b =>
-                {
-                    b.HasOne("WebApplication3.Models.FiasStatment", null)
-                        .WithMany("StreetNumbers")
-                        .HasForeignKey("FiasStatmentfias_statements_id");
-                });
-
             modelBuilder.Entity("WebApplication3.Models.UserViewProduct", b =>
                 {
                     b.HasOne("WebApplication3.Models.Product", "Product")
@@ -547,11 +538,6 @@ namespace WebApplication3.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("WebApplication3.Models.FiasStatment", b =>
-                {
-                    b.Navigation("StreetNumbers");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.Order", b =>

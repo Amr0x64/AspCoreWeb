@@ -66,7 +66,6 @@ namespace WebApplication3.Controllers
                     {
                         cartLineList.Add(db.CartLines.FirstOrDefault(o => o.OrderId == order.OrderId));
                     }
-
                 }
                 else if (date == "allTime")
                 {
@@ -104,6 +103,5 @@ namespace WebApplication3.Controllers
                 return View("ProductStatistics", productListToOrder);
         }
         #endregion
-       
     }
 }
