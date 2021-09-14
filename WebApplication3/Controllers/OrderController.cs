@@ -29,7 +29,10 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Checkout()
         {   
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            OrderViewModel model = new OrderViewModel { AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()), StreetNumbers = JsonConvert.SerializeObject(db.StreetNumbers.ToList())};  
+            OrderViewModel model = new OrderViewModel { AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
+                StreetNumbers = JsonConvert.SerializeObject(db.StreetNumbers.ToList()),
+                StartAddress = await db.FiasStatments.Where(l => l.level == 8).ToListAsync()
+            };  
             
             return View(model);
         }

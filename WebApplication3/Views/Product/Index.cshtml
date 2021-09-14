@@ -1,6 +1,5 @@
 ﻿@model ProductViewModel
 @using WebApplication3.ViewModels
-@using WebApplication3.Infrastructure
 @using System.Security.Claims
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -23,7 +22,6 @@
                 <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>
             </div>
         </form>
-
         @if (IsAdmin || IsSuperUser)
         {
             <div class="admin-flex-containt">
@@ -123,7 +121,7 @@
                         }
                         else
                         {
-                            <form asp-action="RestoreProduct" asp-controller="Product" asp-route-id="@item.ProductId" method="get">
+                            <form asp-action="RestoreProduct" asp-controller="Product" asp-route-id="@item.ProductId" method="post">
                                 <div asp-validation-summary="All" class="text-danger"></div>
                                 <div class="form-group">
                                     <input type="submit" value="Восстановить" class="btn btn-outline-secondary btn-my" />
@@ -132,9 +130,22 @@
                             </form>
                         }
                     }
-
                 </li>
             }
         }
     </ul>
+    @if (Model.PageViewModel.HasPreviosPage)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.PageViewModel.PageNumber - 1)" class="btn btn-outline-dark">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            Назад 
+        </a>
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.PageViewModel.PageNumber + 1)" class="btn btn-outline-dark">
+            Вперед
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    }
 </div>

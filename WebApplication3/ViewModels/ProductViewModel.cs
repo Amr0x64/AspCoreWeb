@@ -10,5 +10,6 @@ namespace WebApplication3.ViewModels
     {
         public List<Product> ProductList { get; set; }
         public Cart Cart { get; set; }
+        public PageViewModel PageViewModel {get; set;}
     }
 }

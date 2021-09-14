@@ -18,6 +18,10 @@
         <label>Адрес</label><br />
         <input list="adressList" id="input" class="form-control address-statment" type="text" asp-for="Adress" autocomplete="off" />
         <datalist id="adressList">
+            @foreach (var addressName in Model.StartAddress)
+            {
+                <option value="@addressName.short_type_name - @addressName.address_name">@addressName.address_name</option><br/>            
+            }
         </datalist>
     </div>
     <div>

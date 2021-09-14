@@ -10,7 +10,15 @@ let statmentList = [];
 let tempStatmentList = [];
 let fullAddress = "";
 let checkApart = false;
-startAddress(8);
+/*startAddress(8);*/
+
+//////////////////////////
+for (let key in json) {
+    if (json[key].level == 8) {
+        statmentList.push(json[key]);
+    }
+}
+/////////////////////////
 
 input.oninput = function () {
     if (input.value == "") {
@@ -30,7 +38,7 @@ input.oninput = function () {
         }
         result = result.slice(1, result.length - 1);
         result = result.split('').reverse().join('');
-        //Изменить
+        ////////////////////////////////////////////////////////
         if (checkApart) {
             for (let key in statmentList) {
                 if (statmentList[key].HouseNumber == result) {
@@ -38,7 +46,7 @@ input.oninput = function () {
                     for (let child in streetNumList) {
                         if (streetNumList[child].FiasGuid == statmentList[key].FiasGuid) {
                             strAdress += `
-                                <option value="${fullAddress} кв - ${streetNumList[child].FlatNumber}">${streetNumList[child].FlatNumber}</option><br/>
+                                <option value="${fullAddress}кв - ${streetNumList[child].FlatNumber}">${streetNumList[child].FlatNumber}</option><br/>
                             `;
                         }
                     }
@@ -49,10 +57,10 @@ input.oninput = function () {
                     }
                     checkApart = false;
                     break;
-                }
+                }//////////////////////////////////////
             }
         }
-        else {
+        else {//////////////////////////////////////////
             for (let key in statmentList) {
                 if (statmentList[key].address_name == result) {
                     fullAddress += `${statmentList[key].short_type_name} - ${statmentList[key].address_name}, `;
@@ -61,29 +69,37 @@ input.oninput = function () {
                     for (let child in json) {
                         if (json[child].parent_id == tempStatmentList[key].fias_guid) {
                             statmentList.push(json[child]);
-                            strAdress += `
-                            <option value="${fullAddress} ${json[child].short_type_name} - ${json[child].address_name}">${json[child].address_name}</option><br/>
-                        `;
+                            statmentList.sort((prev, next) => next.level - prev.level);
                         }
                     }
+                    for (let address in statmentList) {
+                        strAdress += `
+                            <option value="${fullAddress}${statmentList[address].short_type_name} - ${statmentList[address].address_name}">${statmentList[address].address_name}</option><br/>
+                        `;
+                    }
+                    //Отсутвие дочерних адресов
                     if (strAdress == "") {
                         checkApart = true;
                         for (let apart in streetNumList) {
                             if (tempStatmentList[key].fias_guid == streetNumList[apart].FiasGuid) {
                                 statmentList.push(streetNumList[apart]);
-                                strAdress += `
-                                <option value="${fullAddress} д - ${streetNumList[apart].HouseNumber}">${streetNumList[apart].HouseNumber}</option><br/>
-                            `;
+                                statmentList.sort((prev, next) => next.level - prev.level);
                             }
                         }
                     }
+                    for (let childAddress in statmentList) {
+                        strAdress += `
+                                <option value="${fullAddress}д - ${statmentList[childAddress].HouseNumber}">${statmentList[childAddress].HouseNumber}</option><br/>
+                            `;
+                    }
                     if (strAdress != "") {
+
                         dataList.innerHTML = "";
                         dataList.innerHTML = strAdress;
                         strAdress = "";
                     }   
                     break;
-                }
+                }//////////////////////////////////////////////////////
             }
         }
     }
@@ -94,7 +110,7 @@ function startAddress(i) {
         if (json[key].level == i) {
             statmentList.push(json[key]);
             strAdress += `
-            <option>${json[key].short_type_name} - ${json[key].address_name}</option><br/>
+            <option value="${json[key].short_type_name} - ${json[key].address_name}">${json[key].address_name}</option><br/>
                 `;
         }
     }

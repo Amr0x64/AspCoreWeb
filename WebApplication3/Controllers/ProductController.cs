@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
-using System.Net;
 
 namespace WebApplication3.Controllers
 {
@@ -36,11 +35,17 @@ namespace WebApplication3.Controllers
             _cart = cart;
         }
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             ViewBag.IsDeleteProduct = false;
             ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
-            ProductViewModel model = new ProductViewModel { ProductList = await db.Products.ToListAsync(), Cart = _cart };
+
+            int pageSize = 5;
+            var count = await db.Products.CountAsync();
+            var products = await db.Products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            
+            ProductViewModel model = new ProductViewModel { ProductList = products, Cart = _cart, PageViewModel = pageViewModel };
             return View(model);
         }
         [HttpGet]  
@@ -75,7 +80,7 @@ namespace WebApplication3.Controllers
             ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             return View();
         }
-        //Добавление товара админом
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin, superuser")]
@@ -102,7 +107,7 @@ namespace WebApplication3.Controllers
             return View(model);
         }
         //Восстановить товар
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RestoreProduct (int id)
         {
             ViewBag.IsDeleteProduct = true;
