@@ -21,6 +21,7 @@ for (let key in json) {
 /////////////////////////
 
 input.oninput = function () {
+   /* input.value = "";*/
     if (input.value == "") {
         fullAddress = "";
         checkApart = false;
@@ -86,14 +87,13 @@ input.oninput = function () {
                                 statmentList.sort((prev, next) => next.level - prev.level);
                             }
                         }
-                    }
-                    for (let childAddress in statmentList) {
-                        strAdress += `
+                        for (let childAddress in statmentList) {
+                            strAdress += `
                                 <option value="${fullAddress}д - ${statmentList[childAddress].HouseNumber}">${statmentList[childAddress].HouseNumber}</option><br/>
                             `;
+                        }
                     }
                     if (strAdress != "") {
-
                         dataList.innerHTML = "";
                         dataList.innerHTML = strAdress;
                         strAdress = "";
