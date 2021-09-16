@@ -15,7 +15,7 @@
         <label>Имя:</label><input asp-for="Name" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Адрес</label><br />
+        <label>Адрес</label><br/>
         <input list="adressList" id="input" class="form-control address-statment" type="text" asp-for="Adress" autocomplete="off" />
         <datalist id="adressList">
             @foreach (var addressName in Model.StartAddress)

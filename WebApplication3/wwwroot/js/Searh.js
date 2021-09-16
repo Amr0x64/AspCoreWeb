@@ -37,6 +37,7 @@ input.oninput = function () {
                 result += input.value[i];
             }
         }
+  /*      input.value = input.value.slice(0, input.value.length - 1);*/
         result = result.slice(1, result.length - 1);
         result = result.split('').reverse().join('');
         ////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ input.oninput = function () {
             }
         }
         else {//////////////////////////////////////////
-            for (let key in statmentList) {
+            for (let key in statmentList) { 
                 if (statmentList[key].address_name == result) {
                     fullAddress += `${statmentList[key].short_type_name} - ${statmentList[key].address_name}, `;
                     tempStatmentList = statmentList.slice(0);
@@ -84,7 +85,6 @@ input.oninput = function () {
                         for (let apart in streetNumList) {
                             if (tempStatmentList[key].fias_guid == streetNumList[apart].FiasGuid) {
                                 statmentList.push(streetNumList[apart]);
-                                statmentList.sort((prev, next) => next.level - prev.level);
                             }
                         }
                         for (let childAddress in statmentList) {
@@ -97,7 +97,8 @@ input.oninput = function () {
                         dataList.innerHTML = "";
                         dataList.innerHTML = strAdress;
                         strAdress = "";
-                    }   
+                    }
+                    input.value = input.value.slice(0, input.value.length - 1) + ", ";
                     break;
                 }//////////////////////////////////////////////////////
             }
