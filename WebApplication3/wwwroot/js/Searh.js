@@ -9,8 +9,10 @@ const dataList = document.getElementById('adressList');
 let statmentList = [];
 let tempStatmentList = [];
 let fullAddress = "";
+let a = " ";
 let checkApart = false;
 /*startAddress(8);*/
+
 
 //////////////////////////
 for (let key in json) {
@@ -45,9 +47,9 @@ input.oninput = function () {
                 if (statmentList[key].HouseNumber == result) {
                     fullAddress += `д - ${statmentList[key].HouseNumber}, `;
                     for (let child in streetNumList) {
-                        if (streetNumList[child].FiasGuid == statmentList[key].FiasGuid)d {
+                        if (streetNumList[child].FiasGuid == statmentList[key].FiasGuid) {
                             strAdress += `
-                                <option value="${fullAddress}кв - ${streetNumList[child].FlatNumber}">${streetNumList[child].FlatNumber}</option><br/>
+                                <option value="${fullAddress}кв - ${streetNumList[child].FlatNumber}.">${streetNumList[child].FlatNumber}</option><br/>
                             `;
                         }
                     }
@@ -71,13 +73,13 @@ input.oninput = function () {
                     for (let child in json) {
                         if (json[child].parent_id == tempStatmentList[key].fias_guid) {
                             statmentList.push(json[child]);
-                            statmentList.sort((prev, next) => next.level - prev.level);
                         }
                     }
+                    statmentList.sort((prev, next) => next.level - prev.level);
                     for (let address in statmentList) {
-                        //strAdress += `
-                        //    <option value="${fullAddress}${statmentList[address].short_type_name} - ${statmentList[address].address_name}">${statmentList[address].address_name}</option><br/>
-                        //`;
+                        strAdress += `
+                            <option value="${fullAddress}${statmentList[address].short_type_name} - ${statmentList[address].address_name}">${statmentList[address].address_name}</option><br/>
+                        `;
                     }
                     //Отсутвие дочерних адресов
                     if (strAdress == "") {
@@ -88,9 +90,9 @@ input.oninput = function () {
                             }
                         }
                         for (let childAddress in statmentList) {
-                            //strAdress += `
-                            //    <option value="${fullAddress}д - ${statmentList[childAddress].HouseNumber}">${statmentList[childAddress].HouseNumber}</option><br/>
-                            //`;
+                            strAdress += `
+                                <option value="${fullAddress}д - ${statmentList[childAddress].HouseNumber}">${statmentList[childAddress].HouseNumber}</option><br/>
+                            `;
                         }
                     }
                     if (strAdress != "") {
@@ -111,7 +113,7 @@ function startAddress(i) {
         if (json[key].level == i) {
             statmentList.push(json[key]);
             strAdress += `
-            <option value="${json[key].short_type_name} - ${json[key].address_name}">${json[key].address_name}</option><br/>
+            <option value="${json[key].short_type_name} - ${json[key].address_name}${a}">${json[key].address_name}</option><br/>
                 `;
         }
     }
