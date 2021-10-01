@@ -26,12 +26,12 @@ namespace WebApplication3.Controllers
             Configuration = configuration;
         }
         [HttpGet]
-        public async Task<IActionResult> Checkout()
+        public IActionResult Checkout()
         {   
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
-            OrderViewModel model = new OrderViewModel { AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
+            OrderViewModel model = new OrderViewModel { 
+                AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
                 StreetNumbers = JsonConvert.SerializeObject(db.StreetNumbers.ToList()),
-                StartAddress = await db.FiasStatments.Where(l => l.level == 8).ToListAsync()
             };  
             
             return View(model);

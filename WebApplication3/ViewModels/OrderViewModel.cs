@@ -23,7 +23,6 @@ namespace WebApplication3.ViewModels
         public DateTime OrderDate { get; set; }
         public string AdressList { get; set; }
         public string StreetNumbers { get; set; }
-        public List<FiasStatment> StartAddress {get; set;}
         public string productTitle { get; set; }
     }
 }
