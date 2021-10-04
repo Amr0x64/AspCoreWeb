@@ -6,14 +6,6 @@ let inputAddress = '';
 let addressList = [];
 let resultAddressInput = '';
 let fulladdress = '';
-/*let select2 = $('.select2');*/
-
-$('.select2').select2({
-    placeholder: "Введите адрес",
-    data: addressList,
-    closeOnSelect: false,
-    tokenSeparators: [',', ' ']
-}).select2('open');
 
 function event() {
     console.log("ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ");
@@ -27,47 +19,38 @@ function event() {
             inputAddress.value = e.params.data.text;
         });
     });
-
-    $(document).ready(function () {
-        $('.select2-search__field').focus(function () {
-            inputAddress = document.getElementsByClassName('select2-search__field');
-            inputAddress = inputAddress[0];
-            inputAddress.oninput = search;
-        });
-    });
-}
-
-function event2() {
-    $('.select2').on('select2:closing', function () {
-        $('.select2').select2('open');
-    });
-
-     inputAddress = $('.select2-search__field');
-     inputAddress.oninput = search;
-
-    $(document).ready(function () { // Возвращает обьект выбора
-        $('.select2').on('select2:select', function (e) {
-            inputAddress.value = e.params.data.text;
-        });
-    });
 }
 
 let tempParent = {};
 
+$(".selectpill").select2({
+    data: [{id: 1, text: "1"}],
+    closeOnSelect: false,
+    tokenSeparators: [',', ' '],
+    placeholder: "Ы"
+}).select2("open");
+
+inputAddress = document.getElementsByClassName('select2-search__field');
+inputAddress = inputAddress[0];
+inputAddress.oninput = search;
+
 function search() {
+    console.log("Onimput");
     if (inputAddress.value == "") {          //empty input
         console.log("Пустой инпкт");
         addressList = [];
         resultAddressInput = "";
         checkFirst = true;
 
-        $(".select2").select2({
-            data: addressList,
+        $(".selectpill").select2({
+            data: [],
             closeOnSelect: false,
             tokenSeparators: [',', ' ']
-        }).select2("open").trigger('change');
+        }).trigger('change');
 
-        event();
+        //inputAddress = document.getElementsByClassName('select2-search__field');
+        //inputAddress = inputAddress[0];
+        //inputAddress.oninput = search;
     }
     else {
         resultAddressInput = inputAddress.value.split(" ");
@@ -78,21 +61,26 @@ function search() {
                     (allAddress[address].address_name.toLowerCase().indexOf(resultAddressInput.toLowerCase()) == 0)) {
 
                     tempParent = allAddress.find(p => p.fias_guid == allAddress[address].parent_id);
-                     addressList.push({
-                        "id": 1, "level": allAddress[address].level, "text": `${tempParent.address_name}, ${allAddress[address].short_type_name} - 
+                    addressList.push({
+                        id: 1, level: allAddress[address].level, text: `${tempParent.address_name}, ${allAddress[address].short_type_name} -
                                 ${allAddress[address].address_name} `
                     });
                 }
             }
-            if (addressList.length != 0) {
+            if (addressList.length != 0) {  
                 addressList.sort((prev, next) => next.level - prev.level);
-                $(".select2").select2({
+                $('.selectpill').select2('destroy');
+
+                $(".selectpill").select2({
                     data: addressList,
                     closeOnSelect: false,
                     tokenSeparators: [',', ' ']
                 }).select2("open").trigger('change');
-                event();
                 checkFirst = false;
+    
+                inputAddress = document.getElementsByClassName('select2-search__field');
+                inputAddress = inputAddress[0];
+                inputAddress.oninput = search;
             }
         }
         else if (resultAddressInput == "") {   //поиск доч-их элементов
@@ -104,22 +92,4 @@ function search() {
 
 function searchChild() {
     /*$('.select2').val(null).trigger('change');*/
-}
-
-//let arr = [{ a: 1 }, { a: 1 }, { a: 1 }];
-//let mapped = arr.filter(el => el.a == 1);
-//console.log(mapped);
-
-$(".selectpill").select2({
-    data: addressList,
-    closeOnSelect: false,
-    tokenSeparators: [',', ' '],
-    placeholder: "Ы"
-}).select2("open");
-
-let inputAdd = document.getElementsByClassName('select2-search__field');
-inputAdd = inputAdd[0];
-
-inputAdd.oninput = function () {
-    console.log(inputAdd.value);
 }
