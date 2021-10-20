@@ -55,12 +55,12 @@ namespace WebApplication3.Models
         public virtual void Clear() => lineCollection.Clear();
         public virtual IEnumerable<CartLine> Lines => lineCollection;   
     }
-    public class CartLine
-    {
-        public int ID { get; set; }
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
-        public int OrderId { get; set; }
-    }
+    //public class CartLine
+    //{
+    //    public int ID { get; set; }
+    //    public int ProductId { get; set; }
+    //    public Product Product { get; set; }
+    //    public int Quantity { get; set; }
+    //    public int OrderId { get; set; }
+    //}
 }

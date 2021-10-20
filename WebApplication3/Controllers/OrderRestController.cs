@@ -18,9 +18,9 @@ namespace WebApplication3.Controllers
     [Route("api/order")]
     public class OrderRestController : Controller
     {
-        private ApplicationContext db;
+        private RPRCContext db;
         private IConfiguration Configuration;
-        public OrderRestController(ApplicationContext context, IConfiguration configuration)
+        public OrderRestController(RPRCContext context, IConfiguration configuration)
         {
             db = context;
             Configuration = configuration;

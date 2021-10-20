@@ -15,10 +15,10 @@ namespace WebApplication3.Controllers
     public class UserController : Controller
     {
         UserManager<User> _userManager;
-        private ApplicationContext db;
+        private RPRCContext db;
         private RoleManager<IdentityRole> _roleManager;
 
-        public UserController(UserManager<User> userManager, ApplicationContext context, RoleManager<IdentityRole> roleManager)
+        public UserController(UserManager<User> userManager, RPRCContext context, RoleManager<IdentityRole> roleManager)
         {
             db = context;
             _userManager = userManager;

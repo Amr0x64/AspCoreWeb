@@ -8,23 +8,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.ViewModels;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace WebApplication3.Controllers
 {
     public class ProductController : Controller
     {
-        private ApplicationContext db;
+        private RPRCContext db;
         private readonly UserManager<User> _userManager;     
         private readonly SignInManager<User> _signInManager;
         IWebHostEnvironment _appEnvironment;
         private IHttpContextAccessor _accessor;
         private Cart _cart;
-        public ProductController(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment,
+        public ProductController(RPRCContext context, UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment appEnvironment,
             IHttpContextAccessor accessor, Cart cart)
         {
             _userManager = userManager;

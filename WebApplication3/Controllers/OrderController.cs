@@ -16,10 +16,10 @@ namespace WebApplication3.Controllers
 {
     public class OrderController : Controller
     {
-        private ApplicationContext db;
+        private RPRCContext db;
         private Cart cart;
         public IConfiguration Configuration { get; }
-        public OrderController(ApplicationContext context, Cart cartService, IConfiguration configuration)
+        public OrderController(RPRCContext context, Cart cartService, IConfiguration configuration)
         {
             db = context;
             cart = cartService;
@@ -31,7 +31,7 @@ namespace WebApplication3.Controllers
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             OrderViewModel model = new OrderViewModel { 
                 AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
-                StreetNumbers = JsonConvert.SerializeObject(db.StreetNumbers.ToList()),
+                StreetNumbers = JsonConvert.SerializeObject(db.Apartments.ToList()),
             };  
             
             return View(model);

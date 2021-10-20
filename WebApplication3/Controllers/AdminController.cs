@@ -17,10 +17,10 @@ namespace WebApplication3.Controllers
     [HttpsOnly]
     public class AdminController : Controller
     {
-        private ApplicationContext db;
+        private RPRCContext db;
         private IRepository repository;
         
-        public AdminController(ApplicationContext context, IRepository repo)
+        public AdminController(RPRCContext context, IRepository repo)
         {
             db = context;
             repository = repo;

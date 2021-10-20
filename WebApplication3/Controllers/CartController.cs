@@ -12,9 +12,9 @@ namespace WebApplication3.Controllers
 {
     public class CartController : Controller
     {
-        private ApplicationContext db;
+        private RPRCContext db;
         private Cart cart;
-        public CartController(ApplicationContext context, Cart cartService)
+        public CartController(RPRCContext context, Cart cartService)
         {
             db = context;
             cart = cartService;
