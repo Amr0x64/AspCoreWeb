@@ -1,4 +1,4 @@
-﻿@model WebApplication3.Models.Product
+﻿@model WebApplication3.Product
 @{
     Layout = "~/Views/Shared/Admin.cshtml";
 }
@@ -7,5 +7,4 @@
     <p>Цена:<b>@Model.Price</b> </p>
     <p>Описание: @Model.Description</p>
     <img class="products-element__img_detail" src="@Url.Content(Model.PathImg)" title="@Model.Title" />
-
 </div>

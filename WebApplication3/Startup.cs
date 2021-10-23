@@ -32,6 +32,8 @@ namespace WebApplication3
             services.AddSignalR();
             //services.AddDbContext<ApplicationContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<RPRCContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<RPRCContext>();

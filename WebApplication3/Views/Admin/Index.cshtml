@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication3.Models.Product>
+﻿@model IEnumerable<WebApplication3.Product>
 @using WebApplication3.ViewModels
 @using WebApplication3.Infrastructure
 @using System.Security.Claims
@@ -19,7 +19,7 @@
     </div>
     <div class="nav-date-element">
         <div class="date-element">
-            <a asp-action="SelectViweProduct" asp-route-date="day"> Day </a>
+            <a asp-action="SelectViewProduct" asp-route-date="day"> Day </a>
         </div>
         <div class="date-element">
             <a asp-action="SelectViweProduct" asp-route-id="week">Week</a>

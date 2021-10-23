@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -22,5 +23,8 @@ namespace WebApplication3
         public string AddUser { get; set; }
         public string Startdate { get; set; }
         public string EndDate { get; set; }
+        
+        /*[ForeignKey("FiasGuid")]*/
+        public FiasStatment FiasStatment { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = "~/Views/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div id="inputForm">
@@ -15,7 +15,6 @@
         .build();
 
     hubConnection.on("Send", function (data) {
-
         let elem = document.createElement("p");
         elem.appendChild(document.createTextNode(data));
         let firstElem = document.getElementById("chatroom").firstChild;

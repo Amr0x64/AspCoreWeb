@@ -1,14 +1,16 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using WebApplication3.Models;
 
 #nullable disable
 
 namespace WebApplication3
 {
-    public partial class RPRCContext : DbContext
+    public partial class RPRCContext : IdentityDbContext<User>
     {
-        public RPRCContext()
+        public RPRCContext()    
         {
         }
 
@@ -31,14 +33,13 @@ namespace WebApplication3
         public virtual DbSet<Socrbase> Socrbases { get; set; }
         public virtual DbSet<StreetNumber> Apartments { get; set; }
         public virtual DbSet<UserViewProduct> UserViewProducts { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=RPRC;Username=postgres;Password=cronaldo789");
             }
-        }
+        }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,8 +47,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetRole>(entity =>
             {
-                entity.HasNoKey();
-
+                entity.HasKey(k => k.Id);
                 entity.Property(e => e.Id)
                     .HasMaxLength(450)
                     .IsFixedLength(true);
@@ -63,8 +63,8 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetRoleClaim>(entity =>
             {
-                entity.HasNoKey();
-
+                entity.HasKey(k => k.Id);
+                
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RoleId)
@@ -74,7 +74,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetUser>(entity =>
             {
-                entity.HasNoKey();
+               
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(256)
@@ -103,7 +103,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetUserClaim>(entity =>
             {
-                entity.HasNoKey();
+                
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
@@ -114,7 +114,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetUserLogin>(entity =>
             {
-                entity.HasNoKey();
+            
 
                 entity.Property(e => e.LoginProvider)
                     .HasMaxLength(450)
@@ -131,7 +131,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetUserRole>(entity =>
             {
-                entity.HasNoKey();
+               
 
                 entity.Property(e => e.RoleId)
                     .HasMaxLength(450)
@@ -144,7 +144,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetUserToken>(entity =>
             {
-                entity.HasNoKey();
+               
 
                 entity.Property(e => e.LoginProvider)
                     .HasMaxLength(450)
@@ -161,7 +161,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<CartLine>(entity =>
             {
-                entity.HasNoKey();
+                
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd()
@@ -170,7 +170,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<FiasStatment>(entity =>
             {
-                entity.HasNoKey();
+                
 
                 entity.Property(e => e.ActStatus).HasColumnName("act_status");
 
@@ -213,7 +213,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.HasNoKey();
+        
 
                 entity.Property(e => e.OrderDate)
                     .HasMaxLength(27)
@@ -224,7 +224,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasNoKey();
+              
 
                 entity.Property(e => e.AddDate)
                     .HasMaxLength(27)
@@ -241,7 +241,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<Socrbase>(entity =>
             {
-                entity.HasNoKey();
+           
 
                 entity.ToTable("SOCRBASE");
 
@@ -262,7 +262,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<StreetNumber>(entity =>
             {
-                entity.HasNoKey();
+               
 
                 entity.Property(e => e.EndDate)
                     .HasMaxLength(27)
@@ -277,7 +277,7 @@ namespace WebApplication3
 
             modelBuilder.Entity<UserViewProduct>(entity =>
             {
-                entity.HasNoKey();
+              
 
                 entity.Property(e => e.UserIP).HasColumnName("UserIP");
 
@@ -288,7 +288,24 @@ namespace WebApplication3
                     .IsFixedLength(true);
             });
 
+            modelBuilder.Entity<AspNetRoleClaim>()
+                .HasOne(c => c.AspNetRole)
+                .WithMany(s => s.AspNetRoleClaims)
+                .HasForeignKey(p => p.RoleId)
+                .HasPrincipalKey(k => k.Id);
+
+            modelBuilder.Entity<AspNetUserLogin>()
+                .HasKey(k => new {k.LoginProvider, k.ProviderKey});
+
+            modelBuilder.Entity<AspNetUserRole>()
+                .HasKey(k => new {k.RoleId, k.UserId});
+
+            modelBuilder.Entity<AspNetUserToken>()
+                .HasKey(k => new {k.UserId, k.LoginProvider, k.Name});
+            
             OnModelCreatingPartial(modelBuilder);
+            
+            base.OnModelCreating(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

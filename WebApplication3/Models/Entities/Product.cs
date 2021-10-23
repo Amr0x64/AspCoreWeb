@@ -27,5 +27,7 @@ namespace WebApplication3
         public DateTime? ChangeDate { get; set; }
         public int View { get; set; }
         public bool isRemoved { get; set; }
+        
+        /*public List<Order> Orders { get; set; }= new List<Order>();*/
     }
 }

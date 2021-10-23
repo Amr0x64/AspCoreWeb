@@ -10,6 +10,7 @@ namespace WebApplication3
     public partial class Order
     {
         [BindNever]
+        [Key]
         public int OrderId { get; set; }
         [BindNever]
         public ICollection<CartLine> Lines { get; set; }
@@ -28,5 +29,7 @@ namespace WebApplication3
         public string Country { get; set; }
         public string Zip { get; set; }
         public DateTime OrderDate { get; set; }
+        
+        /*public List<Product> Products { get; set; }= new List<Product>();*/
     }
 }

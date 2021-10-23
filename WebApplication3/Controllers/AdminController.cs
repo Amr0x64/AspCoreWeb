@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication3.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using WebApplication3.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 using WebApplication3.Infrastructure;
 
 namespace WebApplication3.Controllers
@@ -53,9 +51,9 @@ namespace WebApplication3.Controllers
                 if (date == "day")
                 {
                 ViewData["TopOrders"] = "Топ заказов на сегодня";
-                foreach (var order in db.Orders.Where(d => (DateTime.Now.Day == d.OrderDate.Day) && (DateTime.Now.Month == d.OrderDate.Month) && (DateTime.Now.Year == d.OrderDate.Year))
-                    .ToList())
-                    {
+                foreach (var order in db.Orders.Where(d => (DateTime.Now.Day == d.OrderDate.Day) && (DateTime.Now.Month == d.OrderDate.Month) && 
+                                                           (DateTime.Now.Year == d.OrderDate.Year)).ToList())
+                {
                         cartLineList.Add(db.CartLines.FirstOrDefault(o => o.OrderId == order.OrderId));
                     }    
                 }
