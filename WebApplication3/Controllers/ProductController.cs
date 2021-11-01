@@ -53,7 +53,8 @@ namespace WebApplication3.Controllers
             ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
-                var searchProductList = await db.Products.Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%")).OrderByDescending(x => x.Price).ToListAsync();
+                var searchProductList = await db.Products.Where(p => EF.Functions.Like(p.Title, $"%{nameProduct}%"))
+                    .OrderByDescending(x => x.Price).ToListAsync();
                 ProductViewModel model = new ProductViewModel { ProductList = searchProductList, Cart = _cart };
                 return View("Index", model);
             }
@@ -95,9 +96,9 @@ namespace WebApplication3.Controllers
                         await model.UploadedFile.CopyToAsync(fileStream);
                     }
                 }
-                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description,Category = model.Category, Price = model.Price,
-                    AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
-
+                Product product = new Product { ProductId = model.Id, Title = model.Title, Description = model.Description,Category = model.Category, 
+                    Price = model.Price, AddDate = DateTime.Now, Count = model.Count, PathImg = path, AddUser = User.Identity.Name};
+                
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -127,10 +128,10 @@ namespace WebApplication3.Controllers
             if (product != null)
             {
                 ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
-                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, Price = product.Price,
-                    Count = product.Count};
-
-                return View(model);
+                EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, 
+                    Price = product.Price, Count = product.Count};
+                
+                    return View(model);
             }
             return NotFound();
         }
@@ -149,7 +150,7 @@ namespace WebApplication3.Controllers
                     product.Title = model.Title;
                     product.Description = model.Description;
                     product.Price = model.Price;
-                    product.Count = model.Count;
+                    product.Count = model.Count;    
                     product.ChangeDate = DateTime.Now;
                     product.ChangeUser = User.Identity.Name;
 

@@ -19,13 +19,13 @@ namespace WebApplication3
         {
         }
 
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        /*public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
-        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }*/
         public virtual DbSet<CartLine> CartLines { get; set; }
         public virtual DbSet<FiasStatment> FiasStatments { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -45,7 +45,7 @@ namespace WebApplication3
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Russian_Russia.1251");
 
-            modelBuilder.Entity<AspNetRole>(entity =>
+            /*modelBuilder.Entity<AspNetRole>(entity =>
             {
                 entity.HasKey(k => k.Id);
                 entity.Property(e => e.Id)
@@ -74,8 +74,6 @@ namespace WebApplication3
 
             modelBuilder.Entity<AspNetUser>(entity =>
             {
-               
-
                 entity.Property(e => e.Email)
                     .HasMaxLength(256)
                     .IsFixedLength(true);
@@ -157,12 +155,10 @@ namespace WebApplication3
                 entity.Property(e => e.UserId)
                     .HasMaxLength(450)
                     .IsFixedLength(true);
-            });
+            });*/
 
-            modelBuilder.Entity<CartLine>(entity =>
+            /*modelBuilder.Entity<CartLine>(entity =>
             {
-                
-
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("id");
@@ -277,8 +273,6 @@ namespace WebApplication3
 
             modelBuilder.Entity<UserViewProduct>(entity =>
             {
-              
-
                 entity.Property(e => e.UserIP).HasColumnName("UserIP");
 
                 entity.Property(e => e.UserViewProductId).ValueGeneratedOnAdd();
@@ -301,7 +295,13 @@ namespace WebApplication3
                 .HasKey(k => new {k.RoleId, k.UserId});
 
             modelBuilder.Entity<AspNetUserToken>()
-                .HasKey(k => new {k.UserId, k.LoginProvider, k.Name});
+                .HasKey(k => new {k.UserId, k.LoginProvider, k.Name});*/
+
+            /*modelBuilder.Entity<StreetNumber>()
+                .HasOne(f => f.FiasStatment)
+                .WithMany(s => s.StreetNumbers)
+                .HasForeignKey(fk => fk.FiasGuid)
+                .HasPrincipalKey(k => k.FiasGuid);*/    
             
             OnModelCreatingPartial(modelBuilder);
             

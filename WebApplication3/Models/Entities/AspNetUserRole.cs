@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,6 +18,7 @@ namespace WebApplication3
         public AspNetUser AspNetUser { get; set; }
         
         [ForeignKey("RoleId")]
-        public AspNetRole AspNetRole { get; set; }*/
+        public AspNetRole AspNetRole { get; set; }#1#
     }
 }
+*/

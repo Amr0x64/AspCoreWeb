@@ -34,7 +34,6 @@ namespace WebApplication3
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<RPRCContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<RPRCContext>();
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));

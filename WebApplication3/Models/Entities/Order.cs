@@ -30,6 +30,6 @@ namespace WebApplication3
         public string Zip { get; set; }
         public DateTime OrderDate { get; set; }
         
-        /*public List<Product> Products { get; set; }= new List<Product>();*/
+        
     }
 }

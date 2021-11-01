@@ -22,12 +22,13 @@ namespace WebApplication3
         public int Count { get; set; }
         public string PathImg { get; set; }
         public string AddUser { get; set; }
-        public DateTime? AddDate { get; set; }
+        public DateTime AddDate { get; set; }
         public string ChangeUser { get; set; }
-        public DateTime? ChangeDate { get; set; }
+        public DateTime ChangeDate { get; set; }
         public int View { get; set; }
         public bool isRemoved { get; set; }
         
-        /*public List<Order> Orders { get; set; }= new List<Order>();*/
+        public List<CartLine> CartLines { get; set; }
+        public List<UserViewProduct> UserViewProducts { get; set; }
     }
 }

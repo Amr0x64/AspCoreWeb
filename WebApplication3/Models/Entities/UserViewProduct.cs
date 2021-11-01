@@ -14,9 +14,9 @@ namespace WebApplication3
         public int ProductId { get; set; }
         //перехватываем ip пользователя
         public string UserIP { get; set; }
-        public DateTime ViewDate { get; set; }
+        public DateTime? ViewDate { get; set; }
         
-        /*[ForeignKey("ProductId")]
-        public Product Product { get; set; }*/
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
     }
 }
