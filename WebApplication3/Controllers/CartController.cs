@@ -54,7 +54,7 @@ namespace WebApplication3.Controllers
             if (product != null)
             {
                 cart.AddProduct(product);   
-            }
+            }       
             return RedirectToAction("Index", new { returnUrl });
         }
         [HttpGet]

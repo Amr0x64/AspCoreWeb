@@ -24,7 +24,7 @@ namespace WebApplication3
         public string AddUser { get; set; }
         public DateTime AddDate { get; set; }
         public string ChangeUser { get; set; }
-        public DateTime ChangeDate { get; set; }
+        public DateTime? ChangeDate { get; set; }
         public int View { get; set; }
         public bool isRemoved { get; set; }
         

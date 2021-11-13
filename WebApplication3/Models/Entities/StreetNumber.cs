@@ -9,7 +9,8 @@ namespace WebApplication3
     public partial class StreetNumber
     {
         [Key]
-        public Guid? StreetNumberId { get; set; }
+        public Guid? StreetNumberID { get; set; }
+        
         public Guid? FiasGuid { get; set; }
         
         public string HouseNumber { get; set; }
@@ -33,9 +34,9 @@ namespace WebApplication3
         public string AddUser { get; set; }
         
         public DateTime? Startdate { get; set; }
+            
+        public DateTime? EndDate { get; set; }
         
-        public string EndDate { get; set; }
-        
-        public FiasStatment FiasStatment { get; set; }
+        // public FiasStatment FiasStatment { get; set; }
     }
 }

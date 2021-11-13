@@ -25,11 +25,8 @@ namespace WebApplication3
         [Required(ErrorMessage = "Введите первкю строку города")]
         public string City { get; set; }
         [Required(ErrorMessage = "Введите первкю строку страны")]
-
         public string Country { get; set; }
         public string Zip { get; set; }
-        public DateTime OrderDate { get; set; }
-        
-        
+        public DateTime OrderDate { get; set; }   
     }
 }

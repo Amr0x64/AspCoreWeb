@@ -31,7 +31,7 @@ namespace WebApplication3.Controllers
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             OrderViewModel model = new OrderViewModel { 
                 AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
-                StreetNumbers = JsonConvert.SerializeObject(db.Apartments.ToList()),
+                StreetNumbers = JsonConvert.SerializeObject(db.apartments.ToList()),
             };  
             
             return View(model);
@@ -52,8 +52,8 @@ namespace WebApplication3.Controllers
                 var firstChar = correctName.Substring(0, 1).ToUpper();
                 correctName = firstChar + correctName.Substring(1).ToLowerInvariant();
                 
-                Order orderDb = new Order {Name = order.Name, City = "fmewklfkel", Country = "fpwfpif", Line1 = "asd", Line2 = "cfwe", Line3 = "fef", OrderId = order.OrderId,
-                    Shipped = false, Zip = "dw" };
+                Order orderDb = new Order {Name = order.Name, City = "fmewklfkel", Country = "fpwfpif", Line1 = "asd", Line2 = "cfwe", Line3 = "fef",
+                    OrderId = order.OrderId, Shipped = false, Zip = "dw" };
 
                 orderDb.Name = correctName;
                 orderDb.OrderDate = DateTime.Now;
@@ -61,7 +61,7 @@ namespace WebApplication3.Controllers
                 db.AttachRange(orderDb.Lines.Select(l => l.Product));
                 db.Add(orderDb);
                 await db.SaveChangesAsync();
-
+                
                 return RedirectToAction(nameof(Completed));
             }
             else

@@ -92,7 +92,7 @@ namespace WebApplication3.Controllers
                 {
                     path = "/img/" + model.UploadedFile.FileName;
                     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
+                    {   
                         await model.UploadedFile.CopyToAsync(fileStream);
                     }
                 }
@@ -187,7 +187,7 @@ namespace WebApplication3.Controllers
                 var userView = db.UserViewProducts.FirstOrDefault(x => x.ProductId == id && x.UserIP == ip);
                 if (userView == null)
                 {
-                        UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id , ViewDate = DateTime.Now};
+                        UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id , ViewDate = DateTime.Now};          
                         db.Add(userViewProduct);
                         await db.SaveChangesAsync();    
                         product.View = product.View + 1;

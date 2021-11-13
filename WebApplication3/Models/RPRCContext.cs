@@ -31,7 +31,7 @@ namespace WebApplication3
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Socrbase> Socrbases { get; set; }
-        public virtual DbSet<StreetNumber> Apartments { get; set; }
+        public virtual DbSet<StreetNumber> apartments { get; set; }
         public virtual DbSet<UserViewProduct> UserViewProducts { get; set; }
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -301,7 +301,7 @@ namespace WebApplication3
                 .HasOne(f => f.FiasStatment)
                 .WithMany(s => s.StreetNumbers)
                 .HasForeignKey(fk => fk.FiasGuid)
-                .HasPrincipalKey(k => k.FiasGuid);*/    
+                .HasPrincipalKey(k => k.FiasGuid);*/            
             
             OnModelCreatingPartial(modelBuilder);
             
