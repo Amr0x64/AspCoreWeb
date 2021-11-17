@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @using WebApplication3.Infrastructure
 
 @{
@@ -6,7 +7,8 @@
     ClaimsPrincipal currentUser = this.User;
     bool IsAdmin = currentUser.IsInRole("admin");
     bool IsSuperUser = currentUser.IsInRole("superuser");
-    ViewBag.controllerName = context.Request.HttpContext.Request.RouteValues.Values;
+    ViewBag.controllerName = context.Request.HttpContext.Request.RouteValues["Controller"];
+    /*var controllerName = ControllerContext.ActionDescriptor.ControllerName;*/
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -88,9 +90,7 @@
             <div class="inner-sidebar">
                 @if (IsAdmin || IsSuperUser)
                 {
-                    if (ViewBag.controllerName[0] != "Product")
-                    {
-                        <div class="admin-elem-sidebar">
+                    <div class="admin-elem-sidebar">
                             <div class="sidebar-elememt">
                                 <p class="nav-sidebar-element"><a asp-controller="User" asp-action="Index"><span class="description-elem">Рабы</span><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></p>
                             </div>
@@ -100,26 +100,17 @@
                             <div class="sidebar-elememt">
                                 <p class="nav-sidebar-element"><a asp-controller="Admin" asp-action="SelectProduct" asp-route-date="day"> <span class="description-elem">Продукты</span> </a></p>
                             </div>
-                            <hr />
+                            <hr/>
                         </div>
-                    }
-                 }
-                <div class="user-elem-sidebar">
-                    <div class="category-product">
-                        @if (ViewBag.Categorys != null)
-                        {
-                            <div>
-                                <input type="range" />
-                            </div>
-                            @foreach (var e in ViewBag.Categorys)
-                            {
-                                <div class="sidebar-elememt">
-                                    <p class="nav-sidebar-element"><a asp-controller="Product" asp-action="DetailCategory" asp-route-categoryName="@e">@e</a></p>
-                                </div>
-                            }
-                        }
+                }
+                @if (ViewBag.controllerName == "Product")
+                {   
+                    <div class="user-elem-sidebar">
+                        <div class="category-product">
+                            @await Component.InvokeAsync("ProductCategories")
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
         <div class="main-container">

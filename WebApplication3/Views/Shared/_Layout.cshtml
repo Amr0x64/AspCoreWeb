@@ -1,6 +1,7 @@
 ﻿@using System.Security.Claims
 @using WebApplication3.Infrastructure
 
+
 @{
     var context = Context;
     ClaimsPrincipal currentUser = this.User;
@@ -54,7 +55,7 @@
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
                         </span>
-            </div>
+                    </div>
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <div class="header-item headerButton">

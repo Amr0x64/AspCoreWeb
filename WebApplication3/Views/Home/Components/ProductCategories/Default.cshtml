@@ -1,0 +1,11 @@
+@model WebApplication3.ViewModels.ProductCategoriesViewModel
+
+<div>
+    @foreach (var e in @Model.Categories)
+        {
+            <div class="sidebar-elememt">
+                <p class="nav-sidebar-element"><a asp-controller="Product" asp-action="DetailCategory" asp-route-categoryName="@e">@e</a></p>
+            </div>
+        }
+</div>
+    

@@ -68,7 +68,7 @@ namespace WebApplication3
             app.UseAuthorization();
             app.UseSession();
             
-            if (true)
+            /*if (true)
             {
                 app.UseEndpoints(endpoints =>
                 {
@@ -78,7 +78,7 @@ namespace WebApplication3
                         //constraints: new { }
                     endpoints.MapHub<ChatHub>("/chat");
                 });
-            }
+            }*/
             
             app.UseEndpoints(endpoints =>
             {

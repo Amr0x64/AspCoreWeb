@@ -36,9 +36,8 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             ViewBag.IsDeleteProduct = false;
-            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
 
-            int pageSize = 5;
+            int pageSize = 6;
             var count = await db.Products.CountAsync();
             var products = await db.Products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
@@ -49,7 +48,6 @@ namespace WebApplication3.Controllers
         [HttpGet]  
         public async Task<IActionResult> Search(string nameProduct)
         {
-            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             ViewBag.IsDeleteProduct = false;
             if (nameProduct != null)
             {
@@ -76,7 +74,6 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public IActionResult CreateProduct()
         {
-            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             return View();
         }
     
@@ -113,7 +110,6 @@ namespace WebApplication3.Controllers
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
                 product.isRemoved = false;
                 db.Products.Update(product);
                 await db.SaveChangesAsync();
@@ -127,7 +123,6 @@ namespace WebApplication3.Controllers
             var product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
                 EditProductViewModel model = new EditProductViewModel { Id = product.ProductId, Title = product.Title, Description = product.Description, 
                     Price = product.Price, Count = product.Count};
                 
@@ -141,7 +136,6 @@ namespace WebApplication3.Controllers
         [Authorize(Roles = "admin, superuser")]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             if (ModelState.IsValid)
             {
                 var product = db.Products.FirstOrDefault(x => x.ProductId == model.Id);
@@ -182,7 +176,6 @@ namespace WebApplication3.Controllers
             Product product = db.Products.FirstOrDefault(x => x.ProductId == id);
             if (product != null)
             {
-                ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
                 var ip = GetIp();
                 var userView = db.UserViewProducts.FirstOrDefault(x => x.ProductId == id && x.UserIP == ip);
                 if (userView == null)
@@ -202,7 +195,6 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> DetailCategory(string categoryName)
         {
             ViewBag.IsDeleteProduct = false;
-            ViewBag.Categorys = UniqueElem(db.Products.Select(g => g.Category).ToList());
             return View("Index", new ProductViewModel { ProductList = await db.Products.Where(p => p.Category == categoryName).ToListAsync(), Cart = _cart } );
         }
         //В корзине
