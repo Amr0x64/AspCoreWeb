@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
-namespace WebApplication3
+namespace WebApplication3.Models.Entities
 {
     public partial class StreetNumber
     {
         [Key]
         public Guid? StreetNumberID { get; set; }
         
-        public Guid? FiasGuid { get; set; }
+        public Guid FiasGuid { get; set; }
         
         public string HouseNumber { get; set; }
         
@@ -37,6 +37,7 @@ namespace WebApplication3
             
         public DateTime? EndDate { get; set; }
         
-        // public FiasStatment FiasStatment { get; set; }
+        [ForeignKey("StreetNumberID")]
+        public FiasStatment FiasStatment { get; set; }
     }
 }

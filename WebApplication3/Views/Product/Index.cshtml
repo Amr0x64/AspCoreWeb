@@ -10,6 +10,7 @@
     bool IsSuperUser = currentUser.IsInRole("superuser");
     Layout = "~/Views/Shared/Admin.cshtml";
 }
+@Html.DisplayFor(m => m.Cart.Lines)
 <script src="~/js/site.js"></script>
 <div id="products">
     <div class="nav-admin">

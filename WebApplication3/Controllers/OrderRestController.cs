@@ -12,7 +12,8 @@ using WebApplication3.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Routing;
+using System.Diagnostics;
 
 namespace WebApplication3.Controllers
 {
@@ -61,6 +62,23 @@ namespace WebApplication3.Controllers
             await _userManager.CreateAsync(user);
             return Ok(User);
         }
-        
+        [Route("pr")]
+        public IActionResult prSpis()
+        {
+            Product product = db.Products.FirstOrDefault();
+            db.UserViewProducts.Where(p => p.ProductId == product.ProductId).Load();    
+            foreach (var item in product.UserViewProducts) Debug.WriteLine(item.UserIP);
+            return Ok();
+        }
+
+        [Route("LazyLoad")]
+        public ContentResult LazyLoad()
+        {
+            string htmlContent = "";
+            var products = db.apartments.FromSqlRaw("SELECT * FROM apartments").ToList();
+            foreach (var item in products) htmlContent += item.FlatNumber + "\n";
+            
+            return Content(htmlContent, "text/html");
+        }
     }
 }

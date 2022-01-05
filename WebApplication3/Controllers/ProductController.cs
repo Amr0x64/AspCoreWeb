@@ -146,10 +146,11 @@ namespace WebApplication3.Controllers
                     product.Price = model.Price;
                     product.Count = model.Count;    
                     product.ChangeDate = DateTime.Now;
-                    product.ChangeUser = User.Identity.Name;
+                    product.ChangeUser = User?.Identity?.Name;
 
                     db.Products.Update(product);
                     await db.SaveChangesAsync();
+                    
                     TempData["message"] = $"{model.Title} отредоктирован";
                     return RedirectToAction("Index");
                 }
@@ -167,6 +168,7 @@ namespace WebApplication3.Controllers
                 product.isRemoved = true;
                 db.Products.Update(product);
                 await db.SaveChangesAsync();
+                
                 return RedirectToAction("Index");
             }
             return NotFound();
@@ -181,10 +183,9 @@ namespace WebApplication3.Controllers
                 if (userView == null)
                 {
                         UserViewProduct userViewProduct = new UserViewProduct { UserIP = ip, ProductId = id , ViewDate = DateTime.Now};          
-                        db.Add(userViewProduct);
-                        await db.SaveChangesAsync();    
-                        product.View = product.View + 1;
-                        db.Update(product);
+                        db.UserViewProducts.Add(userViewProduct);
+                        product.View ++;
+                        db.Products.Update(product);
                         await db.SaveChangesAsync();
                 }
                 return View(product);

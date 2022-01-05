@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -8,6 +9,7 @@ namespace WebApplication3
 {
     public partial class Product
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Key]
         public int ProductId { get; set; }
@@ -29,6 +31,6 @@ namespace WebApplication3
         public bool isRemoved { get; set; }
         
         public List<CartLine> CartLines { get; set; }
-        public List<UserViewProduct> UserViewProducts { get; set; }
+        public virtual List<UserViewProduct> UserViewProducts { get; set; }
     }
 }

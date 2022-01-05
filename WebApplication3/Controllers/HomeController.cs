@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication3.Models;
+using WebApplication3.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication3.Controllers
@@ -15,18 +16,23 @@ namespace WebApplication3.Controllers
         private readonly ILogger<HomeController> _logger;
         RoleManager<IdentityRole> _roleManager;
         UserManager<User> _userManager;
-        public HomeController(ILogger<HomeController> logger, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        private RPRCContext db;
+        public HomeController(ILogger<HomeController> logger, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, RPRCContext context)
         {
             _logger = logger;
             _roleManager = roleManager;
             _userManager = userManager;
+            db = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeViewModel model = new HomeViewModel
+            {
+                CategoreList = db.Products.Select(p => p.Category).Distinct().ToList()
+            };
+            return View(model);
         }
-        [Route("About")]
         public IActionResult About() => View();
         public IActionResult Contacts() => View();
 

@@ -30,8 +30,8 @@ namespace WebApplication3.Controllers
         {   
             ViewData["OrderCount"] = db.Orders.Where(o => o.Shipped == false).Count();
             OrderViewModel model = new OrderViewModel { 
-                AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
-                StreetNumbers = JsonConvert.SerializeObject(db.apartments.ToList()),
+                /*AdressList = JsonConvert.SerializeObject(db.FiasStatments.ToList()),
+                StreetNumbers = JsonConvert.SerializeObject(db.apartments.ToList()),*/
             };  
             
             return View(model);

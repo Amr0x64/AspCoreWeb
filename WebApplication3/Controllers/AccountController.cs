@@ -24,7 +24,7 @@ namespace WebApplication3.Controllers
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
-        #region =||==||==||==||==||==||==||==||==||= Login пользователя =||==||==||==||==||==||==||==||==||==||==||==||==||==||=
+            #region =||==||==||==||==||==||==||==||==||= Login пользователя =||==||==||==||==||==||==||==||==||==||==||==||==||==||=
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
-namespace WebApplication3
+namespace WebApplication3.Models.Entities
 {
     public partial class FiasStatment
     {
@@ -12,12 +12,13 @@ namespace WebApplication3
         public Guid? fias_statements_id { get; set; }
         
         public int? act_status { get; set; }
+        
         public Guid? fias_guid { get; set; }
         
         public int? level { get; set; }
         
         public int? curr_status { get; set; }
-        
+            
         public DateTime? end_date { get; set; }
         
         [MaxLength(120)]
@@ -36,7 +37,7 @@ namespace WebApplication3
         public DateTime? start_date { get; set; }
         
         public string add_user { get; set; }
-        
-        // public List<StreetNumber> StreetNumbers { get; set; } 
+
+        public  List <StreetNumber> StreetNumbers { get; set; } 
     }
 }

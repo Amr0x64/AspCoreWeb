@@ -1,11 +1,10 @@
-﻿/*
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
-namespace WebApplication3
+namespace WebApplication3.Models.Entities
 {
     public partial class AspNetUser
     {
@@ -29,4 +28,3 @@ namespace WebApplication3
         public int? Like { get; set; }
     }
 }
-*/

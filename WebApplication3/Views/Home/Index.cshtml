@@ -1,4 +1,4 @@
-﻿
+﻿@model WebApplication3.ViewModels.HomeViewModel;
 @{
     ViewData["Title"] = "Главная";
 }
@@ -11,7 +11,10 @@
             <div class="row">
                 <div class="catalog-1">
                     <div class="inner-catalog-1">
-                       <h3 class="zagalovok-catalog"><i class="fa fa-desktop" aria-hidden="true"></i> Компьютеры и ноутбуки</h3> 
+                        @foreach (var item in Model.CategoreList)
+                        {
+                            <h3 class="zagalovok-catalog"> @item </h3>      
+                        }
                     </div>
                 </div>
                 <script src="~/js/site.js">

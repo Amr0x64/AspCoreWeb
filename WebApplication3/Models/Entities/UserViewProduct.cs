@@ -17,6 +17,6 @@ namespace WebApplication3
         public DateTime ViewDate { get; set; }
         
         [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using WebApplication3.Models;
+using WebApplication3.Models.Entities;
+
 
 #nullable disable
 
-namespace WebApplication3
+namespace WebApplication3.Models
 {
     public partial class RPRCContext : IdentityDbContext<User>
     {
@@ -30,16 +32,14 @@ namespace WebApplication3
         public virtual DbSet<FiasStatment> FiasStatments { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        
         public virtual DbSet<Socrbase> Socrbases { get; set; }
         public virtual DbSet<StreetNumber> apartments { get; set; }
         public virtual DbSet<UserViewProduct> UserViewProducts { get; set; }
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=RPRC;Username=postgres;Password=cronaldo789");
-            }
-        }*/
+          
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -301,13 +301,14 @@ namespace WebApplication3
                 .HasOne(f => f.FiasStatment)
                 .WithMany(s => s.StreetNumbers)
                 .HasForeignKey(fk => fk.FiasGuid)
-                .HasPrincipalKey(k => k.FiasGuid);*/            
+                .HasPrincipalKey(k => k.fias_statements_id); */           
             
             OnModelCreatingPartial(modelBuilder);
             
             base.OnModelCreating(modelBuilder);
         }
-
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        
+        
     }
 }
